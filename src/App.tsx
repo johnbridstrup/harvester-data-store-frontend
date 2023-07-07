@@ -3,7 +3,7 @@ function App() {
     <>
       <div>HDS Frontend</div>
     </>
-  )
+  );
 }
 
 export default App;
