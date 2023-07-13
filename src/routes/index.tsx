@@ -7,10 +7,27 @@ import { RequireUser, UserAuth } from "@/utils/guards";
 import { RouteLoader } from "@/components/styled";
 import { Loader } from "@/components/common";
 const Login = lazy(() => import("@/pages/auth/login"));
+const Home = lazy(() => import("@/pages/home"));
 
 function BaseRoutes() {
   return (
     <Routes>
+      <Route
+        path="/"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <Home />
+            </Suspense>
+          </RequireUser>
+        }
+      />
       <Route
         path="/login"
         element={
