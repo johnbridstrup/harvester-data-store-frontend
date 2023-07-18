@@ -8,6 +8,9 @@ import { RouteLoader } from "@/components/styled";
 import { Loader } from "@/components/common";
 const Login = lazy(() => import("@/pages/auth/login"));
 const Home = lazy(() => import("@/pages/home"));
+const NotificationListView = lazy(
+  () => import("@/pages/notification/listview"),
+);
 
 function BaseRoutes() {
   return (
@@ -42,6 +45,22 @@ function BaseRoutes() {
               <Login />
             </Suspense>
           </UserAuth>
+        }
+      />
+      <Route
+        path="/notifications"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <NotificationListView />
+            </Suspense>
+          </RequireUser>
         }
       />
       <Route

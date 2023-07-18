@@ -44,3 +44,17 @@ export const imagePath = (imgName: string, ext: string = "png"): string => {
 export const isBrowserDefaultDark = (): boolean => {
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
+
+/**
+ * Convert the search params to object
+ * @param params any
+ * @returns
+ */
+export const paramsToObject = (params: any = {}) => {
+  const urlparams = new URLSearchParams(params);
+  const result: Record<string, string | number> = {};
+  for (const [key, value] of urlparams.entries()) {
+    result[key] = value;
+  }
+  return result;
+};
