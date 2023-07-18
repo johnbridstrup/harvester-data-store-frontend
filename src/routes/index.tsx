@@ -11,6 +11,9 @@ const Home = lazy(() => import("@/pages/home"));
 const NotificationListView = lazy(
   () => import("@/pages/notification/listview"),
 );
+const NotificationDetailView = lazy(
+  () => import("@/pages/notification/detailview"),
+);
 
 function BaseRoutes() {
   return (
@@ -59,6 +62,22 @@ function BaseRoutes() {
               }
             >
               <NotificationListView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/notifications/:notifyId"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <NotificationDetailView />
             </Suspense>
           </RequireUser>
         }
