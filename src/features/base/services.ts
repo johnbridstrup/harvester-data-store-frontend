@@ -57,7 +57,7 @@ class AxiosService {
     return res.data;
   }
 
-  public async delete(url: string, token?: string) {
+  public async delete(url: string, token: string | null) {
     if (typeof token === "string" && token.length > 0) {
       this.config["headers"]["Authorization"] = `Token ${token}`;
     }
