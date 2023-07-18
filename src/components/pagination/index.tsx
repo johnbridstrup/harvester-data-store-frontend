@@ -1,3 +1,6 @@
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { paginateNotification } from "@/features/notification/notificationSlice";
+
 interface RendererProps {
   handlePagination: (navigation: string) => void;
   previous: string | null;
@@ -32,5 +35,32 @@ const GenericRenderer = (props: RendererProps) => {
         </nav>
       </section>
     </div>
+  );
+};
+
+export const NotificationPagination = () => {
+  const {
+    pagination: { next, previous },
+  } = useAppSelector((state) => state.notification);
+  const dispatch = useAppDispatch();
+
+  const handlePagination = async (navigation: string) => {
+    const urlMap: { [key: string]: string | null } = {
+      next: next,
+      previous: previous,
+    };
+    const url = new URL(String(urlMap[navigation]));
+    if (import.meta.env.PROD) {
+      url.protocol = "https:";
+    }
+    await dispatch(paginateNotification(url.href));
+  };
+
+  return (
+    <GenericRenderer
+      handlePagination={handlePagination}
+      next={next}
+      previous={previous}
+    />
   );
 };
