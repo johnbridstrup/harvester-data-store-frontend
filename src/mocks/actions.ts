@@ -5,6 +5,8 @@
 import { rest } from "msw";
 import { User } from "@/features/auth/authTypes";
 import authService from "@/features/auth/authService";
+import notificationService from "@/features/notification/notificationService";
+import notification from "@/test-utils/test-data/notification.json";
 
 interface Data {
   count: number;
@@ -78,3 +80,12 @@ export const login = rest.post(authService.LOGIN_URL, (_, res, ctx) => {
     ctx.json(genericGetResponse),
   );
 });
+
+export const queryNotification = rest.get(
+  notificationService.NOTIFICATION_URL,
+  (_, res, ctx) => {
+    genericListResponse["message"] = "notification retrieved successfully";
+    genericListResponse["data"]["results"] = [notification];
+    return res(ctx.json(genericListResponse));
+  },
+);

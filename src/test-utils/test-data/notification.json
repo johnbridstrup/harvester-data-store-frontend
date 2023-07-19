@@ -1,0 +1,20 @@
+{
+  "id": 1,
+  "recipients": [
+    {
+      "username": "aft"
+    }
+  ],
+  "creator": {
+    "id": 1,
+    "username": "aft"
+  },
+  "modifiedBy": null,
+  "created": "2022-08-26T16:58:21.779000Z",
+  "lastModified": "2022-08-26T16:58:21.779000Z",
+  "trigger_on": "ErrorReport",
+  "criteria": {
+    "harvester__harv_id__in": [11, 100],
+    "exceptions__code__code__in": ["1", "2"]
+  }
+}
