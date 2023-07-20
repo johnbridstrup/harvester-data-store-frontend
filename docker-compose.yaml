@@ -1,0 +1,20 @@
+version: "3"
+services:
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hds-frontend
+    command: ./entrypoint.sh
+    ports:
+      - 3000:3000
+    networks:
+      - hds-network
+
+networks:
+  hds-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.103.0.1/16
