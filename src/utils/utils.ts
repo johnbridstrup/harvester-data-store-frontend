@@ -3,6 +3,7 @@
  * @module utils
  */
 
+import { MultiValue } from "react-select";
 import { PushStateEnum, THEME_MODES } from "@/features/base/constants";
 
 /**
@@ -130,10 +131,7 @@ export const pushState = (queryObj: Record<string, any>, pareto?: string) => {
  * @returns Function
  */
 export function handleSelectFactory(setSelectedFunc: Function) {
-  const handleSelect = (
-    newValue: { label: string; value: string },
-    actionMeta: { action: string; name: string; option: undefined },
-  ) => {
+  const handleSelect = (newValue: MultiValue<undefined>) => {
     setSelectedFunc(newValue);
   };
   return handleSelect;
