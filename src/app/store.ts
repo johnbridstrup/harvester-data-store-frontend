@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/auth/authSlice";
 import homeReducer from "@/features/home/homeSlice";
 import notificationReducer from "@/features/notification/notificationSlice";
+import s3fileReducer from "@/features/s3file/s3fileSlice";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     home: homeReducer,
     notification: notificationReducer,
+    s3file: s3fileReducer,
   },
   devTools: import.meta.env.DEV,
 });
