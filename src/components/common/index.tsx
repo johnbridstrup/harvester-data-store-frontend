@@ -21,3 +21,12 @@ export const Header = (props: HeaderProps) => {
     </div>
   );
 };
+
+export const handleDownload = async (fileObj: { url: string }) => {
+  const link = document.createElement("a");
+  link.href = fileObj.url;
+  link.setAttribute("target", `_blank`);
+  link.setAttribute("rel", "noopener");
+  document.body.appendChild(link);
+  link.click();
+};
