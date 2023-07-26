@@ -15,6 +15,7 @@ const NotificationDetailView = lazy(
   () => import("@/pages/notification/detailview"),
 );
 const S3FileListView = lazy(() => import("@/pages/s3files/listview"));
+const S3FileDetailView = lazy(() => import("@/pages/s3files/detailview"));
 
 function BaseRoutes() {
   return (
@@ -95,6 +96,22 @@ function BaseRoutes() {
               }
             >
               <S3FileListView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/s3files/:s3fileId"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <S3FileDetailView />
             </Suspense>
           </RequireUser>
         }
