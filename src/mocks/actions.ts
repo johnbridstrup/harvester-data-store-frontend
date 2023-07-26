@@ -5,8 +5,10 @@
 import { rest } from "msw";
 import { User } from "@/features/auth/authTypes";
 import authService from "@/features/auth/authService";
+import s3fileService from "@/features/s3file/s3fileService";
 import notificationService from "@/features/notification/notificationService";
 import notification from "@/test-utils/test-data/notification.json";
+import s3file from "@/test-utils/test-data/s3file.json";
 
 interface Data {
   count: number;
@@ -87,5 +89,20 @@ export const queryNotification = rest.get(
     genericListResponse["message"] = "notification retrieved successfully";
     genericListResponse["data"]["results"] = [notification];
     return res(ctx.json(genericListResponse));
+  },
+);
+
+export const queryS3File = rest.get(s3fileService.url, (_, res, ctx) => {
+  genericListResponse["message"] = "s3file retrieved successfully";
+  genericListResponse["data"]["results"] = [s3file];
+  return res(ctx.json(genericListResponse));
+});
+
+export const getS3File = rest.get(
+  `${s3fileService.url}:s3fileId`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "s3file retrieved successfully";
+    genericGetResponse["data"] = s3file;
+    return res(ctx.json(genericGetResponse));
   },
 );

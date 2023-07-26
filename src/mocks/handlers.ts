@@ -2,8 +2,8 @@
  * Defines the mock handlers for api requests
  */
 
-import { login, queryNotification } from "./actions";
+import { getS3File, login, queryNotification, queryS3File } from "./actions";
 
-const handlers = [login, queryNotification];
+const handlers = [login, queryNotification, queryS3File, getS3File];
 
 export default handlers;
