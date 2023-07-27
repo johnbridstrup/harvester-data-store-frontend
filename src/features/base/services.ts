@@ -127,7 +127,7 @@ export class BaseService {
   };
 
   public update = async (
-    id: string,
+    id: number,
     token: string,
     data: Record<string, any>,
   ) => {
