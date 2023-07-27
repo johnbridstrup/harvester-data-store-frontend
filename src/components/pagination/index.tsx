@@ -1,4 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { paginateDistributor } from "@/features/distributor/distributorSlice";
 import { paginateNotification } from "@/features/notification/notificationSlice";
 
 interface RendererProps {
@@ -81,6 +82,33 @@ export const S3FilePagination = () => {
       url.protocol = "https:";
     }
     await dispatch(paginateNotification(url.href));
+  };
+
+  return (
+    <GenericRenderer
+      handlePagination={handlePagination}
+      next={next}
+      previous={previous}
+    />
+  );
+};
+
+export const DistributorPagination = () => {
+  const {
+    pagination: { next, previous },
+  } = useAppSelector((state) => state.distributor);
+  const dispatch = useAppDispatch();
+
+  const handlePagination = async (navigation: string) => {
+    const urlMap: { [key: string]: string | null } = {
+      next: next,
+      previous: previous,
+    };
+    const url = new URL(String(urlMap[navigation]));
+    if (import.meta.env.PROD) {
+      url.protocol = "https:";
+    }
+    await dispatch(paginateDistributor(url.href));
   };
 
   return (
