@@ -4,6 +4,7 @@ import homeReducer from "@/features/home/homeSlice";
 import notificationReducer from "@/features/notification/notificationSlice";
 import s3fileReducer from "@/features/s3file/s3fileSlice";
 import distributorReducer from "@/features/distributor/distributorSlice";
+import locationReducer from "@/features/location/locationSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     notification: notificationReducer,
     s3file: s3fileReducer,
     distributor: distributorReducer,
+    location: locationReducer,
   },
   devTools: import.meta.env.DEV,
 });
