@@ -147,3 +147,16 @@ export const transformTagsOptions = (tags: Array<string> = []) => {
     return { value: tag, label: tag };
   });
 };
+
+/**
+ * Transform distributors objs into required shape
+ * @param {Array} distributors
+ * @returns
+ */
+export const transformDistOptions = (
+  distributors: Array<{ id: number; name: string }>,
+) => {
+  return distributors.map((distributor, _) => {
+    return { value: distributor.id, label: distributor.name };
+  });
+};

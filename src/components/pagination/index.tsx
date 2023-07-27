@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { paginateDistributor } from "@/features/distributor/distributorSlice";
+import { paginateLocation } from "@/features/location/locationSlice";
 import { paginateNotification } from "@/features/notification/notificationSlice";
 import { paginateS3File } from "@/features/s3file/s3fileSlice";
 
@@ -110,6 +111,33 @@ export const DistributorPagination = () => {
       url.protocol = "https:";
     }
     await dispatch(paginateDistributor(url.href));
+  };
+
+  return (
+    <GenericRenderer
+      handlePagination={handlePagination}
+      next={next}
+      previous={previous}
+    />
+  );
+};
+
+export const LocationPagination = () => {
+  const {
+    pagination: { next, previous },
+  } = useAppSelector((state) => state.location);
+  const dispatch = useAppDispatch();
+
+  const handlePagination = async (navigation: string) => {
+    const urlMap: { [key: string]: string | null } = {
+      next: next,
+      previous: previous,
+    };
+    const url = new URL(String(urlMap[navigation]));
+    if (import.meta.env.PROD) {
+      url.protocol = "https:";
+    }
+    await dispatch(paginateLocation(url.href));
   };
 
   return (
