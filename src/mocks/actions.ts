@@ -8,9 +8,11 @@ import authService from "@/features/auth/authService";
 import { S3FILE_URL } from "@/features/s3file/s3fileService";
 import { NOTIFICATION_URL } from "@/features/notification/notificationService";
 import { DISTRIBUTORS_URL } from "@/features/distributor/distributorService";
+import { LOCATION_URL } from "@/features/location/locationService";
 import notification from "@/test-utils/test-data/notification.json";
 import s3file from "@/test-utils/test-data/s3file.json";
 import distributor from "@/test-utils/test-data/distributor.json";
+import location from "@/test-utils/test-data/location.json";
 
 interface Data {
   count: number;
@@ -106,5 +108,11 @@ export const getS3File = rest.get(`${S3FILE_URL}:s3fileId`, (_, res, ctx) => {
 export const queryDistributor = rest.get(DISTRIBUTORS_URL, (_, res, ctx) => {
   genericListResponse["message"] = "distributor retrieved successfully";
   genericListResponse["data"]["results"] = [distributor];
+  return res(ctx.json(genericListResponse));
+});
+
+export const queryLocation = rest.get(LOCATION_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "location retrieved successfully";
+  genericListResponse["data"]["results"] = [location];
   return res(ctx.json(genericListResponse));
 });

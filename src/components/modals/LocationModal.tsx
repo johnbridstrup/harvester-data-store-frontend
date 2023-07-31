@@ -51,7 +51,7 @@ function LocationModal(props: LocProps) {
             </div>
 
             <div className="modal-body px-5 pb-4">
-              <form onSubmit={props.handleSubmit}>
+              <form onSubmit={props.handleSubmit} data-testid="loc-form">
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
