@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { paginateDistributor } from "@/features/distributor/distributorSlice";
 import { paginateNotification } from "@/features/notification/notificationSlice";
+import { paginateS3File } from "@/features/s3file/s3fileSlice";
 
 interface RendererProps {
   handlePagination: (navigation: string) => void;
@@ -81,7 +82,7 @@ export const S3FilePagination = () => {
     if (import.meta.env.PROD) {
       url.protocol = "https:";
     }
-    await dispatch(paginateNotification(url.href));
+    await dispatch(paginateS3File(url.href));
   };
 
   return (
