@@ -1,10 +1,4 @@
-interface Pagination {
-  next: string | null;
-  previous: string | null;
-  count: number;
-  limit: number;
-  offset: number;
-}
+import { Pagination } from "../base/types";
 
 interface Recipient {
   username: string;
