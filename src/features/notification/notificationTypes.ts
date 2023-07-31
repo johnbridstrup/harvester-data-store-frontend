@@ -1,4 +1,4 @@
-import { Creator, Pagination } from "../base/types";
+import { CommonState, Creator } from "../base/types";
 
 interface Recipient {
   username: string;
@@ -15,10 +15,7 @@ export interface Notification {
   criteria: Record<string, any>;
 }
 
-export interface NotificationState {
-  loading: boolean;
+export interface NotificationState extends CommonState {
   notification: Notification | null;
   notifications: Array<Notification>;
-  errorMsg: null | unknown;
-  pagination: Pagination;
 }

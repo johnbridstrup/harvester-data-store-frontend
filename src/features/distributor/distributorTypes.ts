@@ -1,4 +1,4 @@
-import { Creator, Pagination } from "../base/types";
+import { CommonState, Creator } from "../base/types";
 
 export interface Distributor {
   id: number;
@@ -9,12 +9,9 @@ export interface Distributor {
   name: string;
 }
 
-export interface DistributorState {
-  loading: boolean;
+export interface DistributorState extends CommonState {
   adding: boolean;
   editting: boolean;
   distributor: Distributor | null;
   distributors: Array<Distributor>;
-  errorMsg: string | null | unknown;
-  pagination: Pagination;
 }

@@ -1,4 +1,4 @@
-import { Creator, Pagination } from "../base/types";
+import { CommonState, Creator } from "../base/types";
 
 interface RelatedObj {
   url: string;
@@ -36,11 +36,8 @@ export interface S3File {
   deleted: false;
 }
 
-export interface S3FileState {
-  loading: boolean;
+export interface S3FileState extends CommonState {
   flagging: boolean;
   s3file: S3File | null;
   s3files: Array<S3File>;
-  errorMsg: string | null | unknown;
-  pagination: Pagination;
 }
