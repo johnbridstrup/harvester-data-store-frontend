@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch } from "@/app/hooks";
 import { Header } from "@/components/common";
 import MainLayout from "@/components/layout/main";
-import { getNotificationById } from "@/features/notification/notificationSlice";
+import { getNotification } from "@/features/notification/notificationSlice";
 import NotificationDetail from "@/components/notification/NotificationDetail";
 import "./styles.css";
 
@@ -12,7 +12,7 @@ function NotificationDetailView() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getNotificationById(Number(params.notifyId)));
+    dispatch(getNotification(Number(params.notifyId)));
   }, [dispatch, params]);
 
   return (

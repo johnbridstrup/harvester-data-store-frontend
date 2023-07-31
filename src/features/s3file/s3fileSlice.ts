@@ -35,14 +35,14 @@ export const queryS3File = createAsyncThunk(
   },
 );
 
-export const getS3FileById = createAsyncThunk(
-  "s3file/getS3FileById",
+export const getS3File = createAsyncThunk(
+  "s3file/getS3File",
   async (id: number, thunkAPI) => {
     try {
       const {
         auth: { token },
       } = thunkAPI.getState() as { auth: { token: string } };
-      return await s3fileService.getById(id, token);
+      return await s3fileService.get(id, token);
     } catch (error) {
       console.log(error);
       const message = invalidateCache(error, thunkAPI.dispatch);
@@ -103,14 +103,14 @@ const s3fileSlice = createSlice({
         state.loading = false;
         state.errorMsg = action.payload;
       })
-      .addCase(getS3FileById.pending, (state) => {
+      .addCase(getS3File.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getS3FileById.fulfilled, (state, action) => {
+      .addCase(getS3File.fulfilled, (state, action) => {
         state.loading = false;
         state.s3file = action.payload;
       })
-      .addCase(getS3FileById.rejected, (state, action) => {
+      .addCase(getS3File.rejected, (state, action) => {
         state.loading = false;
         state.errorMsg = action.payload;
       })

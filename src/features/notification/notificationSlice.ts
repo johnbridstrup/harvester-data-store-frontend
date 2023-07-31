@@ -34,14 +34,14 @@ export const queryNotification = createAsyncThunk(
   },
 );
 
-export const getNotificationById = createAsyncThunk(
-  "notification/getNotificationById",
+export const getNotification = createAsyncThunk(
+  "notification/getNotification",
   async (id: number, thunkAPI) => {
     try {
       const {
         auth: { token },
       } = thunkAPI.getState() as { auth: { token: string } };
-      return await notificationService.getById(id, token);
+      return await notificationService.get(id, token);
     } catch (error) {
       console.log(error);
       const message = invalidateCache(error, thunkAPI.dispatch);
@@ -117,14 +117,14 @@ const notificationSlice = createSlice({
         state.loading = false;
         state.errorMsg = action.payload;
       })
-      .addCase(getNotificationById.pending, (state) => {
+      .addCase(getNotification.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getNotificationById.fulfilled, (state, action) => {
+      .addCase(getNotification.fulfilled, (state, action) => {
         state.loading = false;
         state.notification = action.payload;
       })
-      .addCase(getNotificationById.rejected, (state, action) => {
+      .addCase(getNotification.rejected, (state, action) => {
         state.loading = false;
         state.errorMsg = action.payload;
       })

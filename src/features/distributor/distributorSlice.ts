@@ -43,7 +43,7 @@ export const getDistributor = createAsyncThunk(
       const {
         auth: { token },
       } = thunkAPI.getState() as { auth: { token: string } };
-      return await distributorService.getById(id, token);
+      return await distributorService.get(id, token);
     } catch (error) {
       console.log(error);
       const message = invalidateCache(error, thunkAPI.dispatch);

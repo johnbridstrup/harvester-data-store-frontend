@@ -116,7 +116,7 @@ export class BaseService {
     return res;
   };
 
-  public getById = async (id: number, token: string) => {
+  public get = async (id: number, token: string) => {
     const res = await axiosService.get(`${this.url}${id}/`, token);
     return res;
   };

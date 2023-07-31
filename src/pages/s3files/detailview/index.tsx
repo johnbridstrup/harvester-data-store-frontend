@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { getS3FileById } from "@/features/s3file/s3fileSlice";
+import { getS3File } from "@/features/s3file/s3fileSlice";
 import { Header } from "@/components/common";
 import MainLayout from "@/components/layout/main";
 import S3FileDetail from "@/components/s3files/S3FileDetail";
@@ -16,7 +16,7 @@ function S3FileDetailView() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getS3FileById(Number(s3fileId)));
+    dispatch(getS3File(Number(s3fileId)));
   }, [s3fileId, dispatch]);
 
   return (
