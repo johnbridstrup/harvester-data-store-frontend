@@ -1,4 +1,4 @@
-import { Pagination } from "../base/types";
+import { Creator, Pagination } from "../base/types";
 
 interface RelatedObj {
   url: string;
@@ -8,11 +8,6 @@ interface RelatedObj {
 interface RelatedFile {
   url: string;
   filetype: string;
-}
-
-interface Creator {
-  id: number;
-  username: number;
 }
 
 interface Event {

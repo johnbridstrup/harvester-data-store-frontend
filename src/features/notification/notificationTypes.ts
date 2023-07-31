@@ -1,11 +1,6 @@
-import { Pagination } from "../base/types";
+import { Creator, Pagination } from "../base/types";
 
 interface Recipient {
-  username: string;
-}
-
-interface Creator {
-  id: number;
   username: string;
 }
 

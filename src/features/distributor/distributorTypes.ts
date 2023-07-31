@@ -1,9 +1,4 @@
-import { Pagination } from "../base/types";
-
-interface Creator {
-  id: number;
-  username: string;
-}
+import { Creator, Pagination } from "../base/types";
 
 export interface Distributor {
   id: number;

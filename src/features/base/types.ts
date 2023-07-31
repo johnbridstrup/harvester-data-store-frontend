@@ -5,3 +5,8 @@ export interface Pagination {
   limit: number;
   offset: number;
 }
+
+export interface Creator {
+  id: number;
+  username: string;
+}
