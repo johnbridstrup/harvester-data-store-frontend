@@ -46,7 +46,7 @@ function DistributorModal(props: ModalProps) {
             </div>
 
             <div className="modal-body px-5 pb-4">
-              <form onSubmit={props.handleSubmit}>
+              <form onSubmit={props.handleSubmit} data-testid="dist-form">
                 <div className="row">
                   <div className="col">
                     <div className="form-group">

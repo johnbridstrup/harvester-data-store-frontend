@@ -5,10 +5,12 @@
 import { rest } from "msw";
 import { User } from "@/features/auth/authTypes";
 import authService from "@/features/auth/authService";
-import s3fileService from "@/features/s3file/s3fileService";
-import notificationService from "@/features/notification/notificationService";
+import { S3FILE_URL } from "@/features/s3file/s3fileService";
+import { NOTIFICATION_URL } from "@/features/notification/notificationService";
+import { DISTRIBUTORS_URL } from "@/features/distributor/distributorService";
 import notification from "@/test-utils/test-data/notification.json";
 import s3file from "@/test-utils/test-data/s3file.json";
+import distributor from "@/test-utils/test-data/distributor.json";
 
 interface Data {
   count: number;
@@ -83,26 +85,26 @@ export const login = rest.post(authService.LOGIN_URL, (_, res, ctx) => {
   );
 });
 
-export const queryNotification = rest.get(
-  notificationService.url,
-  (_, res, ctx) => {
-    genericListResponse["message"] = "notification retrieved successfully";
-    genericListResponse["data"]["results"] = [notification];
-    return res(ctx.json(genericListResponse));
-  },
-);
+export const queryNotification = rest.get(NOTIFICATION_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "notification retrieved successfully";
+  genericListResponse["data"]["results"] = [notification];
+  return res(ctx.json(genericListResponse));
+});
 
-export const queryS3File = rest.get(s3fileService.url, (_, res, ctx) => {
+export const queryS3File = rest.get(S3FILE_URL, (_, res, ctx) => {
   genericListResponse["message"] = "s3file retrieved successfully";
   genericListResponse["data"]["results"] = [s3file];
   return res(ctx.json(genericListResponse));
 });
 
-export const getS3File = rest.get(
-  `${s3fileService.url}:s3fileId`,
-  (_, res, ctx) => {
-    genericGetResponse["message"] = "s3file retrieved successfully";
-    genericGetResponse["data"] = s3file;
-    return res(ctx.json(genericGetResponse));
-  },
-);
+export const getS3File = rest.get(`${S3FILE_URL}:s3fileId`, (_, res, ctx) => {
+  genericGetResponse["message"] = "s3file retrieved successfully";
+  genericGetResponse["data"] = s3file;
+  return res(ctx.json(genericGetResponse));
+});
+
+export const queryDistributor = rest.get(DISTRIBUTORS_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "distributor retrieved successfully";
+  genericListResponse["data"]["results"] = [distributor];
+  return res(ctx.json(genericListResponse));
+});
