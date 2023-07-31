@@ -24,7 +24,10 @@ function NotificationList() {
   const { search } = useLocation();
 
   const handleDeleteMany = async () => {
-    const { success, message } = await deleteManyNotif(checkedNotif, token);
+    const { success, message } = await deleteManyNotif(
+      checkedNotif,
+      token as string,
+    );
     if (success) {
       toast.success(message);
       setCheckedNotif([]);

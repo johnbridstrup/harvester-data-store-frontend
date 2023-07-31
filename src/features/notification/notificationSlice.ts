@@ -36,7 +36,7 @@ export const queryNotification = createAsyncThunk(
 
 export const getNotificationById = createAsyncThunk(
   "notification/getNotificationById",
-  async (id: string | number, thunkAPI) => {
+  async (id: number, thunkAPI) => {
     try {
       const {
         auth: { token },
@@ -52,7 +52,7 @@ export const getNotificationById = createAsyncThunk(
 
 export const deleteNotification = createAsyncThunk(
   "notification/deleteNotification",
-  async (id: string | number, thunkAPI) => {
+  async (id: number, thunkAPI) => {
     try {
       const {
         auth: { token },
@@ -68,7 +68,7 @@ export const deleteNotification = createAsyncThunk(
 
 export const deleteManyNotif = async (
   notifs: Notification[],
-  token: string | null,
+  token: string,
 ) => {
   try {
     for (let i = 0; i < notifs.length; i++) {

@@ -82,7 +82,7 @@ export const login = rest.post(authService.LOGIN_URL, (_, res, ctx) => {
 });
 
 export const queryNotification = rest.get(
-  notificationService.NOTIFICATION_URL,
+  notificationService.url,
   (_, res, ctx) => {
     genericListResponse["message"] = "notification retrieved successfully";
     genericListResponse["data"]["results"] = [notification];

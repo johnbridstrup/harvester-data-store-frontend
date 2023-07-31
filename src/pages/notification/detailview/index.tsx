@@ -12,7 +12,7 @@ function NotificationDetailView() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getNotificationById(params.notifyId as string));
+    dispatch(getNotificationById(Number(params.notifyId)));
   }, [dispatch, params]);
 
   return (

@@ -99,3 +99,44 @@ export const paginateRequest = async (url: string, token: string) => {
   const response = await axiosService.get(url, token);
   return response;
 };
+
+export class BaseService {
+  public url: string;
+
+  constructor(url: string) {
+    this.url = url;
+  }
+
+  public query = async (queryObj = {}, token: string) => {
+    const params = new URLSearchParams(queryObj);
+    const res = await axiosService.get(
+      `${this.url}?${params.toString()}`,
+      token,
+    );
+    return res;
+  };
+
+  public getById = async (id: number, token: string) => {
+    const res = await axiosService.get(`${this.url}${id}/`, token);
+    return res;
+  };
+
+  public create = async (data: Record<string, any>, token: string) => {
+    let res = await axiosService.post(this.url, token, data);
+    return res;
+  };
+
+  public update = async (
+    id: string,
+    token: string,
+    data: Record<string, any>,
+  ) => {
+    const response = await axiosService.patch(`${this.url}${id}/`, token, data);
+    return response;
+  };
+
+  public delete = async (id: number, token: string) => {
+    const response = await axiosService.delete(`${this.url}${id}/`, token);
+    return response;
+  };
+}
