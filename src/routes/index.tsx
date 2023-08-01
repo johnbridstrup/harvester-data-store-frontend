@@ -3,7 +3,7 @@ import Forbidden from "@/pages/403";
 import NotFound from "@/pages/404";
 import InternalServerError from "@/pages/500";
 import { Routes, Route } from "react-router-dom";
-import { RequireUser, UserAuth } from "@/utils/guards";
+import { IsAdminOnly, RequireUser, UserAuth } from "@/utils/guards";
 import { RouteLoader } from "@/components/styled";
 import { Loader } from "@/components/common";
 const Login = lazy(() => import("@/pages/auth/login"));
@@ -25,6 +25,7 @@ const ErrorReportDetailView = lazy(
 const ErrorReportParetoView = lazy(
   () => import("@/pages/errorreport/errorpareto"),
 );
+const UserListView = lazy(() => import("@/pages/users/listview"));
 
 function BaseRoutes() {
   return (
@@ -202,6 +203,24 @@ function BaseRoutes() {
             >
               <ErrorReportDetailView />
             </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/users"
+        element={
+          <RequireUser>
+            <IsAdminOnly>
+              <Suspense
+                fallback={
+                  <RouteLoader>
+                    <Loader size={50} />
+                  </RouteLoader>
+                }
+              >
+                <UserListView />
+              </Suspense>
+            </IsAdminOnly>
           </RequireUser>
         }
       />
