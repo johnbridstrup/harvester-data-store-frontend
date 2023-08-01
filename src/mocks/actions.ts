@@ -16,6 +16,7 @@ import {
 import { EXCEPTION_CODE_URL } from "@/features/exception/exceptionService";
 import { FRUITS_URL } from "@/features/harvester/harvesterService";
 import { ParetoItem } from "@/components/errorreport/ErrorHelpers";
+import { USERS_URL } from "@/features/users/usersService";
 import notification from "@/test-utils/test-data/notification.json";
 import s3file from "@/test-utils/test-data/s3file.json";
 import distributor from "@/test-utils/test-data/distributor.json";
@@ -23,6 +24,7 @@ import location from "@/test-utils/test-data/location.json";
 import errorreport from "@/test-utils/test-data/errorreport.json";
 import exceptioncode from "@/test-utils/test-data/exceptioncode.json";
 import fruit from "@/test-utils/test-data/fruit.json";
+import user from "@/test-utils/test-data/user.json";
 
 interface Data {
   count: number;
@@ -172,4 +174,10 @@ export const generatePareto = rest.get(ERROR_PARETO_URL, (_, res, ctx) => {
   genericGetResponse["message"] = "Pareto generated: Exceptions";
   genericGetResponse["data"] = pareto;
   return res(ctx.json(genericGetResponse));
+});
+
+export const queryUser = rest.get(USERS_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "user retrieved successfully";
+  genericListResponse["data"]["results"] = [user];
+  return res(ctx.json(genericListResponse));
 });

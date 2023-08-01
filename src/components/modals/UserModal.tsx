@@ -35,6 +35,7 @@ function UserModal(props: ModalProps) {
         aria-labelledby="modal-center"
         aria-hidden="true"
         style={{ display: "none" }}
+        data-testid="addUpdateModal"
       >
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className={`modal-content ${modal}`}>
@@ -55,7 +56,7 @@ function UserModal(props: ModalProps) {
             </div>
 
             <div className="modal-body px-5 pb-4">
-              <form onSubmit={props.handleSubmit}>
+              <form onSubmit={props.handleSubmit} data-testid="user-form">
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">

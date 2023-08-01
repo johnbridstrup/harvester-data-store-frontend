@@ -14,6 +14,7 @@ import {
   queryLocation,
   queryNotification,
   queryS3File,
+  queryUser,
 } from "./actions";
 
 const handlers = [
@@ -28,6 +29,7 @@ const handlers = [
   queryExceptionCode,
   queryFruit,
   generatePareto,
+  queryUser,
 ];
 
 export default handlers;
