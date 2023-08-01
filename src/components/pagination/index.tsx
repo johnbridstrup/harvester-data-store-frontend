@@ -12,6 +12,7 @@ import {
 import { ERROR_REPORT_URL } from "@/features/errorreport/errorreportService";
 import { darkThemeClass, mapCurrentOffset } from "@/utils/utils";
 import { InputLimit, PageItem, SpanLimit } from "../styled";
+import { paginateUser } from "@/features/users/usersSlice";
 
 interface RendererProps {
   handlePagination: (navigation: string) => void;
@@ -245,6 +246,33 @@ export const LocationPagination = () => {
       url.protocol = "https:";
     }
     await dispatch(paginateLocation(url.href));
+  };
+
+  return (
+    <GenericRenderer
+      handlePagination={handlePagination}
+      next={next}
+      previous={previous}
+    />
+  );
+};
+
+export const UserPagination = () => {
+  const {
+    pagination: { next, previous },
+  } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
+  const handlePagination = async (navigation: string) => {
+    const urlMap: { [key: string]: string | null } = {
+      next: next,
+      previous: previous,
+    };
+    const url = new URL(String(urlMap[navigation]));
+    if (import.meta.env.PROD) {
+      url.protocol = "https:";
+    }
+    await dispatch(paginateUser(url.href));
   };
 
   return (
