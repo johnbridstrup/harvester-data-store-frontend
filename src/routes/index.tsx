@@ -27,6 +27,7 @@ const ErrorReportParetoView = lazy(
 );
 const UserListView = lazy(() => import("@/pages/users/listview"));
 const EventListView = lazy(() => import("@/pages/event/eventlist"));
+const EventDetailView = lazy(() => import("@/pages/event/eventdetail"));
 
 function BaseRoutes() {
   return (
@@ -237,6 +238,22 @@ function BaseRoutes() {
               }
             >
               <EventListView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/events/:eventId"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <EventDetailView />
             </Suspense>
           </RequireUser>
         }
