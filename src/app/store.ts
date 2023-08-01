@@ -9,6 +9,7 @@ import exceptionReducer from "@/features/exception/exceptionSlice";
 import harvesterReducer from "@/features/harvester/harvesterSlice";
 import errorreportReducer from "@/features/errorreport/errorreportSlice";
 import usersReducer from "@/features/users/usersSlice";
+import eventReducer from "@/features/event/eventSlice";
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     harvester: harvesterReducer,
     errorreport: errorreportReducer,
     user: usersReducer,
+    event: eventReducer,
   },
   devTools: import.meta.env.DEV,
 });
