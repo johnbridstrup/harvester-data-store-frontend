@@ -29,6 +29,9 @@ const UserListView = lazy(() => import("@/pages/users/listview"));
 const EventListView = lazy(() => import("@/pages/event/eventlist"));
 const EventDetailView = lazy(() => import("@/pages/event/eventdetail"));
 const PickSessionListView = lazy(() => import("@/pages/event/picksessionlist"));
+const PickSessionDetailView = lazy(
+  () => import("@/pages/event/picksessiondetail"),
+);
 
 function BaseRoutes() {
   return (
@@ -271,6 +274,22 @@ function BaseRoutes() {
               }
             >
               <PickSessionListView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/picksessions/:picksessionId"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <PickSessionDetailView />
             </Suspense>
           </RequireUser>
         }
