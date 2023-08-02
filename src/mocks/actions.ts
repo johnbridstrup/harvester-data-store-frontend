@@ -25,6 +25,8 @@ import errorreport from "@/test-utils/test-data/errorreport.json";
 import exceptioncode from "@/test-utils/test-data/exceptioncode.json";
 import fruit from "@/test-utils/test-data/fruit.json";
 import user from "@/test-utils/test-data/user.json";
+import { EVENTS_URL } from "@/features/event/eventService";
+import { eventobj } from "@/test-utils/test-data/event";
 
 interface Data {
   count: number;
@@ -180,4 +182,16 @@ export const queryUser = rest.get(USERS_URL, (_, res, ctx) => {
   genericListResponse["message"] = "user retrieved successfully";
   genericListResponse["data"]["results"] = [user];
   return res(ctx.json(genericListResponse));
+});
+
+export const queryEvent = rest.get(EVENTS_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "event retrieved successfully";
+  genericListResponse["data"]["results"] = [eventobj];
+  return res(ctx.json(genericListResponse));
+});
+
+export const getEvent = rest.get(`${EVENTS_URL}:eventId`, (_, res, ctx) => {
+  genericGetResponse["message"] = "event retrieved successfully";
+  genericGetResponse["data"] = eventobj;
+  return res(ctx.json(genericGetResponse));
 });
