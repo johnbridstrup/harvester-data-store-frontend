@@ -2,7 +2,10 @@ import { ChangeEvent, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { paginateDistributor } from "@/features/distributor/distributorSlice";
-import { paginateEvent } from "@/features/event/eventSlice";
+import {
+  paginateEvent,
+  paginatePickSession,
+} from "@/features/event/eventSlice";
 import { paginateLocation } from "@/features/location/locationSlice";
 import { paginateNotification } from "@/features/notification/notificationSlice";
 import { paginateS3File } from "@/features/s3file/s3fileSlice";
@@ -301,6 +304,33 @@ export const EventPagination = () => {
       url.protocol = "https:";
     }
     await dispatch(paginateEvent(url.href));
+  };
+
+  return (
+    <GenericRenderer
+      handlePagination={handlePagination}
+      next={next}
+      previous={previous}
+    />
+  );
+};
+
+export const PicksessionPagination = () => {
+  const {
+    pagination: { next, previous },
+  } = useAppSelector((state) => state.event);
+  const dispatch = useAppDispatch();
+
+  const handlePagination = async (navigation: string) => {
+    const urlMap: { [key: string]: string | null } = {
+      next: next,
+      previous: previous,
+    };
+    const url = new URL(String(urlMap[navigation]));
+    if (import.meta.env.PROD) {
+      url.protocol = "https:";
+    }
+    await dispatch(paginatePickSession(url.href));
   };
 
   return (
