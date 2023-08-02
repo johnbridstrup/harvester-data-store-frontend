@@ -6,6 +6,7 @@ import {
   generatePareto,
   getErrorReport,
   getEvent,
+  getPickSession,
   getS3File,
   login,
   queryDistributor,
@@ -15,6 +16,7 @@ import {
   queryEvent,
   queryLocation,
   queryNotification,
+  queryPickSession,
   queryS3File,
   queryUser,
 } from "./actions";
@@ -34,6 +36,8 @@ const handlers = [
   queryUser,
   queryEvent,
   getEvent,
+  queryPickSession,
+  getPickSession,
 ];
 
 export default handlers;

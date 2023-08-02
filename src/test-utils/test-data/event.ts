@@ -20,3 +20,26 @@ export const eventobj = {
     },
   ],
 };
+
+export const picksession = {
+  id: 1,
+  tags: ["AutodiagnosticsReport"],
+  harvester: null,
+  location: null,
+  creator: {
+    id: 1,
+    username: "aft",
+  },
+  modifiedBy: null,
+  created: "2023-02-14T19:23:23.547000Z",
+  lastModified: "2023-02-14T19:23:23.547000Z",
+  UUID: "2225cd5a-765a-11ed-9d09-677a59a17003",
+  start_time: null,
+  session_length: null,
+  related_objects: [
+    {
+      url: "/autodiagnostics/1/",
+      object: "Autodiagnostics Report",
+    },
+  ],
+};

@@ -25,8 +25,8 @@ import errorreport from "@/test-utils/test-data/errorreport.json";
 import exceptioncode from "@/test-utils/test-data/exceptioncode.json";
 import fruit from "@/test-utils/test-data/fruit.json";
 import user from "@/test-utils/test-data/user.json";
-import { EVENTS_URL } from "@/features/event/eventService";
-import { eventobj } from "@/test-utils/test-data/event";
+import { EVENTS_URL, PICKSESSION_URL } from "@/features/event/eventService";
+import { eventobj, picksession } from "@/test-utils/test-data/event";
 
 interface Data {
   count: number;
@@ -195,3 +195,18 @@ export const getEvent = rest.get(`${EVENTS_URL}:eventId`, (_, res, ctx) => {
   genericGetResponse["data"] = eventobj;
   return res(ctx.json(genericGetResponse));
 });
+
+export const queryPickSession = rest.get(PICKSESSION_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "picksession retrieved successfully";
+  genericListResponse["data"]["results"] = [picksession];
+  return res(ctx.json(genericListResponse));
+});
+
+export const getPickSession = rest.get(
+  `${PICKSESSION_URL}:pickId`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "picksession retrieved successfully";
+    genericGetResponse["data"] = picksession;
+    return res(ctx.json(genericGetResponse));
+  },
+);
