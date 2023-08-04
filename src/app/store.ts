@@ -5,6 +5,7 @@ import notificationReducer from "@/features/notification/notificationSlice";
 import s3fileReducer from "@/features/s3file/s3fileSlice";
 import distributorReducer from "@/features/distributor/distributorSlice";
 import locationReducer from "@/features/location/locationSlice";
+import exceptionReducer from "@/features/exception/exceptionSlice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     s3file: s3fileReducer,
     distributor: distributorReducer,
     location: locationReducer,
+    exception: exceptionReducer,
   },
   devTools: import.meta.env.DEV,
 });
