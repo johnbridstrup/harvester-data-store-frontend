@@ -7,6 +7,7 @@ import distributorReducer from "@/features/distributor/distributorSlice";
 import locationReducer from "@/features/location/locationSlice";
 import exceptionReducer from "@/features/exception/exceptionSlice";
 import harvesterReducer from "@/features/harvester/harvesterSlice";
+import errorreportReducer from "@/features/errorreport/errorreportSlice";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     location: locationReducer,
     exception: exceptionReducer,
     harvester: harvesterReducer,
+    errorreport: errorreportReducer,
   },
   devTools: import.meta.env.DEV,
 });
