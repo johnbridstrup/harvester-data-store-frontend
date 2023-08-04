@@ -1,14 +1,4 @@
-import { CommonState, Creator } from "../base/types";
-
-interface RelatedObj {
-  url: string;
-  object: string;
-}
-
-interface RelatedFile {
-  url: string;
-  filetype: string;
-}
+import { CommonState, Creator, RelatedFile, RelatedObj } from "../base/types";
 
 interface Event {
   id: number;

@@ -16,3 +16,13 @@ export interface CommonState {
   errorMsg: string | null | unknown;
   pagination: Pagination;
 }
+
+export interface RelatedObj {
+  url: string;
+  object: string;
+}
+
+export interface RelatedFile {
+  url: string;
+  filetype: string;
+}
