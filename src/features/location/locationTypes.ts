@@ -1,10 +1,5 @@
-import { CommonState } from "../base/types";
+import { CommonState, Creator } from "../base/types";
 import { Distributor } from "../distributor/distributorTypes";
-
-interface Creator {
-  id: number;
-  username: string;
-}
 
 export interface LocationObj {
   id: number;
