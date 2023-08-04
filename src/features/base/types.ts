@@ -26,3 +26,31 @@ export interface RelatedFile {
   url: string;
   filetype: string;
 }
+
+export interface DistributorMinimal {
+  id: number;
+  url: string;
+  name: string;
+}
+
+export interface LocationMinimal {
+  id: number;
+  url: string;
+  ranch: string;
+  distributor: DistributorMinimal;
+}
+
+export interface FruitMinimal {
+  id: number;
+  url: string;
+  name: string;
+}
+
+export interface HarvesterMinimal {
+  id: number;
+  url: string;
+  harv_id: number;
+  location: LocationMinimal;
+  fruit: FruitMinimal;
+  is_emulator: boolean;
+}
