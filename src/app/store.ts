@@ -6,6 +6,7 @@ import s3fileReducer from "@/features/s3file/s3fileSlice";
 import distributorReducer from "@/features/distributor/distributorSlice";
 import locationReducer from "@/features/location/locationSlice";
 import exceptionReducer from "@/features/exception/exceptionSlice";
+import harvesterReducer from "@/features/harvester/harvesterSlice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     distributor: distributorReducer,
     location: locationReducer,
     exception: exceptionReducer,
+    harvester: harvesterReducer,
   },
   devTools: import.meta.env.DEV,
 });
