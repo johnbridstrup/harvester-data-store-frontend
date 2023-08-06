@@ -139,4 +139,19 @@ export class BaseService {
     const response = await axiosService.delete(`${this.url}${id}/`, token);
     return response;
   };
+
+  public factoryQuery = async (
+    url: string,
+    queryObj: Record<string, any>,
+    token: string,
+  ) => {
+    const params = new URLSearchParams(queryObj);
+    const res = await axiosService.get(`${url}?${params.toString()}`, token);
+    return res;
+  };
+
+  public factoryGet = async (url: string, id: number, token: string) => {
+    const res = await axiosService.get(`${url}${id}/`, token);
+    return res;
+  };
 }
