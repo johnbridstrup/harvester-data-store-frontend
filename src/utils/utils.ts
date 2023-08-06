@@ -160,3 +160,34 @@ export const transformDistOptions = (
     return { value: distributor.id, label: distributor.name };
   });
 };
+
+/**
+ * Map the current offset for pagination
+ * @param previous
+ * @param next
+ * @returns
+ */
+export const mapCurrentOffset = (previous?: string, next?: string) => {
+  let url: URL;
+  let limit: number;
+  let offset: number;
+  let paramsObj: Record<string, any> = {};
+  if (previous) {
+    url = new URL(previous);
+    limit = url.searchParams.get("limit") as unknown as number;
+    offset = (url.searchParams.get("offset") as unknown as number) || 0;
+    paramsObj = paramsToObject(url.searchParams.toString());
+    let current = limit + offset;
+    paramsObj["offset"] = current;
+    paramsObj["limit"] = limit;
+    pushState(paramsObj);
+  } else if (!previous && next) {
+    url = new URL(next);
+    limit = url.searchParams.get("limit") as unknown as number;
+    url.searchParams.delete("offset");
+    const paramsObj = paramsToObject(url.searchParams.toString());
+    paramsObj["limit"] = limit;
+    pushState(paramsObj);
+  }
+  return paramsObj;
+};
