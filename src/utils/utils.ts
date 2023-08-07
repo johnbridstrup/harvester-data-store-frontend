@@ -4,7 +4,14 @@
  */
 
 import { MultiValue } from "react-select";
-import { PushStateEnum, THEME_MODES } from "@/features/base/constants";
+import { API_URL, PushStateEnum, THEME_MODES } from "@/features/base/constants";
+import { ExceptionCode } from "@/features/exception/exceptionTypes";
+import {
+  ParamsString,
+  QueryObject,
+} from "@/components/errorreport/ErrorHelpers";
+import { Fruit } from "@/features/harvester/harvesterTypes";
+import { User } from "@/features/auth/authTypes";
 
 /**
  * Evaluate for dark theme className
@@ -190,4 +197,513 @@ export const mapCurrentOffset = (previous?: string, next?: string) => {
     pushState(paramsObj);
   }
   return paramsObj;
+};
+
+/**
+ * Padd start the string with the given digits
+ * @param str_to_pad
+ * @param digits
+ * @returns
+ */
+function padZeros(str_to_pad: number, digits: number) {
+  return str_to_pad.toString().padStart(digits, "0");
+}
+
+/**
+ * Convert the date string to the user's timezone
+ * @param dateString
+ * @param timezone
+ * @returns
+ */
+export function timeStampFormat(dateString: Date, timezone = "US/Pacific") {
+  let date;
+  if (typeof timezone === "string") {
+    date = new Date(
+      new Date(dateString).toLocaleString("en-US", { timeZone: timezone }),
+    );
+  } else {
+    date = new Date(dateString);
+  }
+  let y = date.getFullYear().toString();
+  let m = padZeros(date.getMonth() + 1, 2);
+  let d = padZeros(date.getDate(), 2);
+  let H = padZeros(date.getHours(), 2);
+  let M = padZeros(date.getMinutes(), 2);
+  let S = padZeros(date.getSeconds(), 2);
+  let mm = date.getMilliseconds().toString();
+  return `${y}${m}${d}T${H}${M}${S}.${mm}`;
+}
+
+/**
+ * Get date values from the native Date object provided as string
+ * @param dateString
+ * @returns
+ */
+const getDateValues = (dateString: string) => {
+  let year = Number(dateString.slice(0, 3 + 1));
+  let month = Number(dateString.slice(4, 5 + 1)) - 1;
+  let day = Number(dateString.slice(6, 7 + 1));
+  let hours = Number(dateString.slice(8, 9 + 1));
+  let minutes = Number(dateString.slice(10, 11 + 1));
+  let second = Number(dateString.slice(12, dateString.length));
+  return { year, month, day, hours, minutes, second };
+};
+
+/**
+ * Extract date from user given string date in the format
+ * e.g
+ *
+ * i. YYYYMMDDTHHMMSS.S
+ *
+ * ii. YYYYMMDDHHMMSS
+ *
+ * iii. YYYYMDHMS
+ *
+ * @param dateString
+ * @returns
+ */
+export const extractDateFromString = (dateString: string) => {
+  if (
+    typeof dateString === "string" &&
+    dateString.includes("T") &&
+    dateString.includes(".")
+  ) {
+    let splittedArr = dateString.split(".");
+    let dateStr = splittedArr[0].replace("T", "");
+    let ms = splittedArr[1];
+    if (dateStr.length === 14) {
+      let { year, month, day, hours, minutes, second } = getDateValues(dateStr);
+      return new Date(year, month, day, hours, minutes, second, Number(ms));
+    } else {
+      let paddedDateString = dateStr.padEnd(14, "0");
+      let { year, month, day, hours, minutes, second } =
+        getDateValues(paddedDateString);
+      return new Date(year, month, day, hours, minutes, second, Number(ms));
+    }
+  } else if (typeof dateString === "string" && dateString.includes("T")) {
+    let dateStr = dateString.replace("T", "");
+    if (dateStr.length === 14) {
+      let { year, month, day, hours, minutes, second } = getDateValues(dateStr);
+      return new Date(year, month, day, hours, minutes, second);
+    } else {
+      let paddedDateString = dateStr.padEnd(14, "0");
+      let { year, month, day, hours, minutes, second } =
+        getDateValues(paddedDateString);
+      return new Date(year, month, day, hours, minutes, second);
+    }
+  } else if (typeof dateString === "string" && dateString.length === 14) {
+    let { year, month, day, hours, minutes, second } =
+      getDateValues(dateString);
+    return new Date(year, month, day, hours, minutes, second);
+  } else if (typeof dateString === "string") {
+    let paddedDateString = dateString.padEnd(14, "0");
+    let { year, month, day, hours, minutes, second } =
+      getDateValues(paddedDateString);
+    return new Date(year, month, day, hours, minutes, second);
+  } else {
+    return new Date();
+  }
+};
+
+export const aggregateOptions = [
+  { label: "service", value: "service" },
+  { label: "harvester", value: "report__harvester__name" },
+  { label: "exception", value: "code__name" },
+  { label: "team", value: "code__team" },
+  { label: "robot", value: "robot" },
+  { label: "location", value: "report__location__ranch" },
+  { label: "handled", value: "handled" },
+  { label: "emulator", value: "report__harvester__is_emulator" },
+];
+
+/**
+ * return the api url with optional query string
+ * @param {object} paramsObj
+ * @returns {String}
+ */
+export const copiedUrl = (paramsObj: Record<string, any>): string => {
+  const searchParams = new URLSearchParams(paramsObj);
+  return `${API_URL}/errorreports/?${searchParams.toString()}`;
+};
+
+/**
+ * Transform harvester array into required select shape
+ * @param harvesters
+ * @returns
+ */
+export const transformHarvOptions = (
+  harvesters: Array<{ harv_id: number }>,
+) => {
+  return harvesters.map((harvester, _) => {
+    return { value: harvester.harv_id, label: harvester.harv_id };
+  });
+};
+
+/**
+ * Transform location array into required select shape
+ * @param locations
+ * @param includeID
+ * @returns
+ */
+export const transformLocOptions = (
+  locations: Array<{ id: number; ranch: string }>,
+  includeID?: boolean,
+) => {
+  if (includeID) {
+    return locations.map((loc, _) => {
+      return { value: loc.id, label: loc.ranch };
+    });
+  }
+  return locations.map((loc, _) => {
+    return { value: loc.ranch, label: loc.ranch };
+  });
+};
+
+/**
+ * Translate harvester select option to required shape
+ * @param harv_ids
+ * @returns
+ */
+export const translateHarvOptions = (
+  harv_ids: Array<{ label: string; value: number }>,
+) => {
+  return harv_ids.map((harv_id) => {
+    return harv_id.value;
+  });
+};
+
+/**
+ * Translate location select option to required shape
+ * @param loc_names
+ * @returns
+ */
+export const translateLocOptions = (
+  loc_names: Array<{ label: string; value: string }>,
+) => {
+  return loc_names.map((loc) => {
+    return loc.value;
+  });
+};
+
+/**
+ * Translate fruit select option to required shape
+ * @param fruits
+ * @returns
+ */
+export const translateFruitOptions = (
+  fruits: Array<{ label: string; value: string }>,
+) => {
+  return fruits.map((fruit) => {
+    return fruit.value;
+  });
+};
+
+/**
+ * Append code names to the codes array
+ * @param codes
+ * @param exceptioncodes
+ * @returns
+ */
+export const appendCodeName = (
+  codes: Array<string>,
+  exceptioncodes: Array<ExceptionCode>,
+) => {
+  const arr: Array<{ label: string; value: number }> = [];
+  exceptioncodes.forEach((x) => {
+    if (codes.includes(String(x.code))) {
+      arr.push({ value: x.code, label: `${x.code}: ${x.name}` });
+    }
+  });
+  return arr;
+};
+
+/**
+ * Transform fruit into required select shape
+ * @param fruits
+ * @param includeID
+ * @returns
+ */
+export const transformFruitOptions = (
+  fruits: Array<Fruit>,
+  includeID?: boolean,
+) => {
+  if (includeID) {
+    return fruits.map((fruit) => {
+      return { value: fruit.id, label: fruit.name };
+    });
+  }
+  return fruits.map((fruit) => {
+    return { value: fruit.name, label: fruit.name };
+  });
+};
+
+/**
+ * Transform exception code into required select shape
+ * @param codes
+ * @returns
+ */
+export const transformCodeOptions = (codes: Array<ExceptionCode>) => {
+  return codes.map((code) => {
+    return { value: code.code, label: `${code.code}: ${code.name}` };
+  });
+};
+
+/**
+ * Translate exception code select options into required shape
+ * @param codes
+ * @returns
+ */
+export const translateCodeOptions = (
+  codes: Array<{ label: string; value: number }>,
+) => {
+  return codes.map((code) => {
+    return code.value;
+  });
+};
+
+/**
+ * Transform users into required select shape
+ * @param users
+ * @returns
+ */
+export const transformUserOptions = (users: Array<User>) => {
+  return users.map((user) => {
+    return { value: user.id, label: user.username };
+  });
+};
+
+/**
+ * Translate users select options into required shape
+ * @param users
+ * @returns
+ */
+export const translateUserOptions = (
+  users: Array<{ label: string; value: number }>,
+) => {
+  return users.map((user) => {
+    return user.value;
+  });
+};
+
+/**
+ * Transform timezone into required select shape
+ * @param timezones
+ * @returns
+ */
+export const transformTzOptions = (timezones: Array<string>) => {
+  return timezones.map((zone) => {
+    return { value: zone, label: zone };
+  });
+};
+
+export const uuid = () => {
+  const hashTable = [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+  ];
+  let uuid = [];
+  for (let i = 0; i < 35; i++) {
+    if (i === 7 || i === 12 || i === 17 || i === 22) {
+      uuid[i] = "-";
+    } else {
+      uuid[i] = hashTable[Math.floor(Math.random() * hashTable.length - 1)];
+    }
+  }
+  return uuid.join("");
+};
+
+/**
+ * Validate that the query object is not empty
+ * @param queryObj
+ * @returns
+ */
+export const validateQueryObj = (queryObj: QueryObject) => {
+  if (
+    queryObj.harv_ids ||
+    queryObj.locations ||
+    queryObj.fruits ||
+    queryObj.codes ||
+    queryObj.traceback ||
+    queryObj.generic ||
+    queryObj.handled ||
+    queryObj.is_emulator
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+/**
+ *
+ * @param {object} fieldData
+ * @param {Array} selectedHarvId
+ * @param {Array} selectedLocation
+ * @param {object} selectedTimezone
+ * @param {Array} selectedFruit
+ * @param {Array} selectedCode
+ * @returns
+ */
+export const buildQueryObj = (
+  fieldData: any,
+  selectedHarvId: any,
+  selectedLocation: any,
+  selectedTimezone: any,
+  selectedFruit: any,
+  selectedCode: any,
+) => {
+  const queryObj: Record<string, any> = {};
+  if (fieldData.start_time) {
+    queryObj["start_time"] = timeStampFormat(
+      extractDateFromString(fieldData.start_time),
+    );
+  }
+  if (fieldData.end_time) {
+    queryObj["end_time"] = timeStampFormat(
+      extractDateFromString(fieldData.end_time),
+    );
+  }
+  if (selectedHarvId && selectedHarvId.length > 0) {
+    queryObj["harv_ids"] = translateHarvOptions(selectedHarvId);
+  }
+  if (selectedLocation && selectedLocation.length > 0) {
+    queryObj["locations"] = translateLocOptions(selectedLocation);
+  }
+  if (selectedTimezone && selectedTimezone.hasOwnProperty("value")) {
+    queryObj["tz"] = selectedTimezone.value;
+  }
+  if (selectedFruit && selectedFruit.length > 0) {
+    queryObj["fruits"] = translateFruitOptions(selectedFruit);
+  }
+  if (selectedCode && selectedCode.length > 0) {
+    queryObj["codes"] = translateCodeOptions(selectedCode);
+  }
+  if (fieldData.traceback) {
+    queryObj["traceback"] = fieldData.traceback;
+  }
+  if (fieldData.generic) {
+    queryObj["generic"] = fieldData.generic;
+  }
+  if (fieldData.is_emulator) {
+    queryObj["is_emulator"] = fieldData.is_emulator;
+  }
+  if (fieldData.handled) {
+    queryObj["handled"] = fieldData.handled;
+  }
+  if (fieldData.primary) {
+    queryObj["primary"] = fieldData.primary;
+  }
+  return queryObj;
+};
+
+/**
+ *
+ * @param {ParamsString} paramsObj
+ * @param {Array} exceptioncodes
+ * @param {Function} setSelectedHarvId
+ * @param {Function} setSelectedLocation
+ * @param {Function} setSelectedFruit
+ * @param {Function} setSelectedCode
+ * @param {Function} setFieldData
+ * @param {Function} setSelectedTimezone
+ * @param {Function} setSelectedAggregate
+ */
+export const mapParamsObject = (
+  paramsObj: ParamsString,
+  exceptioncodes: Array<ExceptionCode>,
+  setSelectedHarvId: (arg0: any) => void,
+  setSelectedLocation: (arg0: any) => void,
+  setSelectedFruit: (arg0: any) => void,
+  setSelectedCode: (arg0: any) => void,
+  setFieldData: (arg0: { (current: any): any }) => void,
+  setSelectedTimezone: (arg0: any) => void,
+  setSelectedAggregate: (arg0: any) => void,
+) => {
+  if (paramsObj.harv_ids) {
+    let harv_ids = paramsObj.harv_ids.split(",").map((harv_id) => {
+      return { value: Number(harv_id), label: Number(harv_id) };
+    });
+    setSelectedHarvId(harv_ids);
+  }
+  if (paramsObj.locations) {
+    let locations = paramsObj.locations.split(",").map((loc) => {
+      return { value: loc, label: loc };
+    });
+    setSelectedLocation(locations);
+  }
+  if (paramsObj.fruits) {
+    let fruits = paramsObj.fruits.split(",").map((fruit) => {
+      return { value: fruit, label: fruit };
+    });
+    setSelectedFruit(fruits);
+  }
+  if (paramsObj.codes) {
+    let codes = paramsObj.codes.split(",");
+    let codenames = appendCodeName(codes, exceptioncodes);
+    setSelectedCode(codenames);
+  }
+  if (paramsObj.traceback) {
+    setFieldData((current) => {
+      return { ...current, traceback: paramsObj.traceback };
+    });
+  }
+  if (paramsObj.start_time) {
+    setFieldData((current) => {
+      return {
+        ...current,
+        start_time: paramsObj.start_time,
+      };
+    });
+  }
+  if (paramsObj.end_time) {
+    setFieldData((current) => {
+      return {
+        ...current,
+        end_time: paramsObj.end_time,
+      };
+    });
+  }
+  if (paramsObj.tz) {
+    let tzObj = { value: paramsObj.tz, label: paramsObj.tz };
+    setSelectedTimezone(tzObj);
+  }
+  if (paramsObj.generic) {
+    setFieldData((current) => {
+      return { ...current, generic: paramsObj.generic };
+    });
+  }
+  if (paramsObj.is_emulator) {
+    setFieldData((current) => {
+      return { ...current, is_emulator: paramsObj.is_emulator };
+    });
+  }
+  if (paramsObj.handled) {
+    setFieldData((current) => {
+      return { ...current, handled: paramsObj.handled };
+    });
+  }
+  if (paramsObj.primary) {
+    setFieldData((current) => {
+      return { ...current, primary: Boolean(paramsObj.primary) };
+    });
+  }
+  if (paramsObj.group_by) {
+    const groups = paramsObj.group_by.split(",");
+    const newGroup = aggregateOptions.filter((x) => groups.includes(x.value));
+    setSelectedAggregate(newGroup);
+  }
 };
