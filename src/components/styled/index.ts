@@ -94,3 +94,83 @@ export const Table = styled.table``;
 export const Td = styled.td`
   position: relative;
 `;
+
+export const NavTabs = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style: none;
+  border-bottom: 1px solid #dee2e6;
+`;
+
+export const NavTabItem = styled.li`
+  margin-bottom: -1px;
+`;
+
+export const NavTabSpan = styled.span<{
+  theme: string;
+  activetab: string;
+  navto: string;
+  robocolor: string;
+}>`
+  border: 1px solid transparent;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  display: block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  cursor: pointer;
+
+  color: ${(props) =>
+    props.theme === "dark"
+      ? "#fff"
+      : props.activetab === props.navto
+      ? "#495057"
+      : "rgba(0,0,0,.5)"};
+  background-color: ${(props) =>
+    props.activetab === props.navto && props.theme === "dark"
+      ? "#343434"
+      : props.activetab === props.navto
+      ? props.activetab === props.robocolor
+        ? "#FF7276"
+        : "#fff"
+      : ""};
+  border-color: ${(props) =>
+    props.activetab === props.navto ? "#dee2e6 #dee2e6 #fff" : ""};
+
+  &:hover {
+    color: #495057;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+  }
+`;
+
+export const NavMainTabSpan = styled(NavTabSpan)<{ errored: string }>`
+  color: ${(props) =>
+    props.theme === "dark"
+      ? "#fff"
+      : props.activetab === props.navto
+      ? "#495057"
+      : "rgba(0,0,0,.5)"};
+  background-color: ${(props) =>
+    props.errored === "true"
+      ? "#FF7276"
+      : props.theme === "dark"
+      ? "#343434"
+      : ""};
+  border-color: ${(props) =>
+    props.activetab === props.navto ? "#dee2e6 #dee2e6 #fff" : ""};
+
+  &:hover {
+    color: #495057;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+  }
+`;
+
+export const TabContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;

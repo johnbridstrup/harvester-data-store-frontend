@@ -1,6 +1,6 @@
 import { darkThemeClass } from "@/utils/utils";
 import { Oval } from "react-loader-spinner";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface LoaderProps {
   size: number;
@@ -16,6 +16,12 @@ interface BackProps {
   theme: string | null;
   mb?: string;
   mt?: string;
+}
+
+interface CustomBackProps {
+  routeTo: string;
+  paramsObj: Record<string, any>;
+  theme: string;
 }
 
 export const Loader = ({ size }: LoaderProps) => {
@@ -53,3 +59,29 @@ export function BackButton(props: BackProps) {
     </div>
   );
 }
+
+export const CustomBackButton = (props: CustomBackProps) => {
+  const navigate = useNavigate();
+  const goBack = () => {
+    let params = new URLSearchParams(props.paramsObj);
+    navigate(`/${props.routeTo}/?${params.toString()}`);
+  };
+  const btn = darkThemeClass("btn-dark", props.theme);
+  return (
+    <div className="mt-4 mb-4">
+      <span className={`btn btn-default ${btn}`} onClick={goBack}>
+        <i className="las la-arrow-left"></i> Back
+      </span>
+    </div>
+  );
+};
+
+export const HarvesterLink = (props: {
+  harvester?: { id: number; harv_id: number };
+}) => {
+  return (
+    <Link to={`/harvesters/${props.harvester?.id}`}>
+      {props.harvester?.harv_id}
+    </Link>
+  );
+};

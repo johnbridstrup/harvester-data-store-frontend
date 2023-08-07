@@ -100,6 +100,20 @@ interface HoverProps {
   theme: string;
 }
 
+interface TabularProps {
+  exceptName: string;
+  timestamp: string;
+  theme: string;
+}
+
+interface GroupProps {
+  popUp: () => void;
+  downloadRef: MutableRefObject<HTMLButtonElement | null>;
+  createNotifRef: MutableRefObject<HTMLButtonElement | null>;
+  createNotifPopUp: () => void;
+  theme: string;
+}
+
 export const HoverTabular = (props: HoverProps) => {
   const bg = darkThemeClass("bg-dark", props.theme);
   const style = bg
@@ -685,5 +699,54 @@ export const FormQuery = (props: FormProps) => {
         </button>
       </div>
     </form>
+  );
+};
+
+export const ExceptTabular = (props: TabularProps) => {
+  const bg = darkThemeClass("bg-dark", props.theme);
+  return (
+    <div className="mb-3">
+      <div className="d-flex">
+        <div className={`tabular bg-gray ${bg}`}>Exception</div>
+        <div className={`tabular bg-gray ${bg}`}>Timestamp</div>
+      </div>
+      <div className="d-flex">
+        <div className="tabular">{props.exceptName}</div>
+        <div className="tabular">{props.timestamp}</div>
+      </div>
+    </div>
+  );
+};
+
+export const RightButtonGroup = (props: GroupProps) => {
+  const btn = darkThemeClass("btn-dark", props.theme);
+  return (
+    <div className="flex-right mb-2">
+      <span
+        onClick={props.createNotifPopUp}
+        className={`btn btn-default mx-2 ${btn}`}
+      >
+        Create Notification
+      </span>
+      <span onClick={props.popUp} className={`btn btn-default mx-2 ${btn}`}>
+        Get Files
+      </span>
+      <button
+        ref={props.downloadRef}
+        data-bs-toggle="modal"
+        data-bs-target="#downloadModal"
+        style={{ display: "none" }}
+      >
+        Get Files
+      </button>
+      <button
+        ref={props.createNotifRef}
+        data-bs-toggle="modal"
+        data-bs-target="#createNotifModal"
+        style={{ display: "none" }}
+      >
+        Create Notification
+      </button>
+    </div>
   );
 };
