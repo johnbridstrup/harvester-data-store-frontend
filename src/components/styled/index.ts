@@ -77,3 +77,20 @@ export const DivTotalReport = styled.div`
     margin-right: 0.5rem;
   }
 `;
+
+export const SpanTarget = styled.span`
+  border: none;
+  background: inherit;
+  padding: 1px;
+  margin: -1px;
+  font-size: inherit;
+  color: inherit;
+  cursor: inherit;
+  display: flex;
+`;
+
+export const Table = styled.table``;
+
+export const Td = styled.td`
+  position: relative;
+`;
