@@ -66,3 +66,14 @@ export const ClipboardDiv = styled(Container)`
   justify-content: center;
   margin-top: 0.5rem;
 `;
+
+export const DivTotalReport = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & span {
+    font-size: 1.6rem;
+    margin-right: 0.5rem;
+  }
+`;
