@@ -16,6 +16,7 @@ export interface Notification {
 }
 
 export interface NotificationState extends CommonState {
+  adding: boolean;
   notification: Notification | null;
   notifications: Array<Notification>;
 }

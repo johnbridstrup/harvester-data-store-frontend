@@ -6,6 +6,7 @@ import { NotificationState, Notification } from "./notificationTypes";
 
 const initialState: NotificationState = {
   loading: false,
+  adding: false,
   notification: null,
   notifications: [],
   errorMsg: null,
@@ -42,6 +43,22 @@ export const getNotification = createAsyncThunk(
         auth: { token },
       } = thunkAPI.getState() as { auth: { token: string } };
       return await notificationService.get(id, token);
+    } catch (error) {
+      console.log(error);
+      const message = invalidateCache(error, thunkAPI.dispatch);
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
+
+export const createNotification = createAsyncThunk(
+  "notification/createNotification",
+  async (queryObj: Record<string, any>, thunkAPI) => {
+    try {
+      const {
+        auth: { token },
+      } = thunkAPI.getState() as { auth: { token: string } };
+      return await notificationService.create(queryObj, token);
     } catch (error) {
       console.log(error);
       const message = invalidateCache(error, thunkAPI.dispatch);
@@ -126,6 +143,16 @@ const notificationSlice = createSlice({
       })
       .addCase(getNotification.rejected, (state, action) => {
         state.loading = false;
+        state.errorMsg = action.payload;
+      })
+      .addCase(createNotification.pending, (state) => {
+        state.adding = true;
+      })
+      .addCase(createNotification.fulfilled, (state) => {
+        state.adding = false;
+      })
+      .addCase(createNotification.rejected, (state, action) => {
+        state.adding = false;
         state.errorMsg = action.payload;
       })
       .addCase(deleteNotification.pending, (state) => {
