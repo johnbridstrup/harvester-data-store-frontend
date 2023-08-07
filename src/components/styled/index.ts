@@ -54,3 +54,15 @@ export const PageItem = styled.li`
   display: flex;
   align-items: center;
 `;
+
+export const Container = styled.div`
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+`;
+
+export const ClipboardDiv = styled(Container)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+`;
