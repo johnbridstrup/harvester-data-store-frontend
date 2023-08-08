@@ -22,6 +22,9 @@ const ErrorReportListView = lazy(() => import("@/pages/errorreport/errorlist"));
 const ErrorReportDetailView = lazy(
   () => import("@/pages/errorreport/errordetail"),
 );
+const ErrorReportParetoView = lazy(
+  () => import("@/pages/errorreport/errorpareto"),
+);
 
 function BaseRoutes() {
   return (
@@ -166,6 +169,22 @@ function BaseRoutes() {
               }
             >
               <ErrorReportListView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/errorreports/view/pareto"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <ErrorReportParetoView />
             </Suspense>
           </RequireUser>
         }
