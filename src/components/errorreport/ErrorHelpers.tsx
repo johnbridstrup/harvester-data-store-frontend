@@ -7,7 +7,12 @@ import {
 } from "react";
 import Select from "react-select";
 import useClickOutside from "@/hooks/useClickOutside";
-import { darkThemeClass, imagePath, selectDarkStyles } from "@/utils/utils";
+import {
+  aggregateOptions,
+  darkThemeClass,
+  imagePath,
+  selectDarkStyles,
+} from "@/utils/utils";
 import { InputFormControl } from "../styled";
 
 export interface ParamsString {
@@ -111,6 +116,16 @@ interface GroupProps {
   downloadRef: MutableRefObject<HTMLButtonElement | null>;
   createNotifRef: MutableRefObject<HTMLButtonElement | null>;
   createNotifPopUp: () => void;
+  theme: string;
+}
+
+export interface ParetoProps extends FormProps {
+  handleAggreSelect: (args0: any) => void;
+  selectedAggregate: any;
+}
+
+interface ParetoTabProps {
+  paramsObj: Record<string, any>;
   theme: string;
 }
 
@@ -747,6 +762,135 @@ export const RightButtonGroup = (props: GroupProps) => {
       >
         Create Notification
       </button>
+    </div>
+  );
+};
+
+export const ParetoForm = (props: ParetoProps) => {
+  const dark = darkThemeClass("dark-theme", props.theme);
+  const customStyles = dark ? selectDarkStyles : {};
+  return (
+    <div className="mb-4">
+      <form onSubmit={props.handleSubmit} data-testid="query-form">
+        <GenericFormField {...props} />
+        <div className="row mb-3">
+          <div className="col">
+            <div className="form-group">
+              <label htmlFor="aggregate_query">Group By</label>
+              <Select
+                isSearchable
+                isClearable
+                isMulti
+                placeholder="exception"
+                options={aggregateOptions}
+                name="aggregate_query"
+                inputId="aggregate_query"
+                onChange={props.handleAggreSelect}
+                defaultValue={props.selectedAggregate}
+                value={props.selectedAggregate}
+                className="multi-select-container"
+                classNamePrefix="select"
+                styles={customStyles}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="text-center ">
+          <button type="submit" className="btn btn-primary">
+            Build Chart
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export const ParetoTabular = (props: ParetoTabProps) => {
+  const bg = darkThemeClass("bg-dark", props.theme);
+  return (
+    <div>
+      <div className="d-flex">
+        <div className={`tabular bg-gray ${bg}`}>Property</div>
+        <div className={`tabular bg-gray ${bg}`}>Value</div>
+      </div>
+      {props.paramsObj?.harv_ids && (
+        <div className="d-flex">
+          <div className="tabular">harv_ids</div>
+          <div className="tabular">{props.paramsObj.harv_ids}</div>
+        </div>
+      )}
+      {props.paramsObj?.locations && (
+        <div className="d-flex">
+          <div className="tabular">locations</div>
+          <div className="tabular">{props.paramsObj.locations}</div>
+        </div>
+      )}
+      {props.paramsObj?.fruits && (
+        <div className="d-flex">
+          <div className="tabular">fruits</div>
+          <div className="tabular">{props.paramsObj.fruits}</div>
+        </div>
+      )}
+      {props.paramsObj?.codes && (
+        <div className="d-flex">
+          <div className="tabular">codes</div>
+          <div className="tabular">{props.paramsObj.codes}</div>
+        </div>
+      )}
+      {props.paramsObj?.traceback && (
+        <div className="d-flex">
+          <div className="tabular">traceback</div>
+          <div className="tabular">{props.paramsObj.traceback}</div>
+        </div>
+      )}
+      {props.paramsObj?.tz && (
+        <div className="d-flex">
+          <div className="tabular">Timezone</div>
+          <div className="tabular">{props.paramsObj.tz}</div>
+        </div>
+      )}
+      {props.paramsObj?.start_time && (
+        <div className="d-flex">
+          <div className="tabular">start_time</div>
+          <div className="tabular">{props.paramsObj.start_time}</div>
+        </div>
+      )}
+      {props.paramsObj?.end_time && (
+        <div className="d-flex">
+          <div className="tabular">end_time</div>
+          <div className="tabular">{props.paramsObj.end_time}</div>
+        </div>
+      )}
+      {props.paramsObj?.generic && (
+        <div className="d-flex">
+          <div className="tabular">Generics</div>
+          <div className="tabular">{props.paramsObj.generic}</div>
+        </div>
+      )}
+      {props.paramsObj?.is_emulator && (
+        <div className="d-flex">
+          <div className="tabular">Is Emulator</div>
+          <div className="tabular">{props.paramsObj.is_emulator}</div>
+        </div>
+      )}
+      {props.paramsObj?.handled && (
+        <div className="d-flex">
+          <div className="tabular">Handled</div>
+          <div className="tabular">{props.paramsObj.handled}</div>
+        </div>
+      )}
+      {props.paramsObj?.aggregate_query && (
+        <div className="d-flex">
+          <div className="tabular">Group By</div>
+          <div className="tabular">{props.paramsObj.aggregate_query}</div>
+        </div>
+      )}
+      {props.paramsObj?.exceptions__primary && (
+        <div className="d-flex">
+          <div className="tabular">Primary Only</div>
+          <div className="tabular">{props.paramsObj.exceptions__primary}</div>
+        </div>
+      )}
     </div>
   );
 };

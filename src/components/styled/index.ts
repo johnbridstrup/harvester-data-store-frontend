@@ -174,3 +174,12 @@ export const TabContent = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const SidePane = styled.div<{ open: boolean }>`
+  position: relative;
+  width: ${(props) => (props.open === true ? "380px" : "0")};
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: 0.5s;
+`;
