@@ -3,9 +3,14 @@
  */
 
 import {
+  generatePareto,
+  getErrorReport,
   getS3File,
   login,
   queryDistributor,
+  queryErrorReport,
+  queryExceptionCode,
+  queryFruit,
   queryLocation,
   queryNotification,
   queryS3File,
@@ -18,6 +23,11 @@ const handlers = [
   getS3File,
   queryDistributor,
   queryLocation,
+  queryErrorReport,
+  getErrorReport,
+  queryExceptionCode,
+  queryFruit,
+  generatePareto,
 ];
 
 export default handlers;
