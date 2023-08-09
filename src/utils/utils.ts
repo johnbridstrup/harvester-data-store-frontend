@@ -17,7 +17,9 @@ import {
 } from "@/features/exception/exceptionTypes";
 import {
   ParamsString,
+  ParetoItem,
   QueryObject,
+  TransformedData,
 } from "@/components/errorreport/ErrorHelpers";
 import { Fruit } from "@/features/harvester/harvesterTypes";
 import { User } from "@/features/auth/authTypes";
@@ -1025,4 +1027,23 @@ export const monacoOptions = {
   wordWrapColumn: 80,
   wordWrapMinified: true,
   wrappingIndent: "none",
+};
+
+export const sortReduceParetos = (
+  paretos: ParetoItem[] = [],
+): TransformedData => {
+  paretos.sort((a, b) => b.count - a.count);
+
+  const [xlabels, ydata] = paretos.reduce<[string[], number[]]>(
+    (acc, pareto) => {
+      const [xlabelsAcc, ydataAcc] = acc;
+      return [
+        [...xlabelsAcc, pareto.value],
+        [...ydataAcc, pareto.count],
+      ];
+    },
+    [[], []],
+  );
+
+  return { xlabels, ydata };
 };

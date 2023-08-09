@@ -12,8 +12,10 @@ import {
   darkThemeClass,
   imagePath,
   selectDarkStyles,
+  uuid,
 } from "@/utils/utils";
 import { InputFormControl } from "../styled";
+import errorreportService from "@/features/errorreport/errorreportService";
 
 export interface ParamsString {
   harv_ids?: string;
@@ -127,6 +129,23 @@ export interface ParetoProps extends FormProps {
 interface ParetoTabProps {
   paramsObj: Record<string, any>;
   theme: string;
+}
+
+export interface ParetoItem {
+  value: string;
+  count: number;
+}
+
+export interface TransformedData {
+  xlabels: string[];
+  ydata: number[];
+}
+
+export interface ParetoState {
+  id: string;
+  paretos: TransformedData;
+  aggregate_query: string;
+  chart_title: string;
 }
 
 export const HoverTabular = (props: HoverProps) => {
@@ -893,4 +912,36 @@ export const ParetoTabular = (props: ParetoTabProps) => {
       )}
     </div>
   );
+};
+
+export const paretoApiService = async (
+  groups: Array<string>,
+  token: string,
+  aggregateObj: Record<string, any>,
+  setParetoArr: (arg0: any) => void,
+  memoizeSortReducePareto: Function,
+) => {
+  const paretoObjs = await Promise.all(
+    groups.map(async (group) => {
+      const chart_title = aggregateOptions.find((x) => x.value === group)
+        ?.label;
+
+      try {
+        const res = await errorreportService.genPareto(
+          { ...aggregateObj, aggregate_query: group },
+          token,
+        );
+        const { xlabels, ydata } = memoizeSortReducePareto(res);
+        return {
+          id: uuid(),
+          paretos: { xlabels, ydata },
+          aggregate_query: group,
+          chart_title,
+        };
+      } catch (error) {
+        return {};
+      }
+    }),
+  );
+  setParetoArr(paretoObjs);
 };
