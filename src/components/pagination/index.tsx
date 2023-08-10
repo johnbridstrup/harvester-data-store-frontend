@@ -14,6 +14,11 @@ import {
   paginateErrorReport,
 } from "@/features/errorreport/errorreportSlice";
 import { ERROR_REPORT_URL } from "@/features/errorreport/errorreportService";
+import {
+  paginateHarvester,
+  paginateHarvesterHistory,
+  paginateHarvesterVersion,
+} from "@/features/harvester/harvesterSlice";
 import { darkThemeClass, mapCurrentOffset } from "@/utils/utils";
 import { InputLimit, PageItem, SpanLimit } from "../styled";
 import { paginateUser } from "@/features/users/usersSlice";
@@ -331,6 +336,39 @@ export const PicksessionPagination = () => {
       url.protocol = "https:";
     }
     await dispatch(paginatePickSession(url.href));
+  };
+
+  return (
+    <GenericRenderer
+      handlePagination={handlePagination}
+      next={next}
+      previous={previous}
+    />
+  );
+};
+
+export const HarvesterPagination = ({ attr }: { attr?: string }) => {
+  const {
+    pagination: { next, previous },
+  } = useAppSelector((state) => state.harvester);
+  const dispatch = useAppDispatch();
+
+  const handlePagination = async (navigation: string) => {
+    const urlMap: { [key: string]: string | null } = {
+      next: next,
+      previous: previous,
+    };
+    const url = new URL(String(urlMap[navigation]));
+    if (import.meta.env.PROD) {
+      url.protocol = "https:";
+    }
+    if (attr === "harvesterversion") {
+      await dispatch(paginateHarvesterVersion(url.href));
+    } else if (attr === "harvesterhistory") {
+      await dispatch(paginateHarvesterHistory(url.href));
+    } else {
+      await dispatch(paginateHarvester(url.href));
+    }
   };
 
   return (
