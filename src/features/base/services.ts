@@ -154,4 +154,13 @@ export class BaseService {
     const res = await axiosService.get(`${url}${id}/`, token);
     return res;
   };
+
+  public factoryPatch = async (
+    url: string,
+    id: number,
+    token: string,
+    data: Record<string, any>,
+  ) => {
+    return await axiosService.patch(`${url}${id}`, token, data);
+  };
 }
