@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowDown,
@@ -9,10 +9,15 @@ import {
   DarkMode,
 } from "@/assets/svg";
 import { logout } from "@/features/auth/authSlice";
-import { THEME_MODES, FULLFILLED_PROMISE } from "@/features/base/constants";
+import {
+  THEME_MODES,
+  FULLFILLED_PROMISE,
+  NOTIFY_CATEGORY,
+  MAX_LIMIT,
+} from "@/features/base/constants";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import useClickOutside from "@/hooks/useClickOutside";
-// import notificationService from "@/features/notification/notificationService";
+import notificationService from "@/features/notification/notificationService";
 import Logo from "@/assets/images/aft_logo.png";
 import Avatar from "@/assets/images/avatar.png";
 import AllMenu from "./AllMenu";
@@ -31,7 +36,7 @@ function Navbar(props: NavbarProps) {
   const [showUserMenu, setshowUserMenu] = useState<boolean>(false);
   const [showAdminMenu, setshowAdminMenu] = useState<boolean>(false);
   const [showThemeMenu, setshowThemeMenu] = useState<boolean>(false);
-  const [count, _] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
   const { user, token } = useAppSelector((state) => state.auth);
   const { theme } = useAppSelector((state) => state.home);
   const dispatch = useAppDispatch();
@@ -53,24 +58,23 @@ function Navbar(props: NavbarProps) {
     setshowThemeMenu(false);
   });
 
-  // @Todo this will be implemented when notification feature is added
-  // const fetchNotification = useCallback(() => {
-  //   (async () => {
-  //     try {
-  //       const res = await notificationService.queryNotification(
-  //         { category: NOTIFY_CATEGORY.isRecipient, limit: MAX_LIMIT },
-  //         token
-  //       );
-  //       setCount(res.count);
-  //     } catch (error) {
-  //       setCount(0);
-  //     }
-  //   })();
-  // }, [token]);
+  const fetchNotification = useCallback(() => {
+    (async () => {
+      try {
+        const res = await notificationService.query(
+          { category: NOTIFY_CATEGORY.isRecipient, limit: MAX_LIMIT },
+          token as string,
+        );
+        setCount(res.count);
+      } catch (error) {
+        setCount(0);
+      }
+    })();
+  }, [token]);
 
-  // useEffect(() => {
-  //   fetchNotification();
-  // }, [fetchNotification]);
+  useEffect(() => {
+    fetchNotification();
+  }, [fetchNotification]);
 
   const handleLogout = async () => {
     const res = await dispatch(logout({ token }));

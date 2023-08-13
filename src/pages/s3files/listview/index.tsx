@@ -7,7 +7,7 @@ import { S3FilePagination } from "@/components/pagination";
 import S3FileList from "@/components/s3files/S3FileList";
 import S3FileQuery from "@/components/s3files/S3FileQuery";
 import { queryS3File } from "@/features/s3file/s3fileSlice";
-// import { getEventTags } from "@/features/event/eventSlice";
+import { getEventTags } from "@/features/event/eventSlice";
 import { paramsToObject } from "@/utils/utils";
 import "./styles.css";
 
@@ -18,7 +18,7 @@ function S3FileListView() {
 
   useEffect(() => {
     dispatch(queryS3File({ deleted: false, ...paramsObj }));
-    // dispatch(getEventTags());
+    dispatch(getEventTags());
   }, [dispatch, paramsObj]);
 
   return (

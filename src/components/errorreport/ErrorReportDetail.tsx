@@ -44,10 +44,13 @@ import TimeTable from "../tables/Timetable";
 import { ExceptTabular, QueryObject, RightButtonGroup } from "./ErrorHelpers";
 import CreateNotifModal from "../modals/CreateNotifModal";
 import timezones from "@/utils/timezones";
-import { queryFruit } from "@/features/harvester/harvesterSlice";
+import {
+  queryFruit,
+  queryHarvester,
+} from "@/features/harvester/harvesterSlice";
 import { queryLocation } from "@/features/location/locationSlice";
 import { queryExceptionCode } from "@/features/exception/exceptionSlice";
-// import { listUsers } from "features/user/userSlice";
+import { queryUsers } from "@/features/users/usersSlice";
 import { MAX_LIMIT, SUCCESS, THEME_MODES } from "@/features/base/constants";
 import { createNotification } from "@/features/notification/notificationSlice";
 import { SysmonKey } from "@/features/errorreport/errorreportTypes";
@@ -95,12 +98,10 @@ function ErrorReportDetail() {
     },
   } = useAppSelector((state) => state.errorreport);
   const { theme } = useAppSelector((state) => state.home);
-  // todo implement the harvester feature
-  // const { harvesters } = useAppSelector((state) => state.harvester);
   const { locations } = useAppSelector((state) => state.location);
-  const { fruits } = useAppSelector((state) => state.harvester);
+  const { fruits, harvesters } = useAppSelector((state) => state.harvester);
   const { exceptioncodes } = useAppSelector((state) => state.exception);
-  // const { users } = useAppSelector((state) => state.user);
+  const { users } = useAppSelector((state) => state.user);
 
   const [selectedHarvId, setSelectedHarvId] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -126,12 +127,12 @@ function ErrorReportDetail() {
   const downloadRef = useRef<HTMLButtonElement | null>(null);
   const createNotifRef = useRef<HTMLButtonElement | null>(null);
 
-  const harvesterOptions = transformHarvOptions([]);
+  const harvesterOptions = transformHarvOptions(harvesters);
   const locationOptions = transformLocOptions(locations);
   const timezoneOptions = transformTzOptions(timezones);
   const fruitOptions = transformFruitOptions(fruits);
   const codeOptions = transformCodeOptions(exceptioncodes);
-  const usersOptions = transformUserOptions([]);
+  const usersOptions = transformUserOptions(users);
 
   useEffect(() => {
     setSysmonReport(sysmonreport);
@@ -224,11 +225,11 @@ function ErrorReportDetail() {
     );
     createNotifRef.current?.click();
     await Promise.all([
-      // dispatch(listHarvesters({limit: MAX_LIMIT})),
+      dispatch(queryHarvester({ limit: MAX_LIMIT })),
       dispatch(queryLocation({ limit: MAX_LIMIT })),
       dispatch(queryFruit({ limit: MAX_LIMIT })),
       dispatch(queryExceptionCode({ limit: MAX_LIMIT })),
-      // dispatch(listUsers({limit: MAX_LIMIT})),
+      dispatch(queryUsers({ limit: MAX_LIMIT })),
     ]);
   };
 

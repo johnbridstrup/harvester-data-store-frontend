@@ -22,11 +22,11 @@ function S3FileQuery() {
   });
   const [selectedTag, setSelectedTag] = useState<any>(null);
   const { theme } = useAppSelector((state) => state.home);
-  // const { tags } = useAppSelector((state) => state.event);
+  const { tags } = useAppSelector((state) => state.event);
   const dispatch = useAppDispatch();
   const { search } = useLocation();
   const customStyles = theme === THEME_MODES.DARK_THEME ? selectDarkStyles : {};
-  const tagOptions = transformTagsOptions([]);
+  const tagOptions = transformTagsOptions(tags);
 
   useEffect(() => {
     const paramsObj = paramsToObject(search);

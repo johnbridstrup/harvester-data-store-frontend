@@ -52,18 +52,17 @@ function ErrorReportQuery() {
     pagination: { count },
     internal: { hovered },
   } = useAppSelector((state) => state.errorreport);
-  const { fruits } = useAppSelector((state) => state.harvester);
+  const { harvesters, fruits } = useAppSelector((state) => state.harvester);
   const { locations } = useAppSelector((state) => state.location);
   const { exceptioncodes } = useAppSelector((state) => state.exception);
-  // const { users } = useAppSelector((state) => state.user);
+  const { users } = useAppSelector((state) => state.user);
   const { theme } = useAppSelector((state) => state.home);
-  // @todo implement after harvester feature is implemented
-  const harvesterOptions = transformHarvOptions([]);
+  const harvesterOptions = transformHarvOptions(harvesters);
   const locationOptions = transformLocOptions(locations);
   const timezoneOptions = transformTzOptions(timezones);
   const fruitOptions = transformFruitOptions(fruits);
   const codeOptions = transformCodeOptions(exceptioncodes);
-  const usersOptions = transformUserOptions([]);
+  const usersOptions = transformUserOptions(users);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { search } = useLocation();

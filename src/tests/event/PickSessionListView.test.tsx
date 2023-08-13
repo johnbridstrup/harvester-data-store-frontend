@@ -1,6 +1,6 @@
 import { render, screen, getByText } from "@/test-utils";
 import userEvent from "@testing-library/user-event";
-// import selectEvent from "react-select-event";
+import selectEvent from "react-select-event";
 import PickSessionListView from "@/pages/event/picksessionlist";
 
 test("should render the pickssession list view", async () => {
@@ -49,13 +49,12 @@ test("should render the pickssession list view", async () => {
   await user.type(uuidInput, "fake-uuid");
   await user.type(startTime, "20230322174630");
   await user.type(endTime, "20230322174631");
-  // @todo
-  // await selectEvent.select(harvIdSelect, ["11"]);
-  // await selectEvent.select(ranchSelect, ["Ranch A"]);
+  await selectEvent.select(harvIdSelect, ["11"]);
+  await selectEvent.select(ranchSelect, ["Ranch A"]);
 
   expect(form).toHaveFormValues({
-    // harv_ids: "11",
-    // locations: "Ranch A",
+    harv_ids: "11",
+    locations: "Ranch A",
     start_time: "20230322174630",
     end_time: "20230322174631",
     uuid: "fake-uuid",

@@ -10,9 +10,9 @@ import {
   queryPickSession,
 } from "@/features/event/eventSlice";
 import { PicksessionPagination } from "@/components/pagination/";
-// import { listHarvesters } from "features/harvester/harvesterSlice";
-// import { MAX_LIMIT } from "@/features/base/constants";
-// import { listLocations } from "features/location/locationSlice";
+import { queryHarvester } from "@/features/harvester/harvesterSlice";
+import { MAX_LIMIT } from "@/features/base/constants";
+import { queryLocation } from "@/features/location/locationSlice";
 import { paramsToObject } from "@/utils/utils";
 import "./styles.css";
 
@@ -24,8 +24,8 @@ function PickSessionListView() {
     dispatch(queryPickSession(paramsToObject(search)));
     (async () => {
       await Promise.all([
-        // dispatch(listHarvesters(MAX_LIMIT)),
-        // dispatch(listLocations(MAX_LIMIT)),
+        dispatch(queryHarvester({ limit: MAX_LIMIT })),
+        dispatch(queryLocation({ limit: MAX_LIMIT })),
         dispatch(getPickSessionTags()),
       ]);
     })();

@@ -79,8 +79,7 @@ test("should render the error report pareto view", async () => {
   await user.click(handled);
   await user.click(primaryOnly);
 
-  // @todo activate this after harvester feature implemented
-  // await selectEvent.select(harvIdSelect, ["11"]);
+  await selectEvent.select(harvIdSelect, ["11"]);
   await selectEvent.select(ranchSelect, ["Ranch A"]);
   await selectEvent.select(fruitSelect, ["apple"]);
   await selectEvent.select(codeSelect, ["0: AFTBaseException"]);
@@ -97,7 +96,7 @@ test("should render the error report pareto view", async () => {
 
   expect(form).toHaveFormValues({
     fruit: "apple",
-    // harv_ids: "11",
+    harv_ids: "11",
     locations: "Ranch A",
     code: "0",
     traceback: "traceback",

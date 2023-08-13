@@ -31,13 +31,13 @@ function PickSessionQuery() {
     start_time: "",
     end_time: "",
   });
-  // const { harvesters } = useAppSelector((state) => state.harvester);
+  const { harvesters } = useAppSelector((state) => state.harvester);
   const { locations } = useAppSelector((state) => state.location);
   const { tags } = useAppSelector((state) => state.event);
   const { theme } = useAppSelector((state) => state.home);
   const dispatch = useAppDispatch();
   const { search } = useLocation();
-  const harvesterOptions = transformHarvOptions([]);
+  const harvesterOptions = transformHarvOptions(harvesters);
   const locationOptions = transformLocOptions(locations);
   const tagOptions = tags.map((x) => {
     return { label: x, value: x };

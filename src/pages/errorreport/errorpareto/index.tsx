@@ -6,7 +6,10 @@ import { Header, BackButton } from "@/components/common";
 import MainLayout from "@/components/layout/main";
 import { generatePareto } from "@/features/errorreport/errorreportSlice";
 import { paramsToObject } from "@/utils/utils";
-import { queryFruit } from "@/features/harvester/harvesterSlice";
+import {
+  queryFruit,
+  queryHarvester,
+} from "@/features/harvester/harvesterSlice";
 import { queryLocation } from "@/features/location/locationSlice";
 import { queryExceptionCode } from "@/features/exception/exceptionSlice";
 import { MAX_LIMIT } from "@/features/base/constants";
@@ -22,7 +25,7 @@ function ErrorReportParetoView() {
     (async () => {
       dispatch(generatePareto(paramsObj));
       await Promise.all([
-        // dispatch(queryHarvester(MAX_LIMIT)),
+        dispatch(queryHarvester({ limit: MAX_LIMIT })),
         dispatch(queryLocation({ limit: MAX_LIMIT })),
         dispatch(queryFruit({ limit: MAX_LIMIT })),
         dispatch(queryExceptionCode({ limit: MAX_LIMIT })),

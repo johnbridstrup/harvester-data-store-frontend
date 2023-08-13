@@ -4,7 +4,7 @@ import { useAppDispatch } from "@/app/hooks";
 import MainLayout from "@/components/layout/main";
 import ErrorReportQuery from "@/components/errorreport/ErrorReportQuery";
 import ErrorReportTable from "@/components/errorreport/ErrorReportTable";
-// import { listHarvesters } from "@/features/harvester/harvesterSlice";
+import { queryHarvester } from "@/features/harvester/harvesterSlice";
 import { queryLocation } from "@/features/location/locationSlice";
 import {
   copyQueryUrl,
@@ -16,7 +16,7 @@ import { CopyToClipboard } from "@/components/copytoclipboard";
 import { MAX_LIMIT } from "@/features/base/constants";
 import { queryFruit } from "@/features/harvester/harvesterSlice";
 import { queryExceptionCode } from "@/features/exception/exceptionSlice";
-// import { listUsers } from "@/features/user/userSlice";
+import { queryUsers } from "@/features/users/usersSlice";
 import { Header } from "@/components/common";
 import "./styles.css";
 
@@ -27,11 +27,11 @@ function ErrorReportListView() {
   useEffect(() => {
     (async () => {
       await Promise.all([
-        // dispatch(listHarvesters(MAX_LIMIT)),
+        dispatch(queryHarvester({ limit: MAX_LIMIT })),
         dispatch(queryLocation({ limit: MAX_LIMIT })),
         dispatch(queryFruit({ limit: MAX_LIMIT })),
         dispatch(queryExceptionCode({ limit: MAX_LIMIT })),
-        // dispatch(listUsers(MAX_LIMIT)),
+        dispatch(queryUsers({ limit: MAX_LIMIT })),
       ]);
     })();
     if (search) {

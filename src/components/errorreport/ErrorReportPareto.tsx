@@ -57,12 +57,12 @@ function ErrorReportPareto() {
     primary: false,
   });
   const [loading, setLoading] = useState(false);
-  const { fruits } = useAppSelector((state) => state.harvester);
+  const { fruits, harvesters } = useAppSelector((state) => state.harvester);
   const { locations } = useAppSelector((state) => state.location);
   const { exceptioncodes } = useAppSelector((state) => state.exception);
   const { theme } = useAppSelector((state) => state.home);
   const { token } = useAppSelector((state) => state.auth);
-  const harvesterOptions = transformHarvOptions([]);
+  const harvesterOptions = transformHarvOptions(harvesters);
   const locationOptions = transformLocOptions(locations);
   const timezoneOptions = transformTzOptions(timezones);
   const fruitOptions = transformFruitOptions(fruits);
