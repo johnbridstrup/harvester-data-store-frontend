@@ -1112,3 +1112,18 @@ export const titleCase = (str: string, separator: string = " "): string => {
   }
   return strArr.join(" ");
 };
+
+/**
+ * Get history type from symbol
+ * @param historyType
+ * @returns
+ */
+export const getHistoryType = (historyType: string) => {
+  return historyType === "+"
+    ? "created"
+    : historyType === "~"
+    ? "updated"
+    : historyType === "-"
+    ? "deleted"
+    : "";
+};
