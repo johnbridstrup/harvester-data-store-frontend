@@ -379,3 +379,30 @@ export const HarvesterPagination = ({ attr }: { attr?: string }) => {
     />
   );
 };
+
+export const ReportPagination = () => {
+  const {
+    pagination: { next, previous },
+  } = useAppSelector((state) => state.errorreport);
+  const dispatch = useAppDispatch();
+
+  const handlePagination = async (navigation: string) => {
+    const urlMap: { [key: string]: string | null } = {
+      next: next,
+      previous: previous,
+    };
+    const url = new URL(String(urlMap[navigation]));
+    if (import.meta.env.PROD) {
+      url.protocol = "https:";
+    }
+    await dispatch(paginateErrorReport(url.href));
+  };
+
+  return (
+    <GenericRenderer
+      handlePagination={handlePagination}
+      next={next}
+      previous={previous}
+    />
+  );
+};
