@@ -22,6 +22,8 @@ jobs:
           node-version: "16"
       - name: install dependencies
         run: npm install --ignore-scripts
+      - name: check for lint issue
+        run: npm run check
       - name: build frontend
         run: npm run build
       - name: test frontend
