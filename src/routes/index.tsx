@@ -33,6 +33,9 @@ const PickSessionDetailView = lazy(
   () => import("@/pages/event/picksessiondetail"),
 );
 const HarvesterListView = lazy(() => import("@/pages/harvester/harvesterlist"));
+const HarvesterDetailView = lazy(
+  () => import("@/pages/harvester/harvesterdetail"),
+);
 
 function BaseRoutes() {
   return (
@@ -307,6 +310,22 @@ function BaseRoutes() {
               }
             >
               <HarvesterListView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/harvesters/:harvId"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <HarvesterDetailView />
             </Suspense>
           </RequireUser>
         }
