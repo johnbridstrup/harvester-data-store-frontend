@@ -1047,3 +1047,68 @@ export const sortReduceParetos = (
 
   return { xlabels, ydata };
 };
+
+/**
+ * Check if aft-config has traceback or error data
+ * sent. This takes into account that error and traceback
+ * of type string
+ * @param config
+ * @returns
+ */
+export const hasTraceback = (config: Record<string, any> = {}) => {
+  for (const key in config) {
+    if (typeof config[key] !== "object") {
+      return true;
+    }
+  }
+  return false;
+};
+
+/**
+ * Transform aft-config report and pop out conf_default_(host) since it's too large for rendering(legacy)
+ *
+ * New config report is compartible but doesn't need poping off conf_default_(host)
+ * @param config
+ * @returns
+ */
+export const transformConfig = (config: Record<string, any> = {}) => {
+  if (hasTraceback(config)) {
+    return { errored: true, obj: config };
+  } else {
+    const newObj: Record<string, any> = {};
+    for (const key in config) {
+      const value = config[key];
+      for (const innerKey in value) {
+        if (innerKey.includes("conf_default")) {
+          delete value[innerKey];
+        } else {
+          newObj[key] = value;
+        }
+      }
+    }
+    return { errored: false, obj: newObj };
+  }
+};
+
+/**
+ * Return the keys as array of a given object
+ * @param {object} obj
+ * @returns
+ */
+export const objectKeys = (obj: Record<string, any> = {}) => {
+  return Object.keys(obj);
+};
+
+/**
+ * Convert string to Title case
+ * @param str
+ * @param separator
+ * @returns
+ */
+export const titleCase = (str: string, separator: string = " "): string => {
+  let strArr = str.toLowerCase().split(separator);
+  for (var i = 0; i < strArr.length; i++) {
+    strArr[i] = strArr[i].charAt(0).toUpperCase() + strArr[i].slice(1);
+  }
+  return strArr.join(" ");
+};

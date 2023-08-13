@@ -183,3 +183,11 @@ export const SidePane = styled.div<{ open: boolean }>`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   transition: 0.5s;
 `;
+
+export const JsonDiv = styled.div`
+  width: 100%;
+  height: 400px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow-y: scroll;
+`;
