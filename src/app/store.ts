@@ -11,6 +11,7 @@ import errorreportReducer from "@/features/errorreport/errorreportSlice";
 import usersReducer from "@/features/users/usersSlice";
 import eventReducer from "@/features/event/eventSlice";
 import harvdeployReducer from "@/features/harvdeploy/harvdeploySlice";
+import aftconfigReducer from "@/features/aftconfig/aftconfigSlice";
 
 const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ const store = configureStore({
     user: usersReducer,
     event: eventReducer,
     harvdeploy: harvdeployReducer,
+    aftconfig: aftconfigReducer,
   },
   devTools: import.meta.env.DEV,
 });
