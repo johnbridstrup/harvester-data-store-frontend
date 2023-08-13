@@ -14,7 +14,10 @@ import {
   ERROR_REPORT_URL,
 } from "@/features/errorreport/errorreportService";
 import { EXCEPTION_CODE_URL } from "@/features/exception/exceptionService";
-import { FRUITS_URL } from "@/features/harvester/harvesterService";
+import {
+  FRUITS_URL,
+  HARVESTERS_URL,
+} from "@/features/harvester/harvesterService";
 import { ParetoItem } from "@/components/errorreport/ErrorHelpers";
 import { USERS_URL } from "@/features/users/usersService";
 import notification from "@/test-utils/test-data/notification.json";
@@ -27,6 +30,7 @@ import fruit from "@/test-utils/test-data/fruit.json";
 import user from "@/test-utils/test-data/user.json";
 import { EVENTS_URL, PICKSESSION_URL } from "@/features/event/eventService";
 import { eventobj, picksession } from "@/test-utils/test-data/event";
+import harvester from "@/test-utils/test-data/harvester.json";
 
 interface Data {
   count: number;
@@ -207,6 +211,21 @@ export const getPickSession = rest.get(
   (_, res, ctx) => {
     genericGetResponse["message"] = "picksession retrieved successfully";
     genericGetResponse["data"] = picksession;
+    return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const queryHarvester = rest.get(HARVESTERS_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "harvesters retrieved successfully";
+  genericListResponse["data"]["results"] = [harvester];
+  return res(ctx.json(genericListResponse));
+});
+
+export const getHarvester = rest.get(
+  `${HARVESTERS_URL}:harvId`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "harvester retrieved successfully";
+    genericGetResponse["data"] = harvester;
     return res(ctx.json(genericGetResponse));
   },
 );

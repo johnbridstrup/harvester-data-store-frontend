@@ -19,6 +19,8 @@ import {
   queryPickSession,
   queryS3File,
   queryUser,
+  queryHarvester,
+  getHarvester,
 } from "./actions";
 
 const handlers = [
@@ -38,6 +40,8 @@ const handlers = [
   getEvent,
   queryPickSession,
   getPickSession,
+  queryHarvester,
+  getHarvester,
 ];
 
 export default handlers;

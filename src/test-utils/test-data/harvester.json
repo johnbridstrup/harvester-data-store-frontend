@@ -1,0 +1,88 @@
+{
+  "id": 1,
+  "fruit": {
+    "id": 2,
+    "created": "2022-04-26T10:06:41.304000Z",
+    "lastModified": "2022-04-26T10:06:41.304000Z",
+    "name": "apple",
+    "creator": 2,
+    "modifiedBy": null
+  },
+  "location": {
+    "id": 2,
+    "created": "2022-04-26T10:05:49.037000Z",
+    "lastModified": "2022-04-26T10:06:02.486000Z",
+    "ranch": "Ranch B",
+    "country": "United States",
+    "region": "Texas",
+    "site_channel": "harvs-dev",
+    "creator": 2,
+    "modifiedBy": 2,
+    "distributor": 1
+  },
+  "release": null,
+  "creator": {
+    "id": 2,
+    "username": "not_aft"
+  },
+  "modifiedBy": null,
+  "created": "2022-04-26T10:07:18.334000Z",
+  "lastModified": "2022-04-26T10:07:18.334000Z",
+  "harv_id": 11,
+  "name": "aft-harv011",
+  "is_emulator": false,
+  "thingName": null,
+  "harvester_history": "/harvesterhistory/?harv_id=11",
+  "version_history": "versions/",
+  "assets": "assets/",
+  "config": "config/",
+  "version": {
+    "id": 7,
+    "tags": [],
+    "created": "2022-11-10T20:52:50.187000Z",
+    "lastModified": "2022-11-10T20:53:14.955000Z",
+    "reportTime": "2022-11-10T20:49:55Z",
+    "report": {
+      "type": "version",
+      "data": {
+        "serial_number": "200",
+        "master": {
+          "version": 1.0,
+          "dirty": {},
+          "unexpected": {}
+        },
+        "robot.1": {
+          "version": 1.0,
+          "dirty": {},
+          "unexpected": {}
+        },
+        "stereo.1": {
+          "version": 1.0,
+          "dirty": {},
+          "unexpected": {}
+        },
+        "robot.2": {
+          "version": 1.0,
+          "dirty": {},
+          "unexpected": {}
+        },
+        "stereo.2": {
+          "version": 1.0,
+          "dirty": {},
+          "unexpected": {
+            "package": "1.1"
+          }
+        }
+      }
+    },
+    "is_dirty": false,
+    "has_unexpected": true,
+    "creator": 1,
+    "modifiedBy": null,
+    "location": null,
+    "harvester": 3,
+    "conflicts": {
+      "error": "No release"
+    }
+  }
+}
