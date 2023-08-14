@@ -1534,3 +1534,21 @@ export const enforceHttps = (url: string): string => {
   }
   return newurl.href;
 };
+
+/**
+ * Transform tags into required shape
+ * @param tags
+ * @param self
+ * @returns
+ */
+export const transformTags = (tags: Array<string>, self: boolean = false) => {
+  if (self) {
+    return tags.map((tag) => {
+      return { id: uuid(), name: tag, checked: true };
+    });
+  } else {
+    return tags.map((tag) => {
+      return { id: uuid(), name: tag, checked: false };
+    });
+  }
+};
