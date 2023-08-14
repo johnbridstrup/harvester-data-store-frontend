@@ -1,0 +1,42 @@
+{
+  "id": 1,
+  "tags": [],
+  "created": "2022-10-10T22:25:38.062000Z",
+  "lastModified": "2022-11-10T20:53:14.952000Z",
+  "reportTime": "2022-10-10T22:25:24Z",
+  "report": {
+    "type": "version",
+    "data": {
+      "serial_number": "011",
+      "master": {
+        "version": 1.0,
+        "dirty": {}
+      },
+      "robot.1": {
+        "version": 1.0,
+        "dirty": {}
+      },
+      "stereo.1": {
+        "version": 1.0,
+        "dirty": {}
+      },
+      "robot.2": {
+        "version": 1.0,
+        "dirty": {}
+      },
+      "stereo.2": {
+        "version": 1.0,
+        "dirty": {}
+      }
+    }
+  },
+  "is_dirty": false,
+  "has_unexpected": false,
+  "creator": 1,
+  "modifiedBy": null,
+  "location": null,
+  "harvester": 3,
+  "conflicts": {
+    "error": "No release"
+  }
+}

@@ -23,6 +23,7 @@ import {
   getHarvester,
   queryHarvesterHistory,
   getHarvesterHistory,
+  queryHarvesterVersion,
 } from "./actions";
 
 const handlers = [
@@ -46,6 +47,7 @@ const handlers = [
   getHarvester,
   queryHarvesterHistory,
   getHarvesterHistory,
+  queryHarvesterVersion,
 ];
 
 export default handlers;

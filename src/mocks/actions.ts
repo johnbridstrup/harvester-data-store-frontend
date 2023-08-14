@@ -33,6 +33,7 @@ import { EVENTS_URL, PICKSESSION_URL } from "@/features/event/eventService";
 import { eventobj, picksession } from "@/test-utils/test-data/event";
 import harvester from "@/test-utils/test-data/harvester.json";
 import harvesterhistory from "@/test-utils/test-data/harvesterhistory.json";
+import harvesterversion from "@/test-utils/test-data/harvesterversion.json";
 
 interface Data {
   count: number;
@@ -247,5 +248,14 @@ export const getHarvesterHistory = rest.get(
     genericGetResponse["message"] = "harvester history retrieved successfully";
     genericGetResponse["data"] = harvesterhistory;
     return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const queryHarvesterVersion = rest.get(
+  `${HARVESTERS_URL}:harvId/versions`,
+  (_, res, ctx) => {
+    genericListResponse["message"] = "Harvester 11 version history";
+    genericListResponse["data"]["results"] = [harvesterversion];
+    return res(ctx.json(genericListResponse));
   },
 );
