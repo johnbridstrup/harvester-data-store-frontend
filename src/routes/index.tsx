@@ -53,6 +53,9 @@ const AutodiagnosticListView = lazy(
 const AutodiagnosticDetailView = lazy(
   () => import("@/pages/autodiagnostic/detailview"),
 );
+const LogSessionListView = lazy(
+  () => import("@/pages/logparser/logsession/listview"),
+);
 
 function BaseRoutes() {
   return (
@@ -455,6 +458,22 @@ function BaseRoutes() {
               }
             >
               <AutodiagnosticDetailView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/logsession"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <LogSessionListView />
             </Suspense>
           </RequireUser>
         }
