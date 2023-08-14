@@ -21,6 +21,8 @@ import {
   queryUser,
   queryHarvester,
   getHarvester,
+  queryHarvesterHistory,
+  getHarvesterHistory,
 } from "./actions";
 
 const handlers = [
@@ -42,6 +44,8 @@ const handlers = [
   getPickSession,
   queryHarvester,
   getHarvester,
+  queryHarvesterHistory,
+  getHarvesterHistory,
 ];
 
 export default handlers;

@@ -1,0 +1,37 @@
+{
+  "history_id": 1,
+  "fruit": {
+    "id": 2,
+    "created": "2022-04-26T10:06:41.304000Z",
+    "lastModified": "2022-04-26T10:06:41.304000Z",
+    "name": "apple",
+    "creator": 2,
+    "modifiedBy": null
+  },
+  "location": {
+    "id": 2,
+    "created": "2022-04-26T10:05:49.037000Z",
+    "lastModified": "2022-04-26T10:06:02.486000Z",
+    "ranch": "Ranch B",
+    "country": "United States",
+    "region": "Texas",
+    "site_channel": "harvs-dev",
+    "creator": 2,
+    "modifiedBy": 2,
+    "distributor": 1
+  },
+  "release": null,
+  "id": 3,
+  "created": "2022-04-26T10:07:18.334000Z",
+  "lastModified": "2022-04-26T10:07:18.334000Z",
+  "harv_id": 11,
+  "name": "aft-harv011",
+  "is_emulator": false,
+  "thingName": null,
+  "history_date": "2022-10-10T21:51:41.091000Z",
+  "history_change_reason": "",
+  "history_type": "+",
+  "creator": 2,
+  "modifiedBy": null,
+  "history_user": null
+}
