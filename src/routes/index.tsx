@@ -91,6 +91,9 @@ const ScheduledJobListView = lazy(
 const ScheduledJobDetailView = lazy(
   () => import("@/pages/jobscheduler/detailview"),
 );
+const ReleaseCodeListView = lazy(
+  () => import("@/pages/harvdeploy/releaselist"),
+);
 
 function BaseRoutes() {
   return (
@@ -781,6 +784,22 @@ function BaseRoutes() {
               }
             >
               <ScheduledJobDetailView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/release"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <ReleaseCodeListView />
             </Suspense>
           </RequireUser>
         }
