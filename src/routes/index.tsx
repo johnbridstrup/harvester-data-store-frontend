@@ -39,6 +39,9 @@ const HarvesterDetailView = lazy(
 const HarvesterHistoryListView = lazy(
   () => import("@/pages/harvester/historylist"),
 );
+const HarvesterHistoryDetailView = lazy(
+  () => import("@/pages/harvester/historydetail"),
+);
 
 function BaseRoutes() {
   return (
@@ -345,6 +348,22 @@ function BaseRoutes() {
               }
             >
               <HarvesterHistoryListView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/harvesterhistory/:historyId"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <HarvesterHistoryDetailView />
             </Suspense>
           </RequireUser>
         }
