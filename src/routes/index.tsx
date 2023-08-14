@@ -36,6 +36,9 @@ const HarvesterListView = lazy(() => import("@/pages/harvester/harvesterlist"));
 const HarvesterDetailView = lazy(
   () => import("@/pages/harvester/harvesterdetail"),
 );
+const HarvesterVersionView = lazy(
+  () => import("@/pages/harvester/harvesterversion"),
+);
 const HarvesterHistoryListView = lazy(
   () => import("@/pages/harvester/historylist"),
 );
@@ -332,6 +335,22 @@ function BaseRoutes() {
               }
             >
               <HarvesterDetailView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/harvesters/:harvId/versions"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <HarvesterVersionView />
             </Suspense>
           </RequireUser>
         }
