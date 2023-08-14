@@ -24,6 +24,7 @@ import { InputLimit, PageItem, SpanLimit } from "../styled";
 import { paginateUser } from "@/features/users/usersSlice";
 import { paginateMigration } from "@/features/migration/migrationSlice";
 import { paginateAutodiagReport } from "@/features/autodiagnostic/autodiagnosticSlice";
+import { paginateLogSession } from "@/features/logparser/logparserSlice";
 
 interface RendererProps {
   handlePagination: (navigation: string) => void;
@@ -452,6 +453,33 @@ export const AutodiagPagination = () => {
       url.protocol = "https:";
     }
     await dispatch(paginateAutodiagReport(url.href));
+  };
+
+  return (
+    <GenericRenderer
+      handlePagination={handlePagination}
+      next={next}
+      previous={previous}
+    />
+  );
+};
+
+export const LogSessionPagination = () => {
+  const {
+    pagination: { next, previous },
+  } = useAppSelector((state) => state.logparser);
+  const dispatch = useAppDispatch();
+
+  const handlePagination = async (navigation: string) => {
+    const urlMap: { [key: string]: string | null } = {
+      next: next,
+      previous: previous,
+    };
+    const url = new URL(String(urlMap[navigation]));
+    if (import.meta.env.PROD) {
+      url.protocol = "https:";
+    }
+    await dispatch(paginateLogSession(url.href));
   };
 
   return (
