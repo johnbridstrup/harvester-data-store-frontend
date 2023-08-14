@@ -6,6 +6,7 @@
 import { MultiValue } from "react-select";
 import {
   API_URL,
+  LOG_STR_PATTERN,
   MASTER_ROBOT,
   PushStateEnum,
   THEME_MODES,
@@ -34,6 +35,7 @@ import {
   SensorArrays,
   SensorData,
 } from "@/features/autodiagnostic/autodiagnosticTypes";
+import { Content, LogFile, Service } from "@/features/logparser/logparserTypes";
 
 /**
  * Evaluate for dark theme className
@@ -1242,4 +1244,213 @@ export const transformSensors = (
   );
 
   return { touch, vacuum, finger };
+};
+
+/**
+ * This implements the binary search algorithm
+ * to find the closest timestamp from the
+ * logs timestamp
+ * @param target
+ *
+ * @param arr array of log entries
+ *
+ *    => target is the timestamp to find e.g
+ *       1667345034.422079
+ *
+ *    => arr is the array of log objects containing
+ *        timestamp, log_message, and log_date
+ * finds the closest or exact timestamp
+ *
+ * @returns log object
+ */
+export function findClosest(target: number, arr: Array<Content>): Content {
+  let n = arr.length;
+
+  if (target <= arr[0]?.timestamp) return arr[0];
+  if (target >= arr[n - 1]?.timestamp) return arr[n - 1];
+
+  let start = 0;
+  let end = n;
+  let mid = 0;
+  while (start < end) {
+    mid = Math.floor((start + end) / 2);
+
+    if (arr[mid]?.timestamp === target) return arr[mid];
+
+    if (target < arr[mid]?.timestamp) {
+      if (mid > 0 && target > arr[mid - 1]?.timestamp) {
+        return getClosest(arr[mid - 1], arr[mid], target);
+      }
+      end = mid;
+    } else {
+      if (mid < n - 1 && target < arr[mid + 1]?.timestamp) {
+        return getClosest(arr[mid], arr[mid + 1], target);
+      }
+      start = mid + 1;
+    }
+  }
+
+  return arr[mid];
+}
+
+/**
+ * Finds the closest timestamp
+ * return the object.
+ *
+ * @param a log object
+ *
+ * @param b log object
+ *
+ * @param target timestamp
+ *
+ */
+function getClosest(a: Content, b: Content, target: number): Content {
+  if (target - a?.timestamp >= b?.timestamp - target) {
+    return b;
+  } else {
+    return a;
+  }
+}
+
+/**
+ * Transforms robot array to required obj shape
+ * excludes robot 0
+ *
+ * @param robots - array of numbers
+ *
+ * @returns Array of object
+ *
+ * @example
+ *    robots = [0, 3]
+ *      // => [{label: 'robot 3', value: 3}]
+ */
+export const transformRobots = (robots: Array<number>) => {
+  const robotArr: Array<{ label: string; value: number }> = [];
+  robots.forEach((robot) => {
+    if (robot !== 0) {
+      robotArr.push({ label: `robot ${robot}`, value: robot });
+    }
+  });
+  return robotArr;
+};
+
+/**
+ * Finds the currentIndex of log entry matched
+ * from timestamp.
+ *
+ * @param currentMarker
+ *
+ * @param data
+ *
+ * @returns index
+ *
+ */
+export const getCurrIndex = (currentMarker: number, data: LogFile) => {
+  return new Promise<number>((resolve, _) => {
+    let closest = findClosest(currentMarker, data.content);
+    let currIndex = data.content?.findIndex(
+      (x) => x.timestamp === closest?.timestamp,
+    );
+    currIndex = currIndex > 0 ? currIndex : 0;
+    resolve(currIndex);
+  });
+};
+
+/**
+ * Transform services and
+ * sorts alphabetically then numerically (ascending order)
+ *
+ * @param {array} services array of objects
+ *
+ * @returns {array} Array of objects
+ */
+export const sortServices = (services: Array<Service>) => {
+  let servicesArr = services.map((x) => {
+    return { ...x, display: `${x.service}.${x.robot}` };
+  });
+  return servicesArr.sort((a, b) =>
+    a.display > b.display ? 1 : b.display > a.display ? -1 : 0,
+  );
+};
+
+/**
+ * Get unique video categories for the 3 video types
+ * i. "Robot",
+ * ii. "Workcell right",
+ * iii. "Workcell left"
+ *
+ * @param categories array of objects
+ *
+ * @returns Array of video object
+ */
+export const uniqueVideoTabs = (categories = []) => {
+  let key = "category";
+  let arrayUniqueByKey = [
+    ...new Map(categories.map((item) => [item[key], item])).values(),
+  ];
+  return arrayUniqueByKey;
+};
+
+/**
+ * Finds and return index of the log else returns 0
+ *
+ * @param content array of objects
+ *
+ * @param obj - log object
+ *
+ * @returns Index
+ */
+export const findLogIndex = (content: Array<Content> = [], obj: Content) => {
+  let objIndex = content.findIndex((item) => item.timestamp === obj.timestamp);
+  return objIndex > 0 ? objIndex : 0;
+};
+
+/**
+ * Match pattern for log message
+ *
+ * @param message
+ * @param ext
+ * @returns log object
+ */
+export const logContent = (message: string = "", ext: string = ".log") => {
+  let log: Record<string, any> = {};
+  let splittedArr;
+
+  if (ext === ".log") {
+    let wholeMatch = message.match(LOG_STR_PATTERN);
+    if (wholeMatch) {
+      splittedArr = wholeMatch[0].split(" ");
+      log["timestamp"] = splittedArr[0].replace("[", "").replace("]", "");
+      log["log_level"] = splittedArr[1].replace("[", "").replace("]", "");
+      log["service"] = splittedArr[2].replace("[", "").replace("]", "");
+    }
+    splittedArr = message.split("-- ");
+    log["log"] = `-- ${splittedArr[1]}`;
+  } else if (ext === ".dump") {
+    splittedArr = message.split("  ");
+    log["timestamp"] = splittedArr[0].replace("[", "").replace("]", "");
+    log["log_level"] = splittedArr[1];
+    log["service"] = splittedArr[2];
+    log["log"] = splittedArr[3];
+  }
+  return log;
+};
+
+/**
+ * Filters out comma separated strings
+ * and return combined set array of filters
+ * @param str
+ * @param content
+ * @returns
+ */
+export const logFilter = (str: string, content: Array<Content> = []) => {
+  const splitStr = str.split(",").map((s) => s.toLowerCase().trim());
+  const filteredArr = splitStr.reduce<Array<Content>>((acc, curr) => {
+    const filtered = content.filter((obj) =>
+      obj.log_message.toLowerCase().includes(curr),
+    );
+    return filtered.length > 0 ? [...acc, ...filtered] : acc;
+  }, []);
+
+  return [...new Set(filteredArr)];
 };
