@@ -13,6 +13,7 @@ import eventReducer from "@/features/event/eventSlice";
 import harvdeployReducer from "@/features/harvdeploy/harvdeploySlice";
 import aftconfigReducer from "@/features/aftconfig/aftconfigSlice";
 import migrationReducer from "@/features/migration/migrationSlice";
+import autodiagnosticReducer from "@/features/autodiagnostic/autodiagnosticSlice";
 
 const store = configureStore({
   reducer: {
@@ -30,6 +31,7 @@ const store = configureStore({
     harvdeploy: harvdeployReducer,
     aftconfig: aftconfigReducer,
     migration: migrationReducer,
+    autodiagnostic: autodiagnosticReducer,
   },
   devTools: import.meta.env.DEV,
 });
