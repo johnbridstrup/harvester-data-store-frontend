@@ -26,6 +26,8 @@ import {
   queryHarvesterVersion,
   queryMigrationLog,
   getMigrationLog,
+  queryAutodiagReport,
+  getAutodiagReport,
 } from "./actions";
 
 const handlers = [
@@ -52,6 +54,8 @@ const handlers = [
   queryHarvesterVersion,
   queryMigrationLog,
   getMigrationLog,
+  queryAutodiagReport,
+  getAutodiagReport,
 ];
 
 export default handlers;

@@ -36,6 +36,11 @@ import harvester from "@/test-utils/test-data/harvester.json";
 import harvesterhistory from "@/test-utils/test-data/harvesterhistory.json";
 import harvesterversion from "@/test-utils/test-data/harvesterversion.json";
 import migration from "@/test-utils/test-data/migration.json";
+import { AUTODIAG_REPORT_URL } from "@/features/autodiagnostic/autodiagnosticService";
+import {
+  autodiagdetail,
+  autodiaglist,
+} from "@/test-utils/test-data/autodiagnostic";
 
 interface Data {
   count: number;
@@ -273,6 +278,24 @@ export const getMigrationLog = rest.get(
   (_, res, ctx) => {
     genericGetResponse["message"] = "hdsmigration retrieved successfully";
     genericGetResponse["data"] = migration;
+    return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const queryAutodiagReport = rest.get(
+  AUTODIAG_REPORT_URL,
+  (_, res, ctx) => {
+    genericListResponse["message"] = "autodiagnostic retrieved successfully";
+    genericListResponse["data"]["results"] = [autodiaglist];
+    return res(ctx.json(genericListResponse));
+  },
+);
+
+export const getAutodiagReport = rest.get(
+  `${AUTODIAG_REPORT_URL}:reportId`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "autodiagnostic retrieved successfully";
+    genericGetResponse["data"] = autodiagdetail;
     return res(ctx.json(genericGetResponse));
   },
 );
