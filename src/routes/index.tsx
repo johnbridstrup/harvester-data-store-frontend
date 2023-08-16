@@ -64,6 +64,7 @@ const LogFileListView = lazy(
 );
 const DocumentationView = lazy(() => import("@/pages/docs"));
 const UserProfileView = lazy(() => import("@/pages/profile"));
+const JobTypeListView = lazy(() => import("@/pages/harvjob/jobtypes/listview"));
 
 function BaseRoutes() {
   return (
@@ -546,6 +547,22 @@ function BaseRoutes() {
               }
             >
               <UserProfileView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/jobtypes"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <JobTypeListView />
             </Suspense>
           </RequireUser>
         }
