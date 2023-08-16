@@ -50,6 +50,9 @@ const MigrationDetailView = lazy(() => import("@/pages/migration/detailview"));
 const AutodiagnosticListView = lazy(
   () => import("@/pages/autodiagnostic/listview"),
 );
+const AutodiagnosticDetailView = lazy(
+  () => import("@/pages/autodiagnostic/detailview"),
+);
 
 function BaseRoutes() {
   return (
@@ -436,6 +439,22 @@ function BaseRoutes() {
               }
             >
               <AutodiagnosticListView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/autodiagnostics/:reportId"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <AutodiagnosticDetailView />
             </Suspense>
           </RequireUser>
         }
