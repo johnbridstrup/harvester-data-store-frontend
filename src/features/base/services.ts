@@ -161,6 +161,14 @@ export class BaseService {
     token: string,
     data: Record<string, any>,
   ) => {
-    return await axiosService.patch(`${url}${id}`, token, data);
+    return await axiosService.patch(`${url}${id}/`, token, data);
+  };
+
+  public factoryCreate = async (
+    url: string,
+    data: Record<string, any>,
+    token: string,
+  ) => {
+    return await axiosService.post(url, token, data);
   };
 }
