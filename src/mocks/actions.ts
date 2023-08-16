@@ -30,10 +30,12 @@ import exceptioncode from "@/test-utils/test-data/exceptioncode.json";
 import fruit from "@/test-utils/test-data/fruit.json";
 import user from "@/test-utils/test-data/user.json";
 import { EVENTS_URL, PICKSESSION_URL } from "@/features/event/eventService";
+import { MIGRATION_URL } from "@/features/migration/migrationService";
 import { eventobj, picksession } from "@/test-utils/test-data/event";
 import harvester from "@/test-utils/test-data/harvester.json";
 import harvesterhistory from "@/test-utils/test-data/harvesterhistory.json";
 import harvesterversion from "@/test-utils/test-data/harvesterversion.json";
+import migration from "@/test-utils/test-data/migration.json";
 
 interface Data {
   count: number;
@@ -257,5 +259,20 @@ export const queryHarvesterVersion = rest.get(
     genericListResponse["message"] = "Harvester 11 version history";
     genericListResponse["data"]["results"] = [harvesterversion];
     return res(ctx.json(genericListResponse));
+  },
+);
+
+export const queryMigrationLog = rest.get(MIGRATION_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "hdsmigration retrieved successfully";
+  genericListResponse["data"]["results"] = [migration];
+  return res(ctx.json(genericListResponse));
+});
+
+export const getMigrationLog = rest.get(
+  `${MIGRATION_URL}:migrationId`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "hdsmigration retrieved successfully";
+    genericGetResponse["data"] = migration;
+    return res(ctx.json(genericGetResponse));
   },
 );

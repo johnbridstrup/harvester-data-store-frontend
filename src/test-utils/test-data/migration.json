@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "created": "2023-08-16T19:04:42.359002Z",
+  "lastModified": "2023-08-16T19:04:43.692022Z",
+  "result": "success",
+  "startTime": "2023-08-16T19:04:42.627606Z",
+  "endTime": "2023-08-16T19:04:43.691813Z",
+  "output": "Operations to perform:\n  Apply all migrations: admin, aftconfigs, auth, authtoken, autodiagnostics, common, contenttypes, django_celery_beat, django_celery_results, emulatorstats, errorreport, event, exceptions, gripreport, harvassets, harvdeploy, harvester, harvjobs, hdsmigrations, jobscheduler, location, logparser, notifications, s3file, sessions, silk, taggit\nRunning migrations:\n  No migrations to apply.\n",
+  "githash": "UNKNOWN",
+  "creator": 1,
+  "modifiedBy": null
+}
