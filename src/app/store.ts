@@ -15,6 +15,7 @@ import aftconfigReducer from "@/features/aftconfig/aftconfigSlice";
 import migrationReducer from "@/features/migration/migrationSlice";
 import autodiagnosticReducer from "@/features/autodiagnostic/autodiagnosticSlice";
 import logparserReducer from "@/features/logparser/logparserSlice";
+import harvjobReducer from "@/features/harvjob/harvjobSlice";
 
 const store = configureStore({
   reducer: {
@@ -34,6 +35,7 @@ const store = configureStore({
     migration: migrationReducer,
     autodiagnostic: autodiagnosticReducer,
     logparser: logparserReducer,
+    harvjob: harvjobReducer,
   },
   devTools: import.meta.env.DEV,
 });
