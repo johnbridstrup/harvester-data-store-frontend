@@ -25,6 +25,12 @@ import { paginateUser } from "@/features/users/usersSlice";
 import { paginateMigration } from "@/features/migration/migrationSlice";
 import { paginateAutodiagReport } from "@/features/autodiagnostic/autodiagnosticSlice";
 import { paginateLogSession } from "@/features/logparser/logparserSlice";
+import {
+  paginateJobResult,
+  paginateJobSchema,
+  paginateJobStatus,
+  paginateJobType,
+} from "@/features/harvjob/harvjobSlice";
 
 interface RendererProps {
   handlePagination: (navigation: string) => void;
@@ -480,6 +486,43 @@ export const LogSessionPagination = () => {
       url.protocol = "https:";
     }
     await dispatch(paginateLogSession(url.href));
+  };
+
+  return (
+    <GenericRenderer
+      handlePagination={handlePagination}
+      next={next}
+      previous={previous}
+    />
+  );
+};
+
+export const HarvJobPagination = ({ attr }: { attr?: string }) => {
+  const {
+    pagination: { next, previous },
+  } = useAppSelector((state) => state.harvjob);
+  const dispatch = useAppDispatch();
+
+  const handlePagination = async (navigation: string) => {
+    const urlMap: { [key: string]: string | null } = {
+      next: next,
+      previous: previous,
+    };
+    const url = new URL(String(urlMap[navigation]));
+    if (import.meta.env.PROD) {
+      url.protocol = "https:";
+    }
+    if (attr === "jobtype") {
+      await dispatch(paginateJobType(url.href));
+    } else if (attr === "jobschema") {
+      await dispatch(paginateJobSchema(url.href));
+    } else if (attr === "jobresult") {
+      await dispatch(paginateJobResult(url.href));
+    } else if (attr === "jobstatus") {
+      await dispatch(paginateJobStatus(url.href));
+    } else {
+      await dispatch(paginateErrorReport(url.href));
+    }
   };
 
   return (
