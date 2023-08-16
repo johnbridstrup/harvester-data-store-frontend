@@ -47,6 +47,9 @@ const HarvesterHistoryDetailView = lazy(
 );
 const MigrationListView = lazy(() => import("@/pages/migration/listview"));
 const MigrationDetailView = lazy(() => import("@/pages/migration/detailview"));
+const AutodiagnosticListView = lazy(
+  () => import("@/pages/autodiagnostic/listview"),
+);
 
 function BaseRoutes() {
   return (
@@ -417,6 +420,22 @@ function BaseRoutes() {
               }
             >
               <MigrationDetailView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/autodiagnostics"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <AutodiagnosticListView />
             </Suspense>
           </RequireUser>
         }
