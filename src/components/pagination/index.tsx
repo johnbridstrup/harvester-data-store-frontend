@@ -23,6 +23,7 @@ import { darkThemeClass, mapCurrentOffset } from "@/utils/utils";
 import { InputLimit, PageItem, SpanLimit } from "../styled";
 import { paginateUser } from "@/features/users/usersSlice";
 import { paginateMigration } from "@/features/migration/migrationSlice";
+import { paginateAutodiagReport } from "@/features/autodiagnostic/autodiagnosticSlice";
 
 interface RendererProps {
   handlePagination: (navigation: string) => void;
@@ -424,6 +425,33 @@ export const MigrationPagination = () => {
       url.protocol = "https:";
     }
     await dispatch(paginateMigration(url.href));
+  };
+
+  return (
+    <GenericRenderer
+      handlePagination={handlePagination}
+      next={next}
+      previous={previous}
+    />
+  );
+};
+
+export const AutodiagPagination = () => {
+  const {
+    pagination: { next, previous },
+  } = useAppSelector((state) => state.autodiagnostic);
+  const dispatch = useAppDispatch();
+
+  const handlePagination = async (navigation: string) => {
+    const urlMap: { [key: string]: string | null } = {
+      next: next,
+      previous: previous,
+    };
+    const url = new URL(String(urlMap[navigation]));
+    if (import.meta.env.PROD) {
+      url.protocol = "https:";
+    }
+    await dispatch(paginateAutodiagReport(url.href));
   };
 
   return (
