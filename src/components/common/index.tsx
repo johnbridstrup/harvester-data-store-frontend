@@ -1,5 +1,6 @@
-import { darkThemeClass } from "@/utils/utils";
+import { MutableRefObject } from "react";
 import { Oval } from "react-loader-spinner";
+import { darkThemeClass } from "@/utils/utils";
 import { Link, useNavigate } from "react-router-dom";
 
 interface LoaderProps {
@@ -21,6 +22,12 @@ interface BackProps {
 interface CustomBackProps {
   routeTo: string;
   paramsObj: Record<string, any>;
+  theme: string;
+}
+
+interface DownloadProps {
+  popUp: () => void;
+  downloadRef: MutableRefObject<HTMLButtonElement | null>;
   theme: string;
 }
 
@@ -83,5 +90,24 @@ export const HarvesterLink = (props: {
     <Link to={`/harvesters/${props.harvester?.id}`}>
       {props.harvester?.harv_id}
     </Link>
+  );
+};
+
+export const DownloadButton = (props: DownloadProps) => {
+  const btn = darkThemeClass("btn-dark", props.theme);
+  return (
+    <div className="flex-right mb-2">
+      <span onClick={props.popUp} className={`btn btn-default mx-2 ${btn}`}>
+        Get Files
+      </span>
+      <button
+        ref={props.downloadRef}
+        data-bs-toggle="modal"
+        data-bs-target="#downloadModal"
+        style={{ display: "none" }}
+      >
+        Get Files
+      </button>
+    </div>
   );
 };
