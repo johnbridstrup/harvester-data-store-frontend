@@ -46,6 +46,7 @@ const HarvesterHistoryDetailView = lazy(
   () => import("@/pages/harvester/historydetail"),
 );
 const MigrationListView = lazy(() => import("@/pages/migration/listview"));
+const MigrationDetailView = lazy(() => import("@/pages/migration/detailview"));
 
 function BaseRoutes() {
   return (
@@ -400,6 +401,22 @@ function BaseRoutes() {
               }
             >
               <MigrationListView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/migrations/:migrationId"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <MigrationDetailView />
             </Suspense>
           </RequireUser>
         }
