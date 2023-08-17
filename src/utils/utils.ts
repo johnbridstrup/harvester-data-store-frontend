@@ -36,6 +36,7 @@ import {
   SensorData,
 } from "@/features/autodiagnostic/autodiagnosticTypes";
 import { Content, LogFile, Service } from "@/features/logparser/logparserTypes";
+import { JobSchema, JobType } from "@/features/harvjob/harvjobTypes";
 
 /**
  * Evaluate for dark theme className
@@ -1470,3 +1471,50 @@ export const logFilter = (str: string, content: Array<Content> = []) => {
 
   return [...new Set(filteredArr)];
 };
+
+/**
+ * Transform job types options
+ * @param jobtypes
+ * @returns
+ */
+export const transformJobTypeOptions = (jobtypes: Array<JobType>) => {
+  return jobtypes.map((jobtype) => {
+    return { value: jobtype.name, label: jobtype.name };
+  });
+};
+
+/**
+ * Transform job schema options
+ * @param jobschemas
+ * @returns
+ */
+export const transformJobSchemaOptions = (jobschemas: Array<JobSchema>) => {
+  return jobschemas.map((schema) => {
+    return { value: schema.version, label: `version ${schema.version}` };
+  });
+};
+
+export const getUrl = (url: string): string => {
+  let pattern = /jobresults\/(?:&?[^=&]*=[^=&]*)*/;
+  let match = url.match(pattern);
+  return match ? match[0] : "";
+};
+
+export const getHarvId = (url: string, target: number = 1): string | number => {
+  let pattern = /job__target__harv_id=[0-9]+/;
+  let match = url.match(pattern);
+  if (match) {
+    return match[0].split("=")[1];
+  } else {
+    return target;
+  }
+};
+
+export const statusOptions = [
+  { label: "Success", value: "Success" },
+  { label: "Failed", value: "Failed" },
+  { label: "Pending", value: "Pending" },
+  { label: "Error", value: "Error" },
+  { label: "Failed and errors", value: "Failed and errors" },
+  { label: "Failed to send", value: "Failed to send" },
+];
