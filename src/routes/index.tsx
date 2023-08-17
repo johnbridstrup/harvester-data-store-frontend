@@ -71,6 +71,9 @@ const JobTypeDetailView = lazy(
 const JobSchemaListView = lazy(
   () => import("@/pages/harvjob/jobschemas/listview"),
 );
+const JobSchemaDetailView = lazy(
+  () => import("@/pages/harvjob/jobschemas/detailview"),
+);
 
 function BaseRoutes() {
   return (
@@ -601,6 +604,22 @@ function BaseRoutes() {
               }
             >
               <JobSchemaListView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/jobschemas/:jobschemaId"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <JobSchemaDetailView />
             </Suspense>
           </RequireUser>
         }
