@@ -28,6 +28,8 @@ import {
   getMigrationLog,
   queryAutodiagReport,
   getAutodiagReport,
+  queryLogSession,
+  getLogSession,
 } from "./actions";
 
 const handlers = [
@@ -56,6 +58,8 @@ const handlers = [
   getMigrationLog,
   queryAutodiagReport,
   getAutodiagReport,
+  queryLogSession,
+  getLogSession,
 ];
 
 export default handlers;

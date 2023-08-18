@@ -1,0 +1,35 @@
+{
+  "id": 1,
+  "tags": [],
+  "created": "2023-08-18T10:03:54.170415Z",
+  "lastModified": "2023-08-18T10:04:01.140231Z",
+  "name": "sessclip_h5r2_202202081050.zip-3cc32b36-dad7-47ab-8b6a-749adeacaf79",
+  "date_time": "2022-02-08T18:50:00Z",
+  "creator": 1,
+  "modifiedBy": null,
+  "harv": null,
+  "_zip_file": 1,
+  "logs": {
+    "harv_id": null,
+    "robots": [0, 2],
+    "services": [
+      {
+        "id": 1,
+        "service": "rcoop",
+        "robot": 0
+      },
+      {
+        "id": 2,
+        "service": "drivesys",
+        "robot": 2
+      }
+    ],
+    "videos": [
+      {
+        "id": 1,
+        "category": "color",
+        "robot": 2
+      }
+    ]
+  }
+}

@@ -41,6 +41,8 @@ import {
   autodiagdetail,
   autodiaglist,
 } from "@/test-utils/test-data/autodiagnostic";
+import { LOGSESSION_URL } from "@/features/logparser/logparserService";
+import logsession from "@/test-utils/test-data/logsession.json";
 
 interface Data {
   count: number;
@@ -296,6 +298,21 @@ export const getAutodiagReport = rest.get(
   (_, res, ctx) => {
     genericGetResponse["message"] = "autodiagnostic retrieved successfully";
     genericGetResponse["data"] = autodiagdetail;
+    return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const queryLogSession = rest.get(LOGSESSION_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "logsession retrieved successfully";
+  genericListResponse["data"]["results"] = [logsession];
+  return res(ctx.json(genericListResponse));
+});
+
+export const getLogSession = rest.get(
+  `${LOGSESSION_URL}:logsessionId`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "logsession retrieved successfully";
+    genericGetResponse["data"] = logsession;
     return res(ctx.json(genericGetResponse));
   },
 );
