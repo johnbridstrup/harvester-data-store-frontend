@@ -41,6 +41,11 @@ import {
   getJobResult,
   queryScheduledJob,
   getScheduledJob,
+  queryVersionReport,
+  getVersionReport,
+  queryReleaseCode,
+  getReleaseCode,
+  queryInstalled,
 } from "./actions";
 
 const handlers = [
@@ -82,6 +87,11 @@ const handlers = [
   getJobResult,
   queryScheduledJob,
   getScheduledJob,
+  queryVersionReport,
+  getVersionReport,
+  queryReleaseCode,
+  getReleaseCode,
+  queryInstalled,
 ];
 
 export default handlers;

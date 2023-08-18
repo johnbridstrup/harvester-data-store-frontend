@@ -1,0 +1,33 @@
+{
+  "id": 1,
+  "tags": ["dev"],
+  "fruit": {
+    "id": 1,
+    "created": "2022-04-26T10:06:33.175000Z",
+    "lastModified": "2022-04-26T10:06:33.176000Z",
+    "name": "strawberry",
+    "creator": 1,
+    "modifiedBy": null
+  },
+  "creator": {
+    "id": 1,
+    "username": "aft"
+  },
+  "modifiedBy": null,
+  "created": "2022-09-21T15:33:52.778000Z",
+  "lastModified": "2023-08-18T20:49:52.930272Z",
+  "version": "20220922.163848",
+  "release": {
+    "master": {
+      "package": "version"
+    },
+    "robot": {
+      "package": "version"
+    },
+    "stereo": {
+      "package": "version"
+    },
+    "version": "20220922.163848",
+    "project": "strawberry"
+  }
+}

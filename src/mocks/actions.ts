@@ -58,6 +58,11 @@ import {
 } from "@/test-utils/test-data/harvjob";
 import { SCHEDULEDJOBS_URL } from "@/features/jobscheduler/jobschedulerService";
 import scheduledjob from "@/test-utils/test-data/scheduledjob.json";
+import {
+  HARVESTER_RELEASE_URL,
+  HARVESTER_VERSION_URL,
+} from "@/features/harvdeploy/harvdeployService";
+import releasecode from "@/test-utils/test-data/releasecode.json";
 
 interface Data {
   count: number;
@@ -409,5 +414,51 @@ export const getScheduledJob = rest.get(
     genericGetResponse["message"] = "jobscheduler retrieved successfully";
     genericGetResponse["data"] = scheduledjob;
     return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const queryVersionReport = rest.get(
+  HARVESTER_VERSION_URL,
+  (_, res, ctx) => {
+    genericListResponse["message"] = "harvversion retrieved successfully";
+    genericListResponse["data"]["results"] = [harvesterversion];
+    return res(ctx.json(genericListResponse));
+  },
+);
+
+export const getVersionReport = rest.get(
+  `${HARVESTER_VERSION_URL}:versionId`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "harvversion retrieved successfully";
+    genericGetResponse["data"] = harvesterversion;
+    return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const queryReleaseCode = rest.get(
+  HARVESTER_RELEASE_URL,
+  (_, res, ctx) => {
+    genericListResponse["message"] = "harvcoderelease retrieved successfully";
+    genericListResponse["data"]["results"] = [releasecode];
+    return res(ctx.json(genericListResponse));
+  },
+);
+
+export const getReleaseCode = rest.get(
+  `${HARVESTER_RELEASE_URL}:releaseId`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "harvcoderelease retrieved successfully";
+    genericGetResponse["data"] = releasecode;
+    return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const queryInstalled = rest.get(
+  `${HARVESTER_RELEASE_URL}:releaseId/harvesters`,
+  (_, res, ctx) => {
+    genericListResponse["message"] =
+      "installed harvesters retrieved successfully";
+    genericListResponse["data"]["results"] = [harvester];
+    return res(ctx.json(genericListResponse));
   },
 );
