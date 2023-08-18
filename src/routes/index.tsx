@@ -97,6 +97,9 @@ const ReleaseCodeListView = lazy(
 const ReleaseCodeDetailView = lazy(
   () => import("@/pages/harvdeploy/releasedetail"),
 );
+const VersionReportListView = lazy(
+  () => import("@/pages/harvdeploy/versionlist"),
+);
 
 function BaseRoutes() {
   return (
@@ -819,6 +822,22 @@ function BaseRoutes() {
               }
             >
               <ReleaseCodeDetailView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/harvversion"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <VersionReportListView />
             </Suspense>
           </RequireUser>
         }
