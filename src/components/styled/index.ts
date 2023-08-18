@@ -198,3 +198,13 @@ export const QueryAccordion = styled.div<{ open: boolean }>`
   transition: 0.5s;
   margin-bottom: 10px;
 `;
+
+export const Accordion = styled.div<{
+  obj: { id: number } | null;
+  host: { id: number };
+}>`
+  position: relative;
+  height: ${(props) => (props?.obj?.id === props.host.id ? "200px" : "0")};
+  transition: 0.5s;
+  margin-bottom: 10px;
+`;
