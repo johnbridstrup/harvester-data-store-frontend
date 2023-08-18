@@ -39,6 +39,8 @@ export enum FULLFILLED_PROMISE {
   migration = "migration/execMigration/fulfilled",
   aftconfig = "aftconfig/fullConfigReport/fulfilled",
   s3file = "s3file/deleteS3File/fulfilled",
+  jobtypeschema = "jobscheduler/getJobTypeSchema/fulfilled",
+  schedulejob = "jobscheduler/createScheduledJob/fulfilled",
 }
 
 export enum REJECTED_PROMISE {
@@ -49,6 +51,8 @@ export enum REJECTED_PROMISE {
   migration = "migration/execMigration/rejected",
   aftconfig = "aftconfig/fullConfigReport/rejected",
   s3file = "s3file/deleteS3File/rejected",
+  jobtypeschema = "jobscheduler/getJobTypeSchema/rejected",
+  schedulejob = "jobscheduler/createScheduledJob/rejected",
 }
 
 export enum LOG_LEVEL {
