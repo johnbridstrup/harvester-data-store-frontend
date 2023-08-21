@@ -83,6 +83,7 @@ const JobResultDetailView = lazy(
   () => import("@/pages/harvjob/jobresults/detailview"),
 );
 const JobHistoryView = lazy(() => import("@/pages/harvjob/jobhistory"));
+const ScheduleJobView = lazy(() => import("@/pages/harvjob/schedulejob"));
 
 function BaseRoutes() {
   return (
@@ -709,6 +710,22 @@ function BaseRoutes() {
               }
             >
               <JobHistoryView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/schedulejob"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <ScheduleJobView />
             </Suspense>
           </RequireUser>
         }
