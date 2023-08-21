@@ -62,6 +62,7 @@ const LogSessionDetailView = lazy(
 const LogFileListView = lazy(
   () => import("@/pages/logparser/logfile/listview"),
 );
+const DocumentationView = lazy(() => import("@/pages/docs"));
 
 function BaseRoutes() {
   return (
@@ -512,6 +513,22 @@ function BaseRoutes() {
               }
             >
               <LogFileListView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/docs"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <DocumentationView />
             </Suspense>
           </RequireUser>
         }
