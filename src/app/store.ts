@@ -16,6 +16,7 @@ import migrationReducer from "@/features/migration/migrationSlice";
 import autodiagnosticReducer from "@/features/autodiagnostic/autodiagnosticSlice";
 import logparserReducer from "@/features/logparser/logparserSlice";
 import harvjobReducer from "@/features/harvjob/harvjobSlice";
+import jobschedulerReducer from "@/features/jobscheduler/jobschedulerSlice";
 
 const store = configureStore({
   reducer: {
@@ -36,6 +37,7 @@ const store = configureStore({
     autodiagnostic: autodiagnosticReducer,
     logparser: logparserReducer,
     harvjob: harvjobReducer,
+    jobscheduler: jobschedulerReducer,
   },
   devTools: import.meta.env.DEV,
 });
