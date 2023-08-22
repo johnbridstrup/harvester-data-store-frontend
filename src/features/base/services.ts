@@ -171,4 +171,8 @@ export class BaseService {
   ) => {
     return await axiosService.post(url, token, data);
   };
+
+  public genericGet = async (url: string, token: string) => {
+    return await axiosService.get(url, token);
+  };
 }
