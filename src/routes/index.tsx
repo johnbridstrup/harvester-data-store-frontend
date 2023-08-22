@@ -106,6 +106,9 @@ const VersionReportDetailView = lazy(
 const EmulatorstatsListView = lazy(
   () => import("@/pages/emulatorstats/listview"),
 );
+const EmulatorstatsDetailView = lazy(
+  () => import("@/pages/emulatorstats/detailview"),
+);
 
 function BaseRoutes() {
   return (
@@ -876,6 +879,22 @@ function BaseRoutes() {
               }
             >
               <EmulatorstatsListView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/emustats/:emustatsId"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <EmulatorstatsDetailView />
             </Suspense>
           </RequireUser>
         }
