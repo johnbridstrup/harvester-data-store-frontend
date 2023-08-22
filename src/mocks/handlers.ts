@@ -30,6 +30,17 @@ import {
   getAutodiagReport,
   queryLogSession,
   getLogSession,
+  queryJob,
+  getJob,
+  queryJobType,
+  getJobType,
+  queryJobSchema,
+  getJobSchema,
+  getJobHistory,
+  queryJobResult,
+  getJobResult,
+  queryScheduledJob,
+  getScheduledJob,
 } from "./actions";
 
 const handlers = [
@@ -60,6 +71,17 @@ const handlers = [
   getAutodiagReport,
   queryLogSession,
   getLogSession,
+  queryJob,
+  getJob,
+  queryJobType,
+  getJobType,
+  queryJobSchema,
+  getJobSchema,
+  getJobHistory,
+  queryJobResult,
+  getJobResult,
+  queryScheduledJob,
+  getScheduledJob,
 ];
 
 export default handlers;

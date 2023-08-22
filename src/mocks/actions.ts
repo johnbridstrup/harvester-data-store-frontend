@@ -43,6 +43,21 @@ import {
 } from "@/test-utils/test-data/autodiagnostic";
 import { LOGSESSION_URL } from "@/features/logparser/logparserService";
 import logsession from "@/test-utils/test-data/logsession.json";
+import {
+  JOBRESULTS_URL,
+  JOBSCHEMAS_URL,
+  JOBS_URL,
+  JOBTYPES_URL,
+} from "@/features/harvjob/harvjobService";
+import {
+  job,
+  jobhistory,
+  jobresults,
+  jobschemas,
+  jobtypes,
+} from "@/test-utils/test-data/harvjob";
+import { SCHEDULEDJOBS_URL } from "@/features/jobscheduler/jobschedulerService";
+import scheduledjob from "@/test-utils/test-data/scheduledjob.json";
 
 interface Data {
   count: number;
@@ -312,6 +327,87 @@ export const getLogSession = rest.get(
   (_, res, ctx) => {
     genericGetResponse["message"] = "logsession retrieved successfully";
     genericGetResponse["data"] = logsession;
+    return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const queryJob = rest.get(JOBS_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "harvjobs retrieved successfully";
+  genericListResponse["data"]["results"] = [job];
+  return res(ctx.json(genericListResponse));
+});
+
+export const getJob = rest.get(`${JOBS_URL}:jobId`, (_, res, ctx) => {
+  genericGetResponse["message"] = "harvjobs retrieved successfully";
+  genericGetResponse["data"] = job;
+  return res(ctx.json(genericGetResponse));
+});
+
+export const queryJobType = rest.get(JOBTYPES_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "jobtypes retrieved successfully";
+  genericListResponse["data"]["results"] = [jobtypes];
+  return res(ctx.json(genericListResponse));
+});
+
+export const getJobType = rest.get(
+  `${JOBTYPES_URL}:jobtypeId`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "jobtypes retrieved successfully";
+    genericGetResponse["data"] = jobtypes;
+    return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const queryJobSchema = rest.get(JOBSCHEMAS_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "jobschemas retrieved successfully";
+  genericListResponse["data"]["results"] = [jobschemas];
+  return res(ctx.json(genericListResponse));
+});
+
+export const getJobSchema = rest.get(
+  `${JOBSCHEMAS_URL}:jobschemaId`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "jobschemas retrieved successfully";
+    genericGetResponse["data"] = jobschemas;
+    return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const queryJobResult = rest.get(JOBRESULTS_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "jobresults retrieved successfully";
+  genericListResponse["data"]["results"] = [jobresults];
+  return res(ctx.json(genericListResponse));
+});
+
+export const getJobResult = rest.get(
+  `${JOBRESULTS_URL}:jobresultId`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "jobresults retrieved successfully";
+    genericGetResponse["data"] = jobresults;
+    return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const getJobHistory = rest.get(
+  `${JOBS_URL}:jobId/history/`,
+  (_, res, ctx) => {
+    genericListResponse["message"] = "job history retrieved successfully";
+    genericListResponse["data"]["results"] = [jobhistory];
+    return res(ctx.json(genericListResponse));
+  },
+);
+
+export const queryScheduledJob = rest.get(SCHEDULEDJOBS_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "jobscheduler retrieved successfully";
+  genericListResponse["data"]["results"] = [scheduledjob];
+  return res(ctx.json(genericListResponse));
+});
+
+export const getScheduledJob = rest.get(
+  `${SCHEDULEDJOBS_URL}:jobId`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "jobscheduler retrieved successfully";
+    genericGetResponse["data"] = scheduledjob;
     return res(ctx.json(genericGetResponse));
   },
 );
