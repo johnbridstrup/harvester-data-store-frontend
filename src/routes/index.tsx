@@ -103,6 +103,9 @@ const VersionReportListView = lazy(
 const VersionReportDetailView = lazy(
   () => import("@/pages/harvdeploy/versiondetail"),
 );
+const EmulatorstatsListView = lazy(
+  () => import("@/pages/emulatorstats/listview"),
+);
 
 function BaseRoutes() {
   return (
@@ -857,6 +860,22 @@ function BaseRoutes() {
               }
             >
               <VersionReportDetailView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/emustats"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <EmulatorstatsListView />
             </Suspense>
           </RequireUser>
         }
