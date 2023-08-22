@@ -1,5 +1,6 @@
 import axios from "axios";
 import { CSRF_URL, OPENAPI_URL } from "./constants";
+import { enforceHttps } from "@/utils/utils";
 
 interface RequestConfig {
   headers: {
@@ -33,7 +34,7 @@ class AxiosService {
 
   public async post(url: string, token?: string, data: object = {}) {
     const config = this.authorization(token);
-    const res = await axios.post(url, data, config);
+    const res = await axios.post(enforceHttps(url), data, config);
     return res.data;
   }
 
@@ -41,19 +42,19 @@ class AxiosService {
     if (typeof token === "string" && token.length > 0) {
       this.config["headers"]["Authorization"] = `Token ${token}`;
     }
-    const res = await axios.get(url, this.config);
+    const res = await axios.get(enforceHttps(url), this.config);
     return res.data.data;
   }
 
   public async put(url: string, token?: string, data: object = {}) {
     const config = this.authorization(token);
-    const res = await axios.put(url, data, config);
+    const res = await axios.put(enforceHttps(url), data, config);
     return res.data;
   }
 
   public async patch(url: string, token?: string, data: object = {}) {
     const config = this.authorization(token);
-    const res = await axios.patch(url, data, config);
+    const res = await axios.patch(enforceHttps(url), data, config);
     return res.data;
   }
 
@@ -61,14 +62,14 @@ class AxiosService {
     if (typeof token === "string" && token.length > 0) {
       this.config["headers"]["Authorization"] = `Token ${token}`;
     }
-    const res = await axios.delete(url, this.config);
+    const res = await axios.delete(enforceHttps(url), this.config);
     return res.data;
   }
 
   public async upload(url: string, token?: string, data: object = {}) {
     const config = this.authorization(token);
     config["headers"]["Content-Type"] = "multipart/form-data";
-    const res = await axios.post(url, data, config);
+    const res = await axios.post(enforceHttps(url), data, config);
     return res.data;
   }
 
@@ -76,7 +77,7 @@ class AxiosService {
     if (typeof token === "string" && token.length > 0) {
       this.config["headers"]["Authorization"] = `Token ${token}`;
     }
-    const res = await axios.get(url, this.config);
+    const res = await axios.get(enforceHttps(url), this.config);
     return res.data;
   }
 }

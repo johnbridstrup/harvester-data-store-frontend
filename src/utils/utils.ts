@@ -1518,3 +1518,19 @@ export const statusOptions = [
   { label: "Failed and errors", value: "Failed and errors" },
   { label: "Failed to send", value: "Failed to send" },
 ];
+
+/**
+ * Use https protocal when in production.
+ *
+ * @param url
+ * @description some url are passed dynamically
+ * without using the https protocal. This utils
+ * methods allows us to enforce https when in production.
+ */
+export const enforceHttps = (url: string): string => {
+  const newurl = new URL(url);
+  if (import.meta.env.PROD) {
+    newurl.protocol = "https:";
+  }
+  return newurl.href;
+};
