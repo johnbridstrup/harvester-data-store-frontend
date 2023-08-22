@@ -17,6 +17,7 @@ import autodiagnosticReducer from "@/features/autodiagnostic/autodiagnosticSlice
 import logparserReducer from "@/features/logparser/logparserSlice";
 import harvjobReducer from "@/features/harvjob/harvjobSlice";
 import jobschedulerReducer from "@/features/jobscheduler/jobschedulerSlice";
+import emulatorstatSlice from "@/features/emulatorstat/emulatorstatSlice";
 
 const store = configureStore({
   reducer: {
@@ -38,6 +39,7 @@ const store = configureStore({
     logparser: logparserReducer,
     harvjob: harvjobReducer,
     jobscheduler: jobschedulerReducer,
+    emulatorstat: emulatorstatSlice,
   },
   devTools: import.meta.env.DEV,
 });
