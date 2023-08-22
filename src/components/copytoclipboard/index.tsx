@@ -15,6 +15,12 @@ interface ConfigProps {
   theme: string;
 }
 
+interface CopyProps {
+  paramsObj: Record<string, any>;
+  theme: string;
+  route: string;
+}
+
 export function CopyToClipboard() {
   const [copied, setCopied] = useState(false);
   const { queryUrl } = useAppSelector((state) => state.errorreport);
@@ -86,5 +92,41 @@ export const CopyBuildConfig = (props: ConfigProps) => {
         "copy config"
       )}
     </button>
+  );
+};
+
+export const CopyGenericURL = (props: CopyProps) => {
+  const [copied, setCopied] = useState(false);
+  const btn = darkThemeClass("btn-dark", props.theme);
+  const copy = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+    } catch (error) {
+      console.log("error", error);
+    }
+    setTimeout(function () {
+      setCopied(false);
+    }, 3000);
+  };
+
+  const buildURL = async () => {
+    let params = new URLSearchParams(props.paramsObj);
+    let public_url =
+      process.env.REACT_APP_HOSTED_URL || "http://localhost:3000";
+    let url = `/${props.route}/?${params.toString()}`;
+    await copy(public_url + url);
+  };
+
+  return (
+    <div className="copy-container">
+      <button onClick={buildURL} className={`btn ${btn}`}>
+        {copied ? (
+          <span className="las la-check-double text-success">copied</span>
+        ) : (
+          "copy url"
+        )}
+      </button>
+    </div>
   );
 };
