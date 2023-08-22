@@ -31,6 +31,7 @@ import {
   paginateJobStatus,
   paginateJobType,
 } from "@/features/harvjob/harvjobSlice";
+import { paginateScheduledJob } from "@/features/jobscheduler/jobschedulerSlice";
 
 interface RendererProps {
   handlePagination: (navigation: string) => void;
@@ -523,6 +524,33 @@ export const HarvJobPagination = ({ attr }: { attr?: string }) => {
     } else {
       await dispatch(paginateErrorReport(url.href));
     }
+  };
+
+  return (
+    <GenericRenderer
+      handlePagination={handlePagination}
+      next={next}
+      previous={previous}
+    />
+  );
+};
+
+export const SJPagination = () => {
+  const {
+    pagination: { next, previous },
+  } = useAppSelector((state) => state.jobscheduler);
+  const dispatch = useAppDispatch();
+
+  const handlePagination = async (navigation: string) => {
+    const urlMap: { [key: string]: string | null } = {
+      next: next,
+      previous: previous,
+    };
+    const url = new URL(String(urlMap[navigation]));
+    if (import.meta.env.PROD) {
+      url.protocol = "https:";
+    }
+    await dispatch(paginateScheduledJob(url.href));
   };
 
   return (
