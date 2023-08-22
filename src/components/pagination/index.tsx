@@ -36,6 +36,7 @@ import {
   paginateRelease,
   paginateVersion,
 } from "@/features/harvdeploy/harvdeploySlice";
+import { paginateEmulatorstats } from "@/features/emulatorstat/emulatorstatSlice";
 
 interface RendererProps {
   handlePagination: (navigation: string) => void;
@@ -586,6 +587,33 @@ export const HDPagination = ({ attr }: { attr?: string }) => {
     } else {
       await dispatch(paginateRelease(url.href));
     }
+  };
+
+  return (
+    <GenericRenderer
+      handlePagination={handlePagination}
+      next={next}
+      previous={previous}
+    />
+  );
+};
+
+export const EmulatorStatPagination = () => {
+  const {
+    pagination: { next, previous },
+  } = useAppSelector((state) => state.emulatorstat);
+  const dispatch = useAppDispatch();
+
+  const handlePagination = async (navigation: string) => {
+    const urlMap: { [key: string]: string | null } = {
+      next: next,
+      previous: previous,
+    };
+    const url = new URL(String(urlMap[navigation]));
+    if (import.meta.env.PROD) {
+      url.protocol = "https:";
+    }
+    await dispatch(paginateEmulatorstats(url.href));
   };
 
   return (
