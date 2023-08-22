@@ -23,6 +23,8 @@ interface CustomBackProps {
   routeTo: string;
   paramsObj: Record<string, any>;
   theme: string;
+  mb?: string;
+  mt?: string;
 }
 
 interface DownloadProps {
@@ -75,7 +77,7 @@ export const CustomBackButton = (props: CustomBackProps) => {
   };
   const btn = darkThemeClass("btn-dark", props.theme);
   return (
-    <div className="mt-4 mb-4">
+    <div className={`${props.mt} ${props.mb}`}>
       <span className={`btn btn-default ${btn}`} onClick={goBack}>
         <i className="las la-arrow-left"></i> Back
       </span>
