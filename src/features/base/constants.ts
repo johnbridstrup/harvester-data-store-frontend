@@ -79,4 +79,10 @@ export enum PushStateEnum {
   S3FILES = "s3files",
   AUTODIAGNOSTICS = "autodiagnostics",
   EMULATORSTATS = "emulatorstats",
+  EMULATORCHART = "emulatorcharts",
+}
+
+export enum EMULATORREPORT {
+  chartview = "chartview",
+  listview = "listview",
 }

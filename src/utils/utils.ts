@@ -37,6 +37,10 @@ import {
 } from "@/features/autodiagnostic/autodiagnosticTypes";
 import { Content, LogFile, Service } from "@/features/logparser/logparserTypes";
 import { JobSchema, JobType } from "@/features/harvjob/harvjobTypes";
+import {
+  ResultReport,
+  TraceObj,
+} from "@/features/emulatorstat/emulatorstatTypes";
 
 /**
  * Evaluate for dark theme className
@@ -106,11 +110,12 @@ export const paramsToObject = (params: any = {}) => {
 };
 
 /**
- * Push URL onto the browser back stack
- * @param {object} queryObj
- * @param {String} pareto
+ * Construct the new URL for the history methods
+ * @param queryObj
+ * @param pareto
+ * @returns
  */
-export const pushState = (queryObj: Record<string, any>, pareto?: string) => {
+const buildNewURL = (queryObj: Record<string, any> = {}, pareto?: string) => {
   let newurl;
   let params = new URLSearchParams(queryObj);
   if (pareto === PushStateEnum.GENPARETO) {
@@ -149,12 +154,61 @@ export const pushState = (queryObj: Record<string, any>, pareto?: string) => {
     newurl = `${window.location.protocol}//${
       window.location.host
     }/emustats/?${params.toString()}`;
+  } else if (pareto === PushStateEnum.EMULATORCHART) {
+    newurl = `${window.location.protocol}//${
+      window.location.host
+    }/emucharts/?${params.toString()}`;
   } else {
     newurl = `${window.location.protocol}//${
       window.location.host
     }/errorreports/?${params.toString()}`;
   }
-  window.history.pushState({ path: newurl }, "", newurl);
+  return newurl;
+};
+
+/**
+ * The `History.pushState()` method adds an entry to the
+ * browser's session history stack. This method is asynchronous.
+ *
+ * @description Note that the browser won't attempt to load
+ * the new history entry's URL after a call to pushState(),
+ * but it may attempt to load the URL later, for instance,
+ * after the user restarts the browser. The new URL does not
+ * need to be absolute; if it's relative, it's resolved relative
+ * to the current URL. The new URL must be of the same origin
+ * as the current URL; otherwise, pushState() will throw an
+ * exception. If this parameter isn't specified, it's set to the
+ * document's current URL.
+ * @param queryObj
+ * @param pareto
+ */
+export const pushState = (
+  queryObj: Record<string, any> = {},
+  pareto?: string,
+) => {
+  let newurl = buildNewURL(queryObj, pareto);
+  window.history.pushState({}, "", newurl);
+};
+
+/**
+ * The `History.replaceState()` method modifies the current
+ * history entry, replacing it with the state object and URL
+ * passed in the method parameters. This method is particularly
+ * useful when you want to update the state object or URL of
+ * the current history entry in response to some user action.
+ *
+ * @description Note that the URL of the history entry must be
+ * of the same origin as the current URL; otherwise replaceState
+ * throws an exception.
+ * @param queryObj
+ * @param pareto
+ */
+export const replaceState = (
+  queryObj: Record<string, any> = {},
+  pareto?: string,
+) => {
+  let newurl = buildNewURL(queryObj, pareto);
+  window.history.replaceState({}, "", newurl);
 };
 
 /**
@@ -1551,4 +1605,190 @@ export const transformTags = (tags: Array<string>, self: boolean = false) => {
       return { id: uuid(), name: tag, checked: false };
     });
   }
+};
+
+/**
+ * Get unique values for the given array of objects
+ * @param key
+ * @param data
+ * @returns
+ */
+export const uniqueValues = (
+  key: string,
+  data: Array<Record<string, any>> = [],
+) => {
+  return [...new Set(data.map((item) => item[key]))];
+};
+
+/**
+ * Sort array by month names. Any item not member of the
+ * monthorder comes last in the sorted array.
+ * @param data
+ * @returns
+ */
+export const sortByMonth = (data: Array<ResultReport>) => {
+  const monthOrder = [
+    "nov",
+    "dec",
+    "jan",
+    "feb",
+    "mar",
+    "apr",
+    "may",
+    "jun",
+    "jul",
+    "aug",
+    "sep",
+    "oct",
+  ];
+
+  const monthMap: { [key: string]: number } = {};
+  monthOrder.forEach((month, index) => {
+    monthMap[month.toLowerCase()] = index;
+  });
+
+  data.sort((a, b) => {
+    const monthA = a.date.toLowerCase();
+    const monthB = b.date.toLowerCase();
+
+    if (monthMap.hasOwnProperty(monthA) && monthMap.hasOwnProperty(monthB)) {
+      return monthMap[monthA] - monthMap[monthB];
+    } else if (monthMap.hasOwnProperty(monthA)) {
+      return -1; // a comes before b
+    } else if (monthMap.hasOwnProperty(monthB)) {
+      return 1; // b comes before a
+    } else {
+      return 0; // no change in order for unknown months
+    }
+  });
+  return data;
+};
+
+/**
+ * Group by data by weeks
+ * @param results
+ * @returns
+ */
+export const groupByWeek = (results: Array<ResultReport>) => {
+  return results.reduce<{ [key: string]: Array<ResultReport> }>((acc, item) => {
+    if (!acc[item.reportTime]) {
+      acc[item.reportTime] = [];
+    }
+
+    acc[item.reportTime].push({
+      ...item,
+    });
+
+    return acc;
+  }, {});
+};
+
+/**
+ * Implements the merge sort algorithm
+ * @param data
+ * @returns
+ */
+export function mergeSort(data: Array<TraceObj>) {
+  if (data.length <= 1) {
+    return data;
+  }
+
+  const mid = Math.floor(data.length / 2);
+  const left: Array<TraceObj> = mergeSort(data.slice(0, mid));
+  const right: Array<TraceObj> = mergeSort(data.slice(mid));
+
+  return merge(left, right);
+}
+
+/**
+ * Merge sort recursive function
+ * @param left
+ * @param right
+ * @returns
+ */
+function merge(left: Array<TraceObj>, right: Array<TraceObj>) {
+  const merged: Array<TraceObj> = [];
+  let leftIdx = 0;
+  let rightIdx = 0;
+
+  while (leftIdx < left.length && rightIdx < right.length) {
+    if (left[leftIdx].x.length > right[rightIdx].x.length) {
+      merged.push(left[leftIdx]);
+      leftIdx++;
+    } else {
+      merged.push(right[rightIdx]);
+      rightIdx++;
+    }
+  }
+  return merged.concat(left.slice(leftIdx), right.slice(rightIdx));
+}
+
+/**
+ * Compute aggregates for traces
+ * @param aggregate
+ * @param results
+ * @returns
+ */
+export const mapTraces = (
+  aggregate: string,
+  resultObj: Record<string, Array<ResultReport>> = {},
+) => {
+  const tracesArr: Array<TraceObj> = [];
+
+  for (const key in resultObj) {
+    if (Object.hasOwnProperty.call(resultObj, key)) {
+      let x: Array<string> = [];
+      let y: Array<number> = [];
+      let error_y: Array<number> = [];
+      const obj: TraceObj = resultObj[key].reduce(
+        (acc, item) => {
+          x.push(item.date);
+          if (aggregate === "picks_per_hour") {
+            y.push(item.picks_per_hour);
+            error_y.push(item.picks_per_hour_std);
+          } else if (aggregate === "thoroughness") {
+            y.push(item.thoroughness);
+            error_y.push(item.thoroughness_percentage_std);
+          } else if (aggregate === "grip_success") {
+            y.push(item.grip_success);
+            error_y.push(item.grip_success_percentage_std);
+          } else {
+            y.push(item.pick_success);
+            error_y.push(item.pick_success_percentage_std);
+          }
+          acc["x"] = x;
+          acc["y"] = y;
+          acc["type"] = "line";
+          acc["mode"] = "lines+markers";
+          acc["jitter"] = 1;
+          acc["error_y"] = {
+            type: "data",
+            array: error_y,
+            visible: true,
+          };
+          return acc;
+        },
+        {
+          x: [],
+          y: [],
+          error_y: {
+            type: "",
+            array: [],
+            visible: false,
+          },
+          type: "",
+          mode: "",
+          jitter: 0,
+          name: "",
+        } as TraceObj,
+      );
+      // reset x, y and error_y
+      x = [];
+      y = [];
+      error_y = [];
+      obj["name"] = key;
+      tracesArr.push(obj);
+    }
+  }
+  return tracesArr;
 };
