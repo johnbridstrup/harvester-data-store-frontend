@@ -96,7 +96,6 @@ export const login = rest.post(authService.LOGIN_URL, (_, res, ctx) => {
   let token = "435b18abedef452f64e7f4ed2e68e98ac8babf5e";
   let user: User = {
     id: 1,
-    userId: "1",
     first_name: "",
     last_name: "",
     username: "aft",
