@@ -109,6 +109,9 @@ const EmulatorstatsListView = lazy(
 const EmulatorstatsDetailView = lazy(
   () => import("@/pages/emulatorstats/detailview"),
 );
+const EmulatorstatsChartView = lazy(
+  () => import("@/pages/emulatorstats/chartview"),
+);
 
 function BaseRoutes() {
   return (
@@ -895,6 +898,22 @@ function BaseRoutes() {
               }
             >
               <EmulatorstatsDetailView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/emucharts"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <EmulatorstatsChartView />
             </Suspense>
           </RequireUser>
         }
