@@ -6,7 +6,7 @@ import {
   AuthState,
   LoginData,
   TokenData,
-  User,
+  UpdateProfile,
 } from "./authTypes";
 
 const isAuthenticated =
@@ -72,12 +72,12 @@ export const invalidateCache = (error: any, dispatch: any) => {
 
 export const updateProfile = createAsyncThunk(
   "auth/updateProfile",
-  async (userData: User, thunkAPI) => {
+  async (data: UpdateProfile, thunkAPI) => {
     try {
       const {
         auth: { token },
       } = thunkAPI.getState() as { auth: { token: string } };
-      return await authService.update(userData.userId, token, userData);
+      return await authService.update(data.id, token, data);
     } catch (error) {
       console.log(error);
       const message = invalidateCache(error, thunkAPI.dispatch);

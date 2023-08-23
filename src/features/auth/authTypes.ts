@@ -16,7 +16,6 @@ export interface Profile {
 
 export interface User {
   id: number;
-  userId: string;
   first_name: string;
   last_name: string;
   username: string;
@@ -31,6 +30,17 @@ export interface User {
 export interface ChangePassword {
   current_password: string;
   new_password: string;
+}
+
+export interface UpdateProfile {
+  id: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  profile: {
+    slack_id: string;
+  };
 }
 
 export interface AuthState {

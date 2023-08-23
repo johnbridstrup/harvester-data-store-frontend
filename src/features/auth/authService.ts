@@ -1,6 +1,11 @@
 import { API_URL } from "../base/constants";
 import { axiosService } from "../base/services";
-import { ChangePassword, LoginData, TokenData, User } from "./authTypes";
+import {
+  ChangePassword,
+  LoginData,
+  TokenData,
+  UpdateProfile,
+} from "./authTypes";
 
 class AuthService {
   constructor() {}
@@ -34,11 +39,11 @@ class AuthService {
     return response;
   };
 
-  public update = async (id: string, token: string, userData: User) => {
+  public update = async (id: number, token: string, data: UpdateProfile) => {
     const response = await axiosService.patch(
       `${this.USER_PROFILE_URL}${id}/`,
       token,
-      userData,
+      data,
     );
     if (response.data) {
       localStorage.setItem("user", JSON.stringify(response.data));
