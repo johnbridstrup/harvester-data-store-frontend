@@ -19,6 +19,7 @@ ENV REACT_APP_NODE_ENV=${NODE_ENV}
 RUN echo "API URL: ${REACT_APP_HDS_API_URL}" && \
     echo "HOSTED URL: ${REACT_APP_HOSTED_URL}" && \
     echo "NODE ENV: ${REACT_APP_NODE_ENV}" && \
+    export NODE_OPTIONS=--max-old-space-size=32768 && \
     npm run build
 
 # production build

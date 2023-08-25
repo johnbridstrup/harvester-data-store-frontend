@@ -20,11 +20,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "16"
+      - name: increase javascript heap memory
+        run: export NODE_OPTIONS=--max-old-space-size=32768
       - name: install dependencies
         run: npm install --ignore-scripts
       - name: check for lint issue
         run: npm run check
       - name: build frontend
-        run: npm run build
+        run: export NODE_OPTIONS=--max-old-space-size=32768 && npm run build
       - name: test frontend
         run: npm run test
