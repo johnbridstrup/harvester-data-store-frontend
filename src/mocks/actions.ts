@@ -63,6 +63,8 @@ import {
   HARVESTER_VERSION_URL,
 } from "@/features/harvdeploy/harvdeployService";
 import releasecode from "@/test-utils/test-data/releasecode.json";
+import { EMULATORSTATS_URL } from "@/features/emulatorstat/emulatorstatService";
+import emustats from "@/test-utils/test-data/emustats.json";
 
 interface Data {
   count: number;
@@ -460,5 +462,31 @@ export const queryInstalled = rest.get(
       "installed harvesters retrieved successfully";
     genericListResponse["data"]["results"] = [harvester];
     return res(ctx.json(genericListResponse));
+  },
+);
+
+export const queryEmulatorstat = rest.get(EMULATORSTATS_URL, (_, res, ctx) => {
+  genericListResponse["message"] = "emulatorstats retrieved successfully";
+  genericListResponse["data"]["results"] = [emustats];
+  return res(ctx.json(genericListResponse));
+});
+
+export const getEmulatorstat = rest.get(
+  `${EMULATORSTATS_URL}:emustatsId`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "emulatorstats retrieved successfully";
+    genericGetResponse["data"] = emustats;
+    return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const queryEmulatorstatTag = rest.get(
+  `${EMULATORSTATS_URL}tags`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "emulatorstats tags";
+    genericGetResponse["data"] = {
+      tags: ["Incomplete", "Invalid", "Unset"],
+    };
+    return res(ctx.json(genericGetResponse));
   },
 );

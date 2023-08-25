@@ -46,6 +46,9 @@ import {
   queryReleaseCode,
   getReleaseCode,
   queryInstalled,
+  queryEmulatorstat,
+  getEmulatorstat,
+  queryEmulatorstatTag,
 } from "./actions";
 
 const handlers = [
@@ -92,6 +95,9 @@ const handlers = [
   queryReleaseCode,
   getReleaseCode,
   queryInstalled,
+  queryEmulatorstat,
+  getEmulatorstat,
+  queryEmulatorstatTag,
 ];
 
 export default handlers;
