@@ -18,9 +18,9 @@ const initialState: AutodiagnosticState = {
   reports: [],
   report: null,
   sensors: {
-    finger: {},
-    vacuum: {},
-    touch: {},
+    finger: { values: [], states: [], timestamps: [], ts_interval: [] },
+    vacuum: { values: [], states: [], timestamps: [], ts_interval: [] },
+    touch: { values: [], states: [], timestamps: [], ts_interval: [] },
   },
 };
 

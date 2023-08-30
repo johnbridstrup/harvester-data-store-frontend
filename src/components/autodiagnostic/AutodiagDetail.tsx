@@ -1,9 +1,6 @@
 import { lazy, Suspense, useState } from "react";
 import { useAppSelector } from "@/app/hooks";
-import {
-  RevertedOgShapeResult,
-  Sensors,
-} from "@/features/autodiagnostic/autodiagnosticTypes";
+import { Sensors } from "@/features/autodiagnostic/autodiagnosticTypes";
 import {
   LoaderDiv,
   NavTabItem,
@@ -89,9 +86,7 @@ function AutodiagDetail() {
             }
           >
             <SensorsPlot
-              sensordata={
-                sensors[activetab as keyof Sensors] as RevertedOgShapeResult
-              }
+              sensordata={sensors[activetab as keyof Sensors]}
               theme={theme as string}
             />
           </Suspense>

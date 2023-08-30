@@ -35,10 +35,20 @@ export interface RevertedOgShapeResult {
 }
 
 export interface Sensors {
-  touch: RevertedOgShapeResult | Record<string, any>;
-  vacuum: RevertedOgShapeResult | Record<string, any>;
-  finger: RevertedOgShapeResult | Record<string, any>;
+  touch: RevertedOgShapeResult;
+  vacuum: RevertedOgShapeResult;
+  finger: RevertedOgShapeResult;
 }
+
+export interface SensorRaw {
+  vac: number;
+  touch: number;
+  finger: number;
+}
+
+export type SensorEntry = [number, SensorRaw];
+
+export type SensorObject = Record<string, SensorEntry[]>;
 
 export interface RunData {
   id: number;

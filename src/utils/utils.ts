@@ -34,6 +34,9 @@ import {
   RevertedOgShapeResult,
   SensorArrays,
   SensorData,
+  SensorEntry,
+  SensorObject,
+  SensorRaw,
 } from "@/features/autodiagnostic/autodiagnosticTypes";
 import { Content, LogFile, Service } from "@/features/logparser/logparserTypes";
 import { JobSchema, JobType } from "@/features/harvjob/harvjobTypes";
@@ -1274,30 +1277,22 @@ const revertOgShapeAndCalculate = (sortedSensors: SensorData[] = []) => {
  * @param sensors
  * @returns
  */
-export const transformSensors = (
-  sensors: Record<string, [number, Record<string, number>][]> = {},
-) => {
+export const transformSensors = (sensors: SensorObject = {}) => {
   const toSensorArray = (
     key: string,
-    value: [number, Record<string, number>][],
+    value: SensorEntry[],
     prop: string,
   ): SensorData[] => {
-    return value.reduce(
-      (acc: SensorData[], [ts, values]: [number, Record<string, number>]) => {
-        if (!isNaN(values[prop])) {
-          acc.push({ state: key, ts, value: values[prop] });
-        }
-        return acc;
-      },
-      [],
-    );
+    return value.reduce((acc: SensorData[], [ts, values]: SensorEntry) => {
+      if (!isNaN(values[prop as keyof SensorRaw])) {
+        acc.push({ state: key, ts, value: values[prop as keyof SensorRaw] });
+      }
+      return acc;
+    }, []);
   };
 
   const sensorArrays: SensorArrays = Object.entries(sensors).reduce(
-    (
-      acc: SensorArrays,
-      [key, value]: [string, [number, Record<string, number>][]],
-    ) => {
+    (acc: any, [key, value]) => {
       acc.touch.push(...toSensorArray(key, value, "touch"));
       acc.vacuum.push(...toSensorArray(key, value, "vac"));
       acc.finger.push(...toSensorArray(key, value, "finger"));
