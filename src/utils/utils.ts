@@ -38,7 +38,12 @@ import {
   SensorObject,
   SensorRaw,
 } from "@/features/autodiagnostic/autodiagnosticTypes";
-import { Content, LogFile, Service } from "@/features/logparser/logparserTypes";
+import {
+  Content,
+  LogFile,
+  Service,
+  Video,
+} from "@/features/logparser/logparserTypes";
 import { JobSchema, JobType } from "@/features/harvjob/harvjobTypes";
 import {
   ResultReport,
@@ -1449,10 +1454,12 @@ export const sortServices = (services: Array<Service>) => {
  *
  * @returns Array of video object
  */
-export const uniqueVideoTabs = (categories = []) => {
+export const uniqueVideoTabs = (categories: Array<Video>) => {
   let key = "category";
   let arrayUniqueByKey = [
-    ...new Map(categories.map((item) => [item[key], item])).values(),
+    ...new Map(
+      categories.map((item) => [item[key as keyof Video], item]),
+    ).values(),
   ];
   return arrayUniqueByKey;
 };
