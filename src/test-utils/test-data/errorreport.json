@@ -3,6 +3,41 @@
   "exceptions": [
     {
       "id": 6,
+      "code": {
+        "id": 2,
+        "created": "2022-07-22T16:59:37.819000Z",
+        "lastModified": "2022-07-22T16:59:37.819000Z",
+        "code": 0,
+        "name": "AFTBaseException",
+        "msg": "test",
+        "team": "aft",
+        "cycle": false,
+        "operator_msg": "Please cycle the harvester",
+        "creator": 1,
+        "modifiedBy": null,
+        "manifest": null
+      },
+      "harvester": {
+        "id": 3,
+        "url": "http://localhost:8085/api/v1/harvesters/3/",
+        "harv_id": 11,
+        "location": {
+          "id": 2,
+          "url": "http://localhost:8085/api/v1/locations/2/",
+          "ranch": "Ranch B",
+          "distributor": {
+            "id": 1,
+            "url": "http://localhost:8085/api/v1/distributors/1/",
+            "name": "Distributor 1"
+          }
+        },
+        "fruit": {
+          "id": 2,
+          "url": "http://localhost:8085/api/v1/fruits/2/",
+          "name": "apple"
+        },
+        "is_emulator": false
+      },
       "created": "2022-10-14T16:18:26.657000Z",
       "lastModified": "2023-01-18T19:42:16.857000Z",
       "service": "drivesys",
@@ -15,6 +50,10 @@
       "primary": true,
       "creator": 1,
       "modifiedBy": null,
+      "report": 6
+    },
+    {
+      "id": 7,
       "code": {
         "id": 2,
         "created": "2022-07-22T16:59:37.819000Z",
@@ -29,10 +68,27 @@
         "modifiedBy": null,
         "manifest": null
       },
-      "report": 6
-    },
-    {
-      "id": 7,
+      "harvester": {
+        "id": 3,
+        "url": "http://localhost:8085/api/v1/harvesters/3/",
+        "harv_id": 11,
+        "location": {
+          "id": 2,
+          "url": "http://localhost:8085/api/v1/locations/2/",
+          "ranch": "Ranch B",
+          "distributor": {
+            "id": 1,
+            "url": "http://localhost:8085/api/v1/distributors/1/",
+            "name": "Distributor 1"
+          }
+        },
+        "fruit": {
+          "id": 2,
+          "url": "http://localhost:8085/api/v1/fruits/2/",
+          "name": "apple"
+        },
+        "is_emulator": false
+      },
       "created": "2022-10-14T16:18:26.663000Z",
       "lastModified": "2022-10-14T16:18:26.663000Z",
       "service": "harvester",
@@ -45,24 +101,64 @@
       "primary": false,
       "creator": 1,
       "modifiedBy": null,
-      "code": {
-        "id": 2,
-        "created": "2022-07-22T16:59:37.819000Z",
-        "lastModified": "2022-07-22T16:59:37.819000Z",
-        "code": 0,
-        "name": "AFTBaseException",
-        "msg": "test",
-        "team": "aft",
-        "cycle": false,
-        "operator_msg": "Please cycle the harvester",
-        "creator": 1,
-        "modifiedBy": null,
-        "manifest": null
-      },
       "report": 6
     }
   ],
   "tags": [],
+  "event": {
+    "id": 6,
+    "tags": [],
+    "created": "2022-10-14T16:18:26.637000Z",
+    "lastModified": "2022-10-14T16:18:26.637000Z",
+    "UUID": "431afec6-3898-11ed-b748-78d00429ea2e",
+    "creator": 1,
+    "modifiedBy": null,
+    "secondary_events": [],
+    "related_objects": [
+      {
+        "url": "/errorreports/6/",
+        "object": "Error Report"
+      }
+    ],
+    "related_files": []
+  },
+  "pick_session": null,
+  "location": {
+    "id": 2,
+    "url": "http://localhost:8085/api/v1/locations/2/",
+    "ranch": "Ranch B",
+    "distributor": {
+      "id": 1,
+      "url": "http://localhost:8085/api/v1/distributors/1/",
+      "name": "Distributor 1"
+    }
+  },
+  "harvester": {
+    "id": 3,
+    "url": "http://localhost:8085/api/v1/harvesters/3/",
+    "harv_id": 11,
+    "location": {
+      "id": 2,
+      "url": "http://localhost:8085/api/v1/locations/2/",
+      "ranch": "Ranch B",
+      "distributor": {
+        "id": 1,
+        "url": "http://localhost:8085/api/v1/distributors/1/",
+        "name": "Distributor 1"
+      }
+    },
+    "fruit": {
+      "id": 2,
+      "url": "http://localhost:8085/api/v1/fruits/2/",
+      "name": "apple"
+    },
+    "is_emulator": false
+  },
+  "creator": {
+    "id": 1,
+    "username": "aft"
+  },
+  "modifiedBy": null,
   "created": "2022-10-14T16:18:26.648000Z",
   "lastModified": "2022-10-14T16:18:26.648000Z",
   "reportTime": "2022-09-20T03:56:52.933000Z",
@@ -73,18 +169,11 @@
         "sysmon_ap.0": {
           "index": 0,
           "errors": {
-            "traychg.0": {
-              "ts": 1663646190.8968048,
-              "code": 0,
-              "value": "Tray error",
-              "traceback": "",
-              "operator_err_type": null
-            },
             "drivesys.0": {
+              "handled": true,
               "ts": 1663646200.8968048,
               "code": 0,
               "value": "Sevcon Controller Error",
-              "handled": true,
               "traceback": "",
               "operator_err_type": null
             },
@@ -92,6 +181,13 @@
               "ts": 1663646210.8968048,
               "code": 0,
               "value": "Sevcon Controller Error",
+              "traceback": "",
+              "operator_err_type": null
+            },
+            "traychg.0": {
+              "ts": 1663646190.8968048,
+              "code": 0,
+              "value": "Tray error",
               "traceback": "",
               "operator_err_type": null
             }
@@ -972,127 +1068,5 @@
     "timestamp": 1663646212.9332893
   },
   "githash": "unknown",
-  "gitbranch": "unknown",
-  "creator": 1,
-  "modifiedBy": null,
-  "location": {
-    "id": 2,
-    "created": "2022-04-26T10:05:49.037000Z",
-    "lastModified": "2022-04-26T10:06:02.486000Z",
-    "ranch": "Ranch B",
-    "country": "United States",
-    "region": "Texas",
-    "site_channel": "harvs-dev",
-    "creator": 2,
-    "modifiedBy": 2,
-    "distributor": {
-      "id": 1,
-      "created": "2022-04-26T10:05:04.151000Z",
-      "lastModified": "2022-04-26T10:05:04.151000Z",
-      "name": "Distributor 1",
-      "creator": 1,
-      "modifiedBy": null
-    }
-  },
-  "harvester": {
-    "id": 3,
-    "created": "2022-04-26T10:07:18.334000Z",
-    "lastModified": "2022-04-26T10:07:18.334000Z",
-    "harv_id": 11,
-    "name": "aft-harv011",
-    "is_emulator": false,
-    "thingName": null,
-    "creator": 2,
-    "modifiedBy": null,
-    "fruit": {
-      "id": 2,
-      "created": "2022-04-26T10:06:41.304000Z",
-      "lastModified": "2022-04-26T10:06:41.304000Z",
-      "name": "apple",
-      "creator": 2,
-      "modifiedBy": null
-    },
-    "location": {
-      "id": 2,
-      "created": "2022-04-26T10:05:49.037000Z",
-      "lastModified": "2022-04-26T10:06:02.486000Z",
-      "ranch": "Ranch B",
-      "country": "United States",
-      "region": "Texas",
-      "site_channel": "harvs-dev",
-      "creator": 2,
-      "modifiedBy": 2,
-      "distributor": {
-        "id": 1,
-        "created": "2022-04-26T10:05:04.151000Z",
-        "lastModified": "2022-04-26T10:05:04.151000Z",
-        "name": "Distributor 1",
-        "creator": 1,
-        "modifiedBy": null
-      }
-    },
-    "release": null,
-    "harvester_history": "/harvesterhistory/?harv_id=11",
-    "version_history": "versions/",
-    "version": {
-      "id": 2,
-      "tags": [],
-      "created": "2022-10-10T22:25:59.922000Z",
-      "lastModified": "2022-11-10T20:53:14.953000Z",
-      "reportTime": null,
-      "report": {
-        "data": {
-          "master": {
-            "dirty": {},
-            "version": 1.0
-          },
-          "robot.1": {
-            "dirty": {},
-            "version": 1.0
-          },
-          "robot.2": {
-            "dirty": {},
-            "version": 1.0
-          },
-          "stereo.1": {
-            "dirty": {},
-            "version": 1.0
-          },
-          "stereo.2": {
-            "dirty": {
-              "dirty": "package"
-            },
-            "version": 1.0
-          },
-          "serial_number": "011"
-        },
-        "type": "version"
-      },
-      "is_dirty": true,
-      "has_unexpected": false,
-      "creator": 1,
-      "modifiedBy": null,
-      "location": null,
-      "harvester": 3,
-      "conflicts": {
-        "error": "No release"
-      }
-    }
-  },
-  "event": {
-    "id": 6,
-    "tags": [],
-    "created": "2022-10-14T16:18:26.637000Z",
-    "lastModified": "2022-10-14T16:18:26.637000Z",
-    "UUID": "431afec6-3898-11ed-b748-78d00429ea2e",
-    "creator": 1,
-    "modifiedBy": null,
-    "related_objects": [
-      {
-        "url": "/errorreports/6/",
-        "object": "Error Report"
-      }
-    ],
-    "related_files": []
-  }
+  "gitbranch": "unknown"
 }
