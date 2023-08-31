@@ -15,8 +15,8 @@ test("should render the home page", async () => {
 
   render(<Home />, { routeObject, routeHistory, initialRouteIndex });
 
-  const welcome = screen.getByText(/Welcome to HDS/);
-  expect(welcome).toBeInTheDocument();
+  const hds = screen.getByText(/Harvester Data Store/);
+  expect(hds).toBeInTheDocument();
 
   const searchHarv = screen.getByRole("spinbutton");
   expect(searchHarv).toBeInTheDocument();
