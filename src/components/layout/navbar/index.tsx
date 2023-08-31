@@ -22,7 +22,6 @@ import Logo from "@/assets/images/aft_logo.png";
 import Avatar from "@/assets/images/avatar.png";
 import AllMenu from "./AllMenu";
 import UserMenu from "./UserMenu";
-import AdminMenu from "./AdminMenu";
 import ThemeMode from "./ThemeMode";
 import { darkThemeClass } from "@/utils/utils";
 import "./styles.css";
@@ -35,7 +34,6 @@ interface NavbarProps {
 function Navbar(props: NavbarProps) {
   const [showAllMenu, setshowAllMenu] = useState<boolean>(false);
   const [showUserMenu, setshowUserMenu] = useState<boolean>(false);
-  const [showAdminMenu, setshowAdminMenu] = useState<boolean>(false);
   const [showThemeMenu, setshowThemeMenu] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const { user, token } = useAppSelector((state) => state.auth);
@@ -44,16 +42,12 @@ function Navbar(props: NavbarProps) {
   const allMenuRef = useRef<HTMLDivElement | null>(null);
   const userMenuRef = useRef<HTMLDivElement | null>(null);
   const themeMenuRef = useRef<HTMLDivElement | null>(null);
-  const adminMenuRef = useRef<HTMLDivElement | null>(null);
 
   useClickOutside(allMenuRef, () => {
     setshowAllMenu(false);
   });
   useClickOutside(userMenuRef, () => {
     setshowUserMenu(false);
-  });
-  useClickOutside(adminMenuRef, () => {
-    setshowAdminMenu(false);
   });
   useClickOutside(themeMenuRef, () => {
     setshowThemeMenu(false);
@@ -109,26 +103,6 @@ function Navbar(props: NavbarProps) {
               <img src={Logo} alt="" />
             </div>
           </Link>
-          {user?.is_superuser && (
-            <div className="admin-menu-wrap" ref={adminMenuRef}>
-              <div
-                onClick={() => setshowAdminMenu((prev) => !prev)}
-                className="text-secondary cursor"
-              >
-                Admin
-              </div>
-              <div
-                className={`circle-icon hover1 ${
-                  showAdminMenu && "active-header"
-                }`}
-              >
-                <div onClick={() => setshowAdminMenu((prev) => !prev)}>
-                  <ArrowDown />
-                </div>
-                {showAdminMenu && <AdminMenu theme={theme} />}
-              </div>
-            </div>
-          )}
         </div>
         <div className="header-middle"></div>
         <div className="header-right">
