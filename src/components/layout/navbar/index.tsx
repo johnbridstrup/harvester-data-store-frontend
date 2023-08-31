@@ -29,6 +29,7 @@ import "./styles.css";
 
 interface NavbarProps {
   handleThemeChange: (theme: string) => void;
+  openSideBar: () => void;
 }
 
 function Navbar(props: NavbarProps) {
@@ -100,6 +101,9 @@ function Navbar(props: NavbarProps) {
     <header className={`${headerdt}`}>
       <div className="container-fluid header">
         <div className="header-left">
+          <div onClick={props.openSideBar}>
+            <i className="las la-bars la-2x"></i>
+          </div>
           <Link to="/" className="header-logo">
             <div className="circle">
               <img src={Logo} alt="" />
