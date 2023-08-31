@@ -14,8 +14,9 @@ import {
   selectDarkStyles,
   uuid,
 } from "@/utils/utils";
-import { InputFormControl, QueryAccordion } from "../styled";
 import errorreportService from "@/features/errorreport/errorreportService";
+import { THEME_MODES } from "@/features/base/constants";
+import { InputFormControl, QueryAccordion } from "../styled";
 
 export interface ParamsString {
   harv_ids?: string;
@@ -1027,4 +1028,46 @@ export const paretoApiService = async (
     }),
   );
   setParetoArr(paretoObjs);
+};
+
+export const ModalForm = (props: FormProps) => {
+  const [queryToggle, setQueryToggle] = useState(false);
+  const handleQueryToggle = () => {
+    setQueryToggle((current) => !current);
+  };
+  const { fieldData, handleFieldChange, theme } = props;
+  const customStyles = theme === THEME_MODES.DARK_THEME ? selectDarkStyles : {};
+  return (
+    <>
+      <GenericFormField {...props} />
+      <AdvancedQueryField
+        fieldData={fieldData}
+        handleFieldChange={handleFieldChange}
+        handleQueryToggle={handleQueryToggle}
+        queryToggle={queryToggle}
+        theme={theme}
+      />
+      <div className="form-group">
+        <label htmlFor="recipients">Select Recipients</label>
+        <Select
+          isMulti
+          isSearchable
+          placeholder="aft, noaft, ..."
+          options={props.usersOptions}
+          name="recipients"
+          onChange={props.handleRecipientSelect}
+          defaultValue={props.selectedRecipient}
+          value={props.selectedRecipient}
+          className="multi-select-container"
+          classNamePrefix="select"
+          styles={customStyles}
+        />
+      </div>
+      <div className="form-group text-center mt-4 mb-4">
+        <button onClick={props.handleSubmit} className="btn btn-primary">
+          CREATE
+        </button>
+      </div>
+    </>
+  );
 };
