@@ -191,3 +191,10 @@ export const JsonDiv = styled.div`
   border-radius: 5px;
   overflow-y: scroll;
 `;
+
+export const QueryAccordion = styled.div<{ open: boolean }>`
+  position: relative;
+  height: ${(props) => (props.open === true ? "100px" : "0")};
+  transition: 0.5s;
+  margin-bottom: 10px;
+`;

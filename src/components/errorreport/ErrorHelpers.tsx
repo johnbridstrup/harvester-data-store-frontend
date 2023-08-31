@@ -14,7 +14,7 @@ import {
   selectDarkStyles,
   uuid,
 } from "@/utils/utils";
-import { InputFormControl } from "../styled";
+import { InputFormControl, QueryAccordion } from "../styled";
 import errorreportService from "@/features/errorreport/errorreportService";
 
 export interface ParamsString {
@@ -25,6 +25,8 @@ export interface ParamsString {
   traceback?: string;
   start_time?: string;
   end_time?: string;
+  start_hour?: string;
+  end_hour?: string;
   tz?: string;
   generic?: string;
   is_emulator?: string;
@@ -41,6 +43,8 @@ export interface QueryObject {
   traceback?: string;
   start_time?: string;
   end_time?: string;
+  start_hour?: string;
+  end_hour?: string;
   tz?: string;
   generic?: string;
   is_emulator?: string;
@@ -146,6 +150,14 @@ export interface ParetoState {
   paretos: TransformedData;
   aggregate_query: string;
   chart_title: string;
+}
+
+interface AdvancedQProps {
+  theme: string;
+  queryToggle: boolean;
+  fieldData: QueryObject;
+  handleFieldChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleQueryToggle: () => void;
 }
 
 export const HoverTabular = (props: HoverProps) => {
@@ -694,16 +706,75 @@ export const GenericFormField = (props: FormProps) => {
   );
 };
 
+export const AdvancedQueryField = ({
+  fieldData,
+  handleFieldChange,
+  theme,
+  queryToggle,
+  handleQueryToggle,
+}: AdvancedQProps) => {
+  return (
+    <>
+      <span className="btn btn-sm btn-default mb-3" onClick={handleQueryToggle}>
+        {queryToggle ? "Hide" : "Show"} Advanced Query Options{" "}
+        <i className="las la-question-circle la-2x"></i>
+      </span>
+      <QueryAccordion open={queryToggle}>
+        {queryToggle && (
+          <div className="row">
+            <div className="col-md-6">
+              <label htmlFor="start_hour">Start Hour</label>
+              <InputFormControl
+                type="time"
+                name="start_hour"
+                id="start_hour"
+                value={fieldData?.start_hour}
+                onChange={handleFieldChange}
+                theme={theme}
+              />
+            </div>
+            <div className="col-md-6">
+              <label htmlFor="end_hour">End Hour</label>
+              <InputFormControl
+                type="time"
+                name="end_hour"
+                id="end_hour"
+                value={fieldData?.end_hour}
+                onChange={handleFieldChange}
+                theme={theme}
+              />
+            </div>
+          </div>
+        )}
+      </QueryAccordion>
+    </>
+  );
+};
+
 export const FormQuery = (props: FormProps) => {
+  const [queryToggle, setQueryToggle] = useState(false);
+  const handleQueryToggle = () => {
+    setQueryToggle((current) => !current);
+  };
   const {
     handleFormQuerySubmit,
     handleGenPareto,
     handleModalPopUp,
     notifyRef,
+    fieldData,
+    handleFieldChange,
+    theme,
   } = props;
   return (
     <form onSubmit={handleFormQuerySubmit} data-testid="query-form">
       <GenericFormField {...props} />
+      <AdvancedQueryField
+        fieldData={fieldData}
+        handleFieldChange={handleFieldChange}
+        handleQueryToggle={handleQueryToggle}
+        queryToggle={queryToggle}
+        theme={theme}
+      />
       <div className="form-group">
         <button type="submit" className="btn btn-primary btn-md">
           Submit
@@ -786,12 +857,24 @@ export const RightButtonGroup = (props: GroupProps) => {
 };
 
 export const ParetoForm = (props: ParetoProps) => {
+  const [queryToggle, setQueryToggle] = useState(false);
+  const handleQueryToggle = () => {
+    setQueryToggle((current) => !current);
+  };
+  const { fieldData, handleFieldChange, theme } = props;
   const dark = darkThemeClass("dark-theme", props.theme);
   const customStyles = dark ? selectDarkStyles : {};
   return (
     <div className="mb-4">
       <form onSubmit={props.handleSubmit} data-testid="query-form">
         <GenericFormField {...props} />
+        <AdvancedQueryField
+          fieldData={fieldData}
+          handleFieldChange={handleFieldChange}
+          handleQueryToggle={handleQueryToggle}
+          queryToggle={queryToggle}
+          theme={theme}
+        />
         <div className="row mb-3">
           <div className="col">
             <div className="form-group">

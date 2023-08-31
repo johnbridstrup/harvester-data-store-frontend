@@ -32,6 +32,7 @@ import {
   ParetoForm,
   ParetoState,
   ParetoTabular,
+  QueryObject,
   paretoApiService,
 } from "./ErrorHelpers";
 import { CopyBuildConfig } from "../copytoclipboard";
@@ -47,9 +48,11 @@ function ErrorReportPareto() {
   const [selectedTimezone, setSelectedTimezone] = useState(null);
   const [selectedFruit, setSelectedFruit] = useState(null);
   const [selectedCode, setSelectedCode] = useState(null);
-  const [fieldData, setFieldData] = useState({
+  const [fieldData, setFieldData] = useState<QueryObject>({
     start_time: "",
     end_time: "",
+    start_hour: "",
+    end_hour: "",
     traceback: "",
     generic: "",
     is_emulator: "0",
