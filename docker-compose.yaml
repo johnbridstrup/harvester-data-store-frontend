@@ -9,12 +9,8 @@ services:
     ports:
       - 3000:3000
     networks:
-      - hds-network
+      - hds_hds-network
 
 networks:
-  hds-network:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 10.103.0.1/16
+  hds_hds-network:
+    external: true
