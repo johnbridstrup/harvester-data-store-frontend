@@ -5,6 +5,7 @@ import { API_BASE_URL } from "@/features/base/constants";
 import useClickOutside from "@/hooks/useClickOutside";
 import Logo from "@/assets/images/aft_logo.png";
 import "./styles.css";
+import { darkThemeClass } from "@/utils/utils";
 
 interface SideBarProps {
   openSideBar: boolean;
@@ -14,6 +15,7 @@ interface SideBarProps {
 function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
   const sideRef = useRef<HTMLDivElement | null>(null);
   const { user } = useAppSelector((state) => state.auth);
+  const { theme } = useAppSelector((state) => state.home);
   const adminUrl =
     import.meta.env.REACT_APP_ADMIN_URL || `${API_BASE_URL}/admin`;
   const year = new Date().getFullYear();
@@ -22,25 +24,32 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
     closeSideBar();
   });
 
+  const sidedark = darkThemeClass("sidedark", theme);
+  const squarexd = darkThemeClass("square-x-d", theme);
+  const sideappd = darkThemeClass("side-apps-d", theme);
+  const accordion = darkThemeClass("accordion-d", theme);
+  const accitemd = darkThemeClass("accordion-item-d", theme);
+  const listgd = darkThemeClass("list-group-d", theme);
+
   return (
     <>
       {openSideBar && (
-        <div className="sidebar" ref={sideRef}>
+        <div className={`sidebar ${sidedark}`} ref={sideRef}>
           <div className="wrapper">
             <div className="top-section">
               <Link to="/">
                 <img src={Logo} alt="" className="side-logo" />
               </Link>
-              <div className="square-x" onClick={closeSideBar}>
+              <div className={`square-x ${squarexd}`} onClick={closeSideBar}>
                 x
               </div>
             </div>
 
-            <div className="side-apps scrollbar">
+            <div className={`side-apps scrollbar ${sideappd}`}>
               <div className="common-apps">APPS</div>
 
-              <div className="accordion" id="accordionApps">
-                <div className="accordion-item">
+              <div className={`accordion ${accordion}`} id="accordionApps">
+                <div className={`accordion-item ${accitemd}`}>
                   <h2 className="accordion-header">
                     <button
                       className="accordion-button"
@@ -59,7 +68,7 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
                     data-bs-parent="#accordionApps"
                   >
                     <div className="accordion-body">
-                      <ul className="list-group">
+                      <ul className={`list-group ${listgd}`}>
                         <li className="list-group-item hover1">
                           <Link to={"/harvesters"} className="link-color">
                             Harvester
@@ -89,7 +98,7 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
                     </div>
                   </div>
                 </div>
-                <div className="accordion-item">
+                <div className={`accordion-item ${accitemd}`}>
                   <h2 className="accordion-header">
                     <button
                       className="accordion-button collapsed"
@@ -108,7 +117,7 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
                     data-bs-parent="#accordionApps"
                   >
                     <div className="accordion-body">
-                      <ul className="list-group">
+                      <ul className={`list-group ${listgd}`}>
                         <li className="list-group-item hover1">
                           <Link to={"/events"} className="link-color">
                             Events
@@ -128,7 +137,7 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
                     </div>
                   </div>
                 </div>
-                <div className="accordion-item">
+                <div className={`accordion-item ${accitemd}`}>
                   <h2 className="accordion-header">
                     <button
                       className="accordion-button collapsed"
@@ -147,7 +156,7 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
                     data-bs-parent="#accordionApps"
                   >
                     <div className="accordion-body">
-                      <ul className="list-group">
+                      <ul className={`list-group ${listgd}`}>
                         <li className="list-group-item hover1">
                           <Link to={"/s3files"} className="link-color">
                             S3Files
@@ -163,7 +172,7 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
                   </div>
                 </div>
                 {user?.is_superuser && (
-                  <div className="accordion-item">
+                  <div className={`accordion-item ${accitemd}`}>
                     <h2 className="accordion-header">
                       <button
                         className="accordion-button collapsed"
@@ -182,7 +191,7 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
                       data-bs-parent="#accordionApps"
                     >
                       <div className="accordion-body">
-                        <ul className="list-group">
+                        <ul className={`list-group ${listgd}`}>
                           <li className="list-group-item hover1">
                             <Link to={"/migrations"} className="link-color">
                               HDS Migration

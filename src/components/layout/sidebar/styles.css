@@ -69,3 +69,31 @@
   font-size: 12px;
   padding-left: 5px;
 }
+
+.sidedark {
+  background: var(--dark-bg-third);
+}
+
+.square-x-d {
+  background: var(--dark-bg-third);
+  border: 1px solid var(--color-secondary);
+}
+
+.side-apps-d {
+  background: var(--dark-bg-third);
+}
+
+.accordion-d {
+  --bs-accordion-color: var(--color-white);
+  --bs-accordion-bg: inherit;
+}
+
+.accordion-item-d {
+  background: inherit;
+}
+
+.list-group-d {
+  --bs-list-group-bg: inherit;
+  --bs-list-group-color: var(--color-white);
+  --bs-list-group-border-color: var(--color-secondary);
+}

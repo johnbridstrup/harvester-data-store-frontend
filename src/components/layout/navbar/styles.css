@@ -387,6 +387,10 @@ header {
   color: var(--color-white) !important;
 }
 
+.lasdark {
+  color: #fff;
+}
+
 /* Theme Mode */
 
 @media (max-width: 505px) {

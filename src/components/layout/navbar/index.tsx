@@ -90,13 +90,14 @@ function Navbar(props: NavbarProps) {
     );
   const headerdt = darkThemeClass("header-dark-theme", theme);
   const profilebg = darkThemeClass("dt-profile-bg", theme);
+  const lasdark = darkThemeClass("lasdark", theme);
 
   return (
     <header className={`${headerdt}`}>
       <div className="container-fluid header">
         <div className="header-left">
           <div onClick={props.openSideBar}>
-            <i className="las la-bars la-2x"></i>
+            <i className={`las la-bars la-2x ${lasdark}`}></i>
           </div>
           <Link to="/" className="header-logo">
             <div className="circle">
