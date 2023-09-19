@@ -112,7 +112,7 @@ export const createScheduledJob = createAsyncThunk(
 );
 
 export const paginateScheduledJob = createAsyncThunk(
-  "harvjobs/paginateScheduledJob",
+  "jobscheduler/paginateScheduledJob",
   async (url: string, thunkAPI) => {
     try {
       const {
