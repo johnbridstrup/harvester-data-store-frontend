@@ -1,8 +1,17 @@
+import { useEffect } from "react";
+import { useAppDispatch } from "@/app/hooks";
 import MainLayout from "@/components/layout/main";
 import LandingView from "@/components/home";
+import { myScheduledJob } from "@/features/jobscheduler/jobschedulerSlice";
 import "./styles.css";
 
 function Home() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(myScheduledJob());
+  }, []);
+
   return (
     <MainLayout>
       <div className="container">
