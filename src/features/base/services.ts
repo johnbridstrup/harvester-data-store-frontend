@@ -176,4 +176,12 @@ export class BaseService {
   public genericGet = async (url: string, token: string) => {
     return await axiosService.get(url, token);
   };
+
+  public genericPatch = async (
+    url: string,
+    token: string,
+    data: Record<string, any>,
+  ) => {
+    return await axiosService.patch(url, token, data);
+  };
 }
