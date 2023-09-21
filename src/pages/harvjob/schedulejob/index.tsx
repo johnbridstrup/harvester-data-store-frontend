@@ -8,6 +8,7 @@ import {
   getJobTypeSchema,
   getScheduledJobForm,
   createScheduledJob,
+  getScheduledJob,
 } from "@/features/jobscheduler/jobschedulerSlice";
 import { LoaderDiv } from "@/components/styled";
 import { paramsToObject } from "@/utils/utils";
@@ -17,7 +18,9 @@ import "./styles.css";
 const Form = lazy(() => import("@rjsf/mui"));
 
 function ScheduleJobView() {
-  const { formbuilder } = useAppSelector((state) => state.jobscheduler);
+  const { formbuilder, scheduledjob } = useAppSelector(
+    (state) => state.jobscheduler,
+  );
   const { theme } = useAppSelector((state) => state.home);
   const dispatch = useAppDispatch();
   const { search } = useLocation();
@@ -34,8 +37,9 @@ function ScheduleJobView() {
           ];
         if (url) dispatch(getScheduledJobForm(url));
       }
+      if (paramsObj.job) dispatch(getScheduledJob(paramsObj.job as number));
     })();
-  }, [dispatch, search]);
+  }, [dispatch]);
 
   const schema = formbuilder.form || {
     properties: {},
@@ -84,6 +88,7 @@ function ScheduleJobView() {
                 schema={schema}
                 validator={validator}
                 uiSchema={uiSchema}
+                formData={scheduledjob?.job_def}
                 onSubmit={(data) => handleScheduleJob(data)}
                 onError={(errors) => console.log(errors)}
               />
