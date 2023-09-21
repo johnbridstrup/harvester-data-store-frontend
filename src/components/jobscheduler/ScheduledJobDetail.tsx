@@ -16,6 +16,7 @@ function ScheduledJobDetail() {
   const payloadRef = useRef<HTMLButtonElement | null>(null);
 
   const tabledt = darkThemeClass("dt-table", theme);
+  const btn = darkThemeClass("btn-dark", theme);
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
@@ -28,6 +29,14 @@ function ScheduledJobDetail() {
 
   return (
     <>
+      <div className="flex-right mb-2">
+        <Link
+          className={`btn ${btn}`}
+          to={`/schedulejob/?job=${scheduledjob?.id}&jobtype=${scheduledjob?.job_def.jobtype}&schema_version=${scheduledjob?.job_def.schema_version}`}
+        >
+          Reschedule
+        </Link>
+      </div>
       <div className="f-w-600">Overview</div>
       <div className="table-responsive mb-4">
         <table className={`table ${tabledt}`}>
