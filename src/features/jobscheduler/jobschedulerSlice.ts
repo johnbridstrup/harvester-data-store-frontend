@@ -7,6 +7,7 @@ import { paginateRequest } from "../base/services";
 const initialState: JobSchedulerState = {
   loading: false,
   creating: false,
+  patching: false,
   scheduledjobs: [],
   scheduledjob: null,
   jobtypeschema: null,
@@ -146,6 +147,50 @@ export const myScheduledJob = createAsyncThunk(
   },
 );
 
+export const rescheduleJob = createAsyncThunk(
+  "jobscheduler/rescheduleJob",
+  async (data: Record<string, any>, thunkAPI) => {
+    try {
+      const {
+        auth: { token },
+      } = thunkAPI.getState() as { auth: { token: string } };
+      const id: number = data.id;
+      delete data["id"];
+      return await jobschedulerService.genericPatch(
+        `${SCHEDULEDJOBS_URL}${id}/reschedule/`,
+        token,
+        data,
+      );
+    } catch (error) {
+      console.log(error);
+      const message = invalidateCache(error, thunkAPI.dispatch);
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
+
+export const toggleJobActivity = createAsyncThunk(
+  "jobscheduler/toggleJobActivity",
+  async (data: { id: number; enabled: boolean }, thunkAPI) => {
+    try {
+      const {
+        auth: { token },
+      } = thunkAPI.getState() as { auth: { token: string } };
+      let url: string;
+      if (data.enabled) {
+        url = `${SCHEDULEDJOBS_URL}${data.id}/enable/`;
+      } else {
+        url = `${SCHEDULEDJOBS_URL}${data.id}/cancel/`;
+      }
+      return await jobschedulerService.genericGet(url, token);
+    } catch (error) {
+      console.log(error);
+      const message = invalidateCache(error, thunkAPI.dispatch);
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
+
 const jobschedulerSlice = createSlice({
   name: "jobscheduler",
   initialState,
@@ -235,6 +280,26 @@ const jobschedulerSlice = createSlice({
       })
       .addCase(myScheduledJob.rejected, (state, action) => {
         state.loading = false;
+        state.errorMsg = action.payload;
+      })
+      .addCase(rescheduleJob.pending, (state) => {
+        state.patching = true;
+      })
+      .addCase(rescheduleJob.fulfilled, (state) => {
+        state.patching = false;
+      })
+      .addCase(rescheduleJob.rejected, (state, action) => {
+        state.patching = false;
+        state.errorMsg = action.payload;
+      })
+      .addCase(toggleJobActivity.pending, (state) => {
+        state.patching = true;
+      })
+      .addCase(toggleJobActivity.fulfilled, (state) => {
+        state.patching = false;
+      })
+      .addCase(toggleJobActivity.rejected, (state, action) => {
+        state.patching = false;
         state.errorMsg = action.payload;
       });
   },

@@ -78,6 +78,7 @@ interface JobTypeSchema {
 
 export interface JobSchedulerState extends CommonState {
   creating: boolean;
+  patching: boolean;
   scheduledjobs: Array<ScheduledJob>;
   scheduledjob: ScheduledJob | null;
   jobtypeschema: JobTypeSchema | null;
