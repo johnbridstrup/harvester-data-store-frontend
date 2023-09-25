@@ -1,4 +1,4 @@
-import { CommonState } from "../base/types";
+import { CommonState, HarvesterMinimal } from "../base/types";
 import { Job } from "../harvjob/harvjobTypes";
 
 interface IntervalSchedule {
@@ -64,7 +64,7 @@ export interface ScheduledJob {
   schedule_status: string;
   creator: number;
   modifiedBy: number | null;
-  targets: Array<string>;
+  targets: Array<HarvesterMinimal>;
 }
 
 interface FormBuilder {
