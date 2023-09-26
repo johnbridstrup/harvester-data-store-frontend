@@ -714,9 +714,13 @@ export const AdvancedQueryField = ({
   queryToggle,
   handleQueryToggle,
 }: AdvancedQProps) => {
+  const btn = darkThemeClass("btn-dark", theme);
   return (
     <>
-      <span className="btn btn-sm btn-default mb-3" onClick={handleQueryToggle}>
+      <span
+        className={`btn btn-sm btn-default mb-3 ${btn}`}
+        onClick={handleQueryToggle}
+      >
         {queryToggle ? "Hide" : "Show"} Advanced Query Options{" "}
         <i className="las la-question-circle la-2x"></i>
       </span>
