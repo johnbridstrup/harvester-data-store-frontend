@@ -31,7 +31,7 @@ function ErrorReportDetailView() {
             paramsObj={paramsObj}
           />
           <Header
-            title={"HDS Prototype: Error Reports"}
+            title={"HDS Error Reports"}
             className={"display-6 mb-4"}
             id={params.reportId}
           />

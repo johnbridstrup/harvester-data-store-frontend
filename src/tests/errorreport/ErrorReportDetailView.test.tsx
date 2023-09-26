@@ -29,7 +29,7 @@ test("should render the error report detail view", async () => {
     initialRouteIndex,
   });
 
-  const banner = screen.getByText(/HDS Prototype: Error Reports 1/);
+  const banner = screen.getByText(/HDS Error Reports 1/);
   expect(banner).toBeInTheDocument();
 
   const tables = await screen.findAllByRole("table");
