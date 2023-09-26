@@ -9,16 +9,14 @@ interface HomeSearchProps {
 }
 
 function HomeSearch(props: HomeSearchProps) {
-  const cardtheme = darkThemeClass("dt-card-theme", props.theme);
-  const searchwrap = darkThemeClass("dt-search-wrap", props.theme);
   const inputtheme = darkThemeClass("dt-input-theme", props.theme);
-  const spandark = darkThemeClass("dt-span-dark", props.theme);
+  const btn = darkThemeClass("btn-dark", props.theme);
 
   return (
-    <div className={`card card-body mb-4 ${cardtheme}`}>
+    <div className={`custom-card`}>
       <div className="harv-search-heading">Search Harvester By Harv ID</div>
       <div className="harv-search">
-        <div className={`search-wrap ${searchwrap}`}>
+        <div className={`search-wrap`}>
           <i className="las la-search"></i>
           <input
             name="search"
@@ -30,7 +28,10 @@ function HomeSearch(props: HomeSearchProps) {
             onChange={props.handleChange}
             required
           />
-          <span onClick={props.handleSearch} className={`${spandark}`}>
+          <span
+            onClick={props.handleSearch}
+            className={`btn btn-sm btn-default ${btn}`}
+          >
             Search
           </span>
         </div>

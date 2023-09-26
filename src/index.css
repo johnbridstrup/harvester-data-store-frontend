@@ -28,6 +28,8 @@
   --shadow-3: rgba(0, 0, 0, 0.3);
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
+  --border-primary: #cdcdcd;
+  --border-primary-dark: #858585;
 }
 
 body {
@@ -299,6 +301,22 @@ a {
   margin-bottom: 20px;
 }
 /* Copy */
+
+/* Custom */
+.custom-card {
+  border: 1px solid var(--border-primary);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  margin-right: 1px;
+}
+
+.custom-card:hover {
+  border: 1px solid var(--border-primary-dark);
+}
+
+/* Custom */
 
 @media (max-width: 768px) {
   .custom-multiselect-control {

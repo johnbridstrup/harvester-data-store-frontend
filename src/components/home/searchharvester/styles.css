@@ -6,7 +6,6 @@
 }
 
 .search-wrap {
-  background: var(--bg-secondary);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -21,14 +20,6 @@
   width: 100%;
   font-size: 15px;
   padding: 0 10px;
-}
-
-.search-wrap span {
-  background: var(--bg-primary);
-  padding: 5px;
-  border-radius: 50px;
-  font-size: 13px;
-  cursor: pointer;
 }
 
 .dt-search-wrap {
