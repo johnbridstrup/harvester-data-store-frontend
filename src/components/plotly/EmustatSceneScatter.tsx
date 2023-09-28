@@ -1,24 +1,16 @@
 import Plotly from "react-plotly.js";
 import { useMediaQuery } from "react-responsive";
+import { SeriesTrace } from "@/features/emulatorstat/emulatorstatTypes";
 
 interface ChartProps {
-  ydata: Array<number>;
-  xdata: Array<string>;
-  hovers: Array<string>;
+  traces: Array<SeriesTrace>;
   ylabel: string;
   xlabel: string;
   title: string;
   theme: string;
 }
 
-function EmustatSceneScatter({
-  ydata,
-  ylabel,
-  xdata,
-  hovers,
-  title,
-  theme,
-}: ChartProps) {
+function EmustatSceneScatter({ traces, ylabel, title, theme }: ChartProps) {
   const paper_bgcolor = theme === "dark" ? "#343434" : "#fff";
   const plot_bgcolor = theme === "dark" ? "#343434" : "#fff";
   const color = theme === "dark" ? "#fff" : "#444";
@@ -32,7 +24,12 @@ function EmustatSceneScatter({
 
   const layout = {
     title: title,
-    showlegend: false,
+    showlegend: true,
+    legend: {
+      title: {
+        text: "HostName",
+      },
+    },
     autosize: false,
     width: width,
     height: 400,
@@ -49,20 +46,7 @@ function EmustatSceneScatter({
     },
   };
 
-  const data = [
-    {
-      y: ydata,
-      x: xdata,
-      type: "scatter",
-      mode: "markers",
-      marker: {
-        color: "rgb(142,124,195)",
-      },
-      text: hovers,
-    },
-  ];
-
-  return <Plotly data={data as any} layout={layout} />;
+  return <Plotly data={traces as any} layout={layout} />;
 }
 
 export default EmustatSceneScatter;

@@ -68,6 +68,11 @@ export interface ResultReport {
   tags?: Array<string>;
 }
 
+export interface ResultReportAddOn extends ResultReport {
+  report: Report;
+  tags: Array<string>;
+}
+
 export interface TraceObj {
   x: Array<string>;
   y: Array<number>;
@@ -79,6 +84,15 @@ export interface TraceObj {
   type: string;
   mode: string;
   jitter: number;
+  name: string;
+}
+
+export interface SeriesTrace {
+  x: Array<string>;
+  y: Array<number>;
+  text: Array<string>;
+  type: string;
+  mode: string;
   name: string;
 }
 

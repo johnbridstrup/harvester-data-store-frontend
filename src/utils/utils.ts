@@ -47,6 +47,8 @@ import {
 import { JobSchema, JobType } from "@/features/harvjob/harvjobTypes";
 import {
   ResultReport,
+  ResultReportAddOn,
+  SeriesTrace,
   TraceObj,
 } from "@/features/emulatorstat/emulatorstatTypes";
 
@@ -1788,6 +1790,98 @@ export const mapTraces = (
       x = [];
       y = [];
       error_y = [];
+      obj["name"] = key;
+      tracesArr.push(obj);
+    }
+  }
+  return tracesArr;
+};
+
+/**
+ * Group by data by hostname
+ * @param results
+ * @returns
+ */
+export const groupByHostName = (results: Array<ResultReportAddOn>) => {
+  return results.reduce<{ [key: string]: Array<ResultReportAddOn> }>(
+    (acc, item) => {
+      if (!acc[item.report.data.hostname]) {
+        acc[item.report.data.hostname] = [];
+      }
+
+      acc[item.report.data.hostname].push({
+        ...item,
+      });
+
+      return acc;
+    },
+    {},
+  );
+};
+
+/**
+ * Compute aggregate for series traces
+ * @param aggregate
+ * @param resultObj
+ * @returns
+ */
+export const mapSeriesTraces = (
+  aggregate: string,
+  resultObj: Record<string, Array<ResultReportAddOn>> = {},
+) => {
+  const tracesArr: Array<SeriesTrace> = [];
+
+  const targetfps = (fps?: string) => {
+    return fps ? `target fps: ${fps}` : "";
+  };
+  const avgfps = (fps?: string) => {
+    return fps ? `avg fps: ${fps}` : "";
+  };
+
+  for (const key in resultObj) {
+    if (Object.hasOwnProperty.call(resultObj, key)) {
+      let x: Array<string> = [];
+      let y: Array<number> = [];
+      let text: Array<string> = [];
+      const obj: SeriesTrace = resultObj[key].reduce(
+        (acc, item) => {
+          x.push(item.reportTime);
+          text.push(
+            `${item.tags.join(", ")} \n hostname: ${
+              item.report.data.hostname
+            } ${targetfps(item.report.data.target_fps)} ${avgfps(
+              item.report.data.avg_fps,
+            )}`,
+          );
+          if (aggregate === "picks_per_hour") {
+            y.push(item.picks_per_hour);
+          } else if (aggregate === "thoroughness") {
+            y.push(item.thoroughness);
+          } else if (aggregate === "grip_success") {
+            y.push(item.grip_success);
+          } else {
+            y.push(item.pick_success);
+          }
+          acc["x"] = x;
+          acc["y"] = y;
+          acc["type"] = "scatter";
+          acc["mode"] = "markers";
+          acc["text"] = text;
+          return acc;
+        },
+        {
+          x: [],
+          y: [],
+          text: [],
+          type: "",
+          mode: "",
+          name: "",
+        } as SeriesTrace,
+      );
+      // reset x, y and text
+      x = [];
+      y = [];
+      text = [];
       obj["name"] = key;
       tracesArr.push(obj);
     }

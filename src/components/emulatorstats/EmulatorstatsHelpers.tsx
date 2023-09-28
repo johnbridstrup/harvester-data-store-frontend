@@ -8,10 +8,14 @@ import {
   mergeSort,
   sortByMonth,
   selectDarkStyles,
+  mapSeriesTraces,
+  groupByHostName,
 } from "@/utils/utils";
 import {
   EmulatorStatReport,
   ResultReport,
+  ResultReportAddOn,
+  SeriesTrace,
   TraceObj,
 } from "@/features/emulatorstat/emulatorstatTypes";
 
@@ -142,12 +146,10 @@ export const transformEmustatAggs = (emustats: Array<EmulatorStatReport>) => {
  * @returns
  */
 export const transformEmustatSeries = (emustats: Array<EmulatorStatReport>) => {
-  let picksPerHour: Array<number> = [];
-  let thoroughnessPercent: Array<number> = [];
-  let gripSuccessPercent: Array<number> = [];
-  let pickSuccessPercent: Array<number> = [];
-  let timeSeries: Array<string> = [];
-  let hoverInfo: Array<string> = [];
+  let picksPerHour: Array<SeriesTrace> = [];
+  let thoroughnessPercent: Array<SeriesTrace> = [];
+  let gripSuccessPercent: Array<SeriesTrace> = [];
+  let pickSuccessPercent: Array<SeriesTrace> = [];
 
   const dateString = (dateStr: string) =>
     moment(dateStr).format("YYYY-MM-DD h:mm:ss");
@@ -176,21 +178,18 @@ export const transformEmustatSeries = (emustats: Array<EmulatorStatReport>) => {
     df.addColumn("grip_success", grip_success, { inplace: true });
     df.addColumn("pick_success", pick_success, { inplace: true });
 
-    const results = toJSON(df) as Array<ResultReport>;
-    picksPerHour = results.map((x) => x.picks_per_hour);
-    thoroughnessPercent = results.map((x) => x.thoroughness);
-    gripSuccessPercent = results.map((x) => x.grip_success);
-    pickSuccessPercent = results.map((x) => x.pick_success);
-    timeSeries = results.map((x) => x.reportTime);
-    hoverInfo = results.map((x) => x.tags?.join(", ")) as Array<string>;
+    const results = toJSON(df) as Array<ResultReportAddOn>;
+    const resultObj = groupByHostName(results);
+    picksPerHour = mapSeriesTraces("picks_per_hour", resultObj);
+    thoroughnessPercent = mapSeriesTraces("thoroughness", resultObj);
+    gripSuccessPercent = mapSeriesTraces("grip_success", resultObj);
+    pickSuccessPercent = mapSeriesTraces("pick_success", resultObj);
   }
   return {
     picksPerHour,
     thoroughnessPercent,
     gripSuccessPercent,
     pickSuccessPercent,
-    timeSeries,
-    hoverInfo,
   };
 };
 

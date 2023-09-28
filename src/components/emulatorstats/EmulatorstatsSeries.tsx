@@ -4,14 +4,13 @@ import { useAppSelector } from "@/app/hooks";
 import { NavTabItem, NavTabSpan, NavTabs } from "@/components/styled";
 import EmustatSceneScatter from "@/components/plotly/EmustatSceneScatter";
 import { darkThemeClass, selectDarkStyles } from "@/utils/utils";
+import { SeriesTrace } from "@/features/emulatorstat/emulatorstatTypes";
 
 interface SeriesProps {
-  gripSuccessPercent: Array<number>;
-  hoverInfo: Array<string>;
-  pickSuccessPercent: Array<number>;
-  picksPerHour: Array<number>;
-  thoroughnessPercent: Array<number>;
-  timeSeries: Array<string>;
+  gripSuccessPercent: Array<SeriesTrace>;
+  pickSuccessPercent: Array<SeriesTrace>;
+  picksPerHour: Array<SeriesTrace>;
+  thoroughnessPercent: Array<SeriesTrace>;
   dates: Array<string>;
   dispatchAction: Function;
 }
@@ -22,11 +21,9 @@ function EmulatorstatsSeries(props: SeriesProps) {
   const { theme } = useAppSelector((state) => state.home);
   const {
     gripSuccessPercent,
-    hoverInfo,
     pickSuccessPercent,
     picksPerHour,
     thoroughnessPercent,
-    timeSeries,
     dates,
     dispatchAction,
   } = props;
@@ -109,9 +106,7 @@ function EmulatorstatsSeries(props: SeriesProps) {
       />
       {activetab === "pickRateVsReportTime" && (
         <EmustatSceneScatter
-          ydata={picksPerHour}
-          xdata={timeSeries}
-          hovers={hoverInfo}
+          traces={picksPerHour}
           theme={theme as string}
           title={`Pick Rate vs Report Time ${selectedDate?.value || ""}`}
           ylabel="picks_per_hour"
@@ -121,9 +116,7 @@ function EmulatorstatsSeries(props: SeriesProps) {
 
       {activetab === "thoroughnessVsReportTime" && (
         <EmustatSceneScatter
-          ydata={thoroughnessPercent}
-          xdata={timeSeries}
-          hovers={hoverInfo}
+          traces={thoroughnessPercent}
           theme={theme as string}
           title={`Thoroughness vs Report Time ${selectedDate?.value || ""}`}
           ylabel="thoroughness_percentage"
@@ -133,9 +126,7 @@ function EmulatorstatsSeries(props: SeriesProps) {
 
       {activetab === "gripSuccessVsReportTime" && (
         <EmustatSceneScatter
-          ydata={gripSuccessPercent}
-          xdata={timeSeries}
-          hovers={hoverInfo}
+          traces={gripSuccessPercent}
           theme={theme as string}
           title={`Grip Success vs Report Time ${selectedDate?.value || ""}`}
           ylabel="grip_success_percentage"
@@ -145,9 +136,7 @@ function EmulatorstatsSeries(props: SeriesProps) {
 
       {activetab === "pickSuccessVsReportTime" && (
         <EmustatSceneScatter
-          ydata={pickSuccessPercent}
-          xdata={timeSeries}
-          hovers={hoverInfo}
+          traces={pickSuccessPercent}
           theme={theme as string}
           title={`Pick Success vs Report Time ${selectedDate?.value || ""}`}
           ylabel="pick_success_percentage"

@@ -7,6 +7,7 @@ import {
 } from "@/features/emulatorstat/emulatorstatSlice";
 import {
   EmulatorStatReport,
+  SeriesTrace,
   TraceObj,
 } from "@/features/emulatorstat/emulatorstatTypes";
 import {
@@ -34,12 +35,10 @@ interface ComponentState {
   pickSuccessPercent: Array<TraceObj>;
   picksPerHour: Array<TraceObj>;
   thoroughnessPercent: Array<TraceObj>;
-  gripSuccessSeries: Array<number>;
-  pickSuccessSeries: Array<number>;
-  picksPerHourSeries: Array<number>;
-  thoroughnessSeries: Array<number>;
-  hoverInfo: Array<string>;
-  timeSeries: Array<string>;
+  gripSuccessSeries: Array<SeriesTrace>;
+  pickSuccessSeries: Array<SeriesTrace>;
+  picksPerHourSeries: Array<SeriesTrace>;
+  thoroughnessSeries: Array<SeriesTrace>;
   dates: Array<string>;
 }
 
@@ -58,8 +57,6 @@ const initialState: ComponentState = {
   pickSuccessSeries: [],
   picksPerHourSeries: [],
   thoroughnessSeries: [],
-  hoverInfo: [],
-  timeSeries: [],
   dates: [],
 };
 
@@ -79,8 +76,6 @@ function reducer(state: ComponentState, action: ActionPayload) {
         pickSuccessSeries: series.pickSuccessPercent,
         picksPerHourSeries: series.picksPerHour,
         thoroughnessSeries: series.thoroughnessPercent,
-        hoverInfo: series.hoverInfo,
-        timeSeries: series.timeSeries,
         dates: uniqueValues("date", action.payload),
       };
     case "ON_DATE_PICKED":
@@ -93,8 +88,6 @@ function reducer(state: ComponentState, action: ActionPayload) {
         pickSuccessSeries: emuseries.pickSuccessPercent,
         picksPerHourSeries: emuseries.picksPerHour,
         thoroughnessSeries: emuseries.thoroughnessPercent,
-        hoverInfo: emuseries.hoverInfo,
-        timeSeries: emuseries.timeSeries,
       };
     default:
       return state;
@@ -163,8 +156,6 @@ function EmulatorstatsChartView() {
                 picksPerHour={state.picksPerHourSeries}
                 thoroughnessPercent={state.thoroughnessSeries}
                 dates={state.dates}
-                hoverInfo={state.hoverInfo}
-                timeSeries={state.timeSeries}
                 dispatchAction={dispatchAction}
               />
             ) : (
