@@ -65,7 +65,6 @@ export interface ResultReport {
   thoroughness: number;
   grip_success: number;
   pick_success: number;
-  tags?: Array<string>;
 }
 
 export interface ResultReportAddOn extends ResultReport {
