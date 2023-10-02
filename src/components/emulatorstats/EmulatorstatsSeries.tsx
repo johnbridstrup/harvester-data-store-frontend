@@ -54,7 +54,7 @@ function EmulatorstatsSeries(props: SeriesProps) {
             theme={theme as string}
             robocolor=""
           >
-            Pick Rate Vs Scene
+            Pick Rate Vs ReportTime
           </NavTabSpan>
         </NavTabItem>
         <NavTabItem>
@@ -65,7 +65,7 @@ function EmulatorstatsSeries(props: SeriesProps) {
             theme={theme as string}
             robocolor=""
           >
-            Thoroughness Vs Scene
+            Thoroughness Vs ReportTime
           </NavTabSpan>
         </NavTabItem>
         <NavTabItem>
@@ -76,7 +76,7 @@ function EmulatorstatsSeries(props: SeriesProps) {
             theme={theme as string}
             robocolor=""
           >
-            Grip Success Vs Scene
+            Grip Success Vs ReportTime
           </NavTabSpan>
         </NavTabItem>
         <NavTabItem>
@@ -87,7 +87,7 @@ function EmulatorstatsSeries(props: SeriesProps) {
             theme={theme as string}
             robocolor=""
           >
-            Pick Success Vs Scene
+            Pick Success Vs ReportTime
           </NavTabSpan>
         </NavTabItem>
       </NavTabs>
