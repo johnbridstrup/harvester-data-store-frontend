@@ -44,7 +44,7 @@ function DetailJobSchemas() {
       <VSCodeEditor
         height="40vh"
         language="python"
-        value={JSON.stringify(jobschema?.schema)}
+        value={JSON.stringify(jobschema?.schema, null, 2)}
         theme={theme == THEME_MODES.DARK_THEME ? "vs-dark" : "light"}
         options={{ ...monacoOptions, readOnly: true } as any}
       />
