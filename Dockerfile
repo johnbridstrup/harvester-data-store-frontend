@@ -1,4 +1,4 @@
-FROM node:16.20.1-slim as buildStage
+FROM node:18.18.1-slim as buildStage
 
 # copy and package installation
 WORKDIR /react/app
@@ -23,7 +23,7 @@ RUN echo "API URL: ${REACT_APP_HDS_API_URL}" && \
     npm run build
 
 # production build
-FROM node:16.20.1-slim as prodStage
+FROM node:18.18.1-slim as prodStage
 
 WORKDIR /opt/app/
 
