@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# npm install
+npm install
 
-# npm run build
+npm run build
 
 node server.cjs
