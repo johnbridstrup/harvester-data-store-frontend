@@ -26,6 +26,7 @@ function MyJob() {
           <thead>
             <tr>
               <th>Schedule Status</th>
+              <th>Job Status</th>
               <th>Job Type</th>
               <th>Targets</th>
               <th>Modify and Reschedule</th>
@@ -37,6 +38,11 @@ function MyJob() {
                 <td>
                   <Link to={`/scheduledjobs/${job.id}`}>
                     {job.schedule_status}
+                  </Link>
+                </td>
+                <td>
+                  <Link to={`/jobs/${job.jobs[job.jobs.length - 1]?.id}`}>
+                    {job.jobs[job.jobs.length - 1]?.jobstatus}
                   </Link>
                 </td>
                 <td>{job.job_def.jobtype}</td>
