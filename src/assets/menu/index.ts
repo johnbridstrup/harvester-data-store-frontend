@@ -85,7 +85,7 @@ export const menu = [
   },
   {
     name: "Scheduled Jobs",
-    icon: "scheduler",
+    icon: "scheduledjob",
     description: "Jobs to be run or have been run by task runner",
     href: "/scheduledjobs",
   },
@@ -127,7 +127,7 @@ export const homeMenu = [
     href: "/jobscheduler",
   },
   {
-    name: "Scheduled Jobs",
+    name: "Harvester Jobs",
     icon: "jobs",
     description: "Scheduled jobs on the harvesters",
     href: "/jobs",
