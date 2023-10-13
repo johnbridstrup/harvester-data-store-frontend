@@ -1,11 +1,9 @@
 services:
   client:
     extends:
-      file: docker-compose.yaml
+      file: docker-compose.base.yaml
       service: client
     build:
       args:
         - HDS_URL=https://hdsapi.cloud.advanced.farm
         - NODE_ENV=production
-    networks:
-      - "hds-network"
