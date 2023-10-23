@@ -184,4 +184,8 @@ export class BaseService {
   ) => {
     return await axiosService.patch(url, token, data);
   };
+
+  public upload = async (data: object, token: string) => {
+    return await axiosService.upload(this.url, token, data);
+  };
 }

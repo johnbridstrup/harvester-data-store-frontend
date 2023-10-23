@@ -79,12 +79,12 @@ export const getLogSession = createAsyncThunk(
 
 export const createLogSession = createAsyncThunk(
   "logparser/createLogSession",
-  async (data: Record<string, any>, thunkAPI) => {
+  async (data: object, thunkAPI) => {
     try {
       const {
         auth: { token },
       } = thunkAPI.getState() as { auth: { token: string } };
-      return await logparserService.create(data, token);
+      return await logparserService.upload(data, token);
     } catch (error) {
       console.log(error);
       const message = invalidateCache(error, thunkAPI.dispatch);
