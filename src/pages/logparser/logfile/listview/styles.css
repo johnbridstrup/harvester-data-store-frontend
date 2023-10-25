@@ -151,6 +151,11 @@
   color: var(--color-white);
 }
 
+.logview {
+  display: flex;
+  justify-content: flex-end;
+}
+
 @media (max-width: 376px) {
   .nav-body {
     flex-direction: column;

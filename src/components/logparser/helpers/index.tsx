@@ -1,13 +1,20 @@
 import { useMemo } from "react";
 import { Content } from "@/features/logparser/logparserTypes";
 import { LOG_LEVEL } from "@/features/base/constants";
-import { logContent } from "@/utils/utils";
+import { darkThemeClass, logContent } from "@/utils/utils";
 
 interface LogProps {
   log: Content;
   handleClick: (index: number, obj: Content) => void;
   logIndex: number;
   className: string;
+}
+
+interface LogSwitchProps {
+  toggleLogView: () => void;
+  logView: boolean;
+  theme: string;
+  id?: number;
 }
 
 export const LogHighlighter = (props: LogProps) => {
@@ -40,6 +47,35 @@ export const LogHighlighter = (props: LogProps) => {
         [<span className="text-primary">{logObj.service} </span>]{" "}
       </>
       <span>{logObj.log} </span>
+    </div>
+  );
+};
+
+export const LogSwitch = ({
+  toggleLogView,
+  logView,
+  theme,
+  id,
+}: LogSwitchProps) => {
+  const btn = darkThemeClass("btn-dark", theme);
+  const onNewWindow = () => {
+    const baseURL =
+      import.meta.env.REACT_APP_HOSTED_URL || "http://localhost:3000";
+    const endpoint = `/logfiles/${id}/logs`;
+    const url = `${baseURL}${endpoint}`;
+    const params = "width=900,height=600,popup";
+    window.open(url, "_blank", params);
+  };
+  return (
+    <div className="logview">
+      <span className={`btn btn-sm mx-2 ${btn}`} onClick={onNewWindow}>
+        Add New Log Window
+      </span>
+      <span onClick={toggleLogView} className={`btn btn-sm ${btn}`}>
+        {logView
+          ? "Switch To Log Entries Without Video"
+          : "Switch To Log Entries With Video"}
+      </span>
     </div>
   );
 };
