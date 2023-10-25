@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 import Select from "react-select";
+import { Link } from "react-router-dom";
 import useClickOutside from "@/hooks/useClickOutside";
 import {
   aggregateOptions,
@@ -841,6 +842,14 @@ export const RightButtonGroup = (props: GroupProps) => {
       <span onClick={props.popUp} className={`btn btn-default mx-2 ${btn}`}>
         Get Files
       </span>
+      <button className={`btn btn-default mx-2 ${btn}`}>
+        <Link
+          to={"/logfiles/2"}
+          className={`${btn ? "text-white" : "text-dark"}`}
+        >
+          View Logs
+        </Link>
+      </button>
       <button
         ref={props.downloadRef}
         data-bs-toggle="modal"
