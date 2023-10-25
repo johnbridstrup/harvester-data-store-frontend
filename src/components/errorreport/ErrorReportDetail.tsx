@@ -290,6 +290,7 @@ function ErrorReportDetail() {
         downloadRef={downloadRef}
         popUp={downloadPopUp}
         theme={theme as string}
+        eventObj={reportobj?.event}
       />
       <ErrorReportTable
         reportObj={reportobj}

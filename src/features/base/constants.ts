@@ -21,6 +21,7 @@ export const LOG_STR_PATTERN =
   /^\[([0-9]{8}T[0-9]{6}.[0-9]{3})\] \[([A-Z]+)\] \[([a-zA-Z0-9(_.\s)?]+)\]/;
 export const LOG_MSG_PATTERN =
   /-- [A-Za-z0-9(:\s.,<>?_\t\n{}[\]/'"~`!@#$%^&*()-+=)?]+/i;
+export const LOGSESSION = "LogSession";
 
 export enum status {
   HTTP_401_UNAUTHORIZED = "Request failed with status code 401",

@@ -16,7 +16,8 @@ import {
   uuid,
 } from "@/utils/utils";
 import errorreportService from "@/features/errorreport/errorreportService";
-import { THEME_MODES } from "@/features/base/constants";
+import { LOGSESSION, THEME_MODES } from "@/features/base/constants";
+import { RelatedObj } from "@/features/base/types";
 import { InputFormControl, QueryAccordion } from "../styled";
 
 export interface ParamsString {
@@ -125,6 +126,7 @@ interface GroupProps {
   createNotifRef: MutableRefObject<HTMLButtonElement | null>;
   createNotifPopUp: () => void;
   theme: string;
+  eventObj?: { related_objects: RelatedObj[] };
 }
 
 export interface ParetoProps extends FormProps {
@@ -831,6 +833,9 @@ export const ExceptTabular = (props: TabularProps) => {
 
 export const RightButtonGroup = (props: GroupProps) => {
   const btn = darkThemeClass("btn-dark", props.theme);
+  const log = props.eventObj?.related_objects.find(
+    (x) => x.object === LOGSESSION,
+  );
   return (
     <div className="flex-right mb-2">
       <span
@@ -842,12 +847,15 @@ export const RightButtonGroup = (props: GroupProps) => {
       <span onClick={props.popUp} className={`btn btn-default mx-2 ${btn}`}>
         Get Files
       </span>
-      <button className={`btn btn-default mx-2 ${btn}`}>
+      <button
+        disabled={log ? false : true}
+        className={`btn btn-default mx-2 ${btn}`}
+      >
         <Link
-          to={"/logfiles/2"}
+          to={`${log?.url}`}
           className={`${btn ? "text-white" : "text-dark"}`}
         >
-          View Logs
+          Stream Logs
         </Link>
       </button>
       <button
