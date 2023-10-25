@@ -3,10 +3,10 @@ import {
   Creator,
   HarvesterMinimal,
   LocationMinimal,
-  RelatedFile,
   RelatedObj,
 } from "../base/types";
 import { Exception, TransformException } from "../exception/exceptionTypes";
+import { EventObj as EventObject } from "../event/eventTypes";
 
 interface Hovered {
   type: string;
@@ -18,17 +18,11 @@ interface Internal {
   searchObj: Record<string, any> | null;
 }
 
-interface EventObj {
-  id: number;
-  tags: Array<string>;
-  created: string;
-  lastModified: string | null;
-  UUID: string;
+type OmittedEvent = Omit<EventObject, "creator" | "modifiedBy">;
+
+interface EventObj extends OmittedEvent {
   creator: number;
   modifiedBy: number | null;
-  secondary_events: Array<string>;
-  related_objects: Array<RelatedObj>;
-  related_files: Array<RelatedFile>;
 }
 
 interface Picksession {
