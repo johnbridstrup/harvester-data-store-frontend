@@ -8,6 +8,7 @@ import {
   setCurrIndex,
 } from "@/features/logparser/logparserSlice";
 import { LogFile } from "@/features/logparser/logparserTypes";
+import { LogComponent } from "@/features/base/constants";
 import { getCurrIndex, imagePath } from "@/utils/utils";
 import { NavTabItem, NavTabs, NavTabSpan } from "@/components/styled";
 import LoadVideo from "./LoadVideo";
@@ -97,6 +98,7 @@ function LogFileList() {
         rate={state.playbackRate}
         dispatchAction={dispatchAction}
         virtuoso={virtuoso}
+        component={LogComponent.logwithvideo}
       />
       <div className="row mb-4">
         <div className="col-md-6">

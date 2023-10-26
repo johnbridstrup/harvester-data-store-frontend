@@ -18,7 +18,7 @@ interface TabProps {
   dispatchAction: any;
   activeTab: string;
   virtuoso: MutableRefObject<VirtuosoHandle | null>;
-  videoRef: any;
+  videoRef?: any;
 }
 
 function TabbedServices(props: TabProps) {

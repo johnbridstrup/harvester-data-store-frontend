@@ -87,3 +87,8 @@ export enum EMULATORREPORT {
   chartview = "chartview",
   listview = "listview",
 }
+
+export enum LogComponent {
+  logwithvideo = "LOGWITHVIDEO",
+  logwithoutvideo = "LOGWITHOUTVIDEO",
+}

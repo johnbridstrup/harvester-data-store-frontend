@@ -1,14 +1,6 @@
 .nav-wrap {
   margin-bottom: 0.5rem;
 }
-.nav-menu {
-  display: flex;
-  align-items: center;
-}
-
-.nav-menu span {
-  margin: 0 0.3rem;
-}
 
 .nav-body {
   display: flex;
@@ -28,7 +20,7 @@
 }
 
 .nav-search {
-  flex: 0.8;
+  flex: 1;
 }
 
 .tab-content {

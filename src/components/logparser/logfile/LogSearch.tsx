@@ -7,12 +7,14 @@ import {
   scrollUpIndex,
   scrollDownIndex,
 } from "@/features/logparser/logparserSlice";
+import { LogComponent } from "@/features/base/constants";
 import { darkThemeClass } from "@/utils/utils";
 
 interface LogProps {
-  rate: number;
+  rate?: number;
   dispatchAction: (args0: any) => void;
   virtuoso: any;
+  component: LogComponent;
 }
 
 function LogSearch(props: LogProps) {
@@ -119,24 +121,22 @@ function LogSearch(props: LogProps) {
 
   return (
     <div className="nav-wrap mb-4">
-      <div className="nav-menu">
-        <span>File</span>
-        <span>Video</span>
-      </div>
       <div className="nav-body">
-        <div className="nav-icon-prog">
-          <label htmlFor="playback">Playback Rate</label>
-          <input
-            type="range"
-            value={props.rate}
-            min={0.5}
-            max={2.5}
-            step={0.5}
-            id="playback"
-            onChange={handleRateChange}
-          />
-          <span>{props.rate}x</span>
-        </div>
+        {props.component === LogComponent.logwithvideo && (
+          <div className="nav-icon-prog">
+            <label htmlFor="playback">Playback Rate</label>
+            <input
+              type="range"
+              value={props.rate}
+              min={0.5}
+              max={2.5}
+              step={0.5}
+              id="playback"
+              onChange={handleRateChange}
+            />
+            <span>{props.rate}x</span>
+          </div>
+        )}
         <div className="nav-search">
           <div className="find-bar">
             <div className="find-bar-text">
