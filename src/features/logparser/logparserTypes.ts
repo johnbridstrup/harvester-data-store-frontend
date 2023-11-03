@@ -118,3 +118,13 @@ export enum ActionTypesEnum {
   ON_LOG_SEARCH = "ON_LOG_SEARCH",
   ON_SCROLL_INDEX = "ON_SCROLL_INDEX",
 }
+
+interface Payload {
+  ts: number;
+}
+
+export interface EventPayload {
+  main?: Payload;
+  child?: Payload;
+  other?: Payload;
+}

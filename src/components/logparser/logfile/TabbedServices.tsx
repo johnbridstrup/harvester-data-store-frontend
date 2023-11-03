@@ -1,4 +1,4 @@
-import { MutableRefObject, useState } from "react";
+import { MutableRefObject, useState, useEffect } from "react";
 import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
@@ -8,13 +8,15 @@ import {
   setMarker,
   tabChangeSearch,
 } from "@/features/logparser/logparserSlice";
-import { THEME_MODES } from "@/features/base/constants";
+import { LOGSCHANNEL, THEME_MODES } from "@/features/base/constants";
 import { darkThemeClass, getCurrIndex } from "@/utils/utils";
 import { NavTabItem, NavTabs, NavTabSpan } from "@/components/styled";
 import { LogHighlighter } from "../helpers";
 import {
   ActionTypesEnum,
   Content,
+  EventPayload,
+  LogFile,
   Service,
 } from "@/features/logparser/logparserTypes";
 
@@ -35,9 +37,42 @@ function TabbedServices(props: TabProps) {
     internal: { services },
   } = useAppSelector((state) => state.logparser);
   const { theme } = useAppSelector((state) => state.home);
-
+  const bc = new BroadcastChannel(LOGSCHANNEL);
   const dispatch = useAppDispatch();
   const content = logfile?.content || [];
+
+  const broadcastListener = async (ts: number): Promise<void> => {
+    let currentIndex = await getCurrIndex(ts, logfile as LogFile);
+    dispatch(setMarker({ index: currentIndex, log: { timestamp: ts } }));
+    dispatch(tabChangeSearch());
+    setTimeout(() => {
+      props.virtuoso?.current?.scrollToIndex({
+        index: currentIndex,
+        align: "start",
+        behavior: "auto",
+      });
+    }, 100);
+    if (logvideo?.meta?.length && logvideo.meta[0]) {
+      let wholeSeconds = Math.floor(ts - logvideo.meta[0].ts);
+      if (wholeSeconds < 0) {
+        wholeSeconds = 0;
+      }
+      await seekToSeconds(wholeSeconds);
+    }
+  };
+
+  useEffect(() => {
+    const bc = new BroadcastChannel(LOGSCHANNEL);
+    bc.onmessage = (event: MessageEvent<any>) => {
+      const data: EventPayload = event.data;
+      if (data.child?.ts) {
+        broadcastListener(data.child.ts);
+      }
+    };
+    return () => {
+      bc.close();
+    };
+  }, [props.virtuoso, broadcastListener]);
 
   const handleTabChange = async (tabObj: Service) => {
     props.dispatchAction({
@@ -57,6 +92,7 @@ function TabbedServices(props: TabProps) {
         behavior: "auto",
       });
     }, 100);
+    bc.postMessage({ main: { ts: currentMarker } });
   };
 
   const seekToSeconds = (seconds: number) => {
@@ -75,6 +111,7 @@ function TabbedServices(props: TabProps) {
       }
       await seekToSeconds(wholeSeconds);
     }
+    bc.postMessage({ main: { ts: log.timestamp } });
   };
 
   const clearSelection = () => {

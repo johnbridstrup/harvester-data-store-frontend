@@ -22,6 +22,7 @@ export const LOG_STR_PATTERN =
 export const LOG_MSG_PATTERN =
   /-- [A-Za-z0-9(:\s.,<>?_\t\n{}[\]/'"~`!@#$%^&*()-+=)?]+/i;
 export const LOGSESSION = "LogSession";
+export const LOGSCHANNEL = "logs_channel";
 
 export enum status {
   HTTP_401_UNAUTHORIZED = "Request failed with status code 401",

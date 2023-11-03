@@ -1,10 +1,11 @@
-import { MutableRefObject, useState } from "react";
+import { MutableRefObject, useState, useEffect } from "react";
 import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
 import { useAppSelector } from "@/app/hooks";
-import { THEME_MODES } from "@/features/base/constants";
+import { LOGSCHANNEL, THEME_MODES } from "@/features/base/constants";
 import {
   ActionTypesEnum,
   Content,
+  EventPayload,
   LogFile,
   Service,
 } from "@/features/logparser/logparserTypes";
@@ -38,8 +39,42 @@ function TabWindowServices(props: TabProps) {
   } = props.state;
   const { token } = useAppSelector((state) => state.auth);
   const { theme } = useAppSelector((state) => state.home);
-
+  const bc = new BroadcastChannel(LOGSCHANNEL);
   const content = logfile?.content || [];
+
+  const broadcastListener = async (ts: number): Promise<void> => {
+    let currentIndex = await getCurrIndex(ts, logfile as LogFile);
+    props.dispatchAction({
+      type: ActionTypesEnum.ON_SET_MARKER,
+      payload: { index: currentIndex, log: { timestamp: ts } },
+    });
+    props.dispatchAction({
+      type: ActionTypesEnum.ON_TAB_CHANGE_SEARCH,
+    });
+    setTimeout(() => {
+      props.virtuoso?.current?.scrollToIndex({
+        index: currentIndex,
+        align: "start",
+        behavior: "auto",
+      });
+    }, 100);
+  };
+
+  useEffect(() => {
+    const bc = new BroadcastChannel(LOGSCHANNEL);
+    bc.onmessage = (event: MessageEvent<any>) => {
+      const data: EventPayload = event.data;
+      if (data.main?.ts) {
+        broadcastListener(data.main.ts);
+      }
+      if (data.other?.ts) {
+        broadcastListener(data.other.ts);
+      }
+    };
+    return () => {
+      bc.close();
+    };
+  }, [props.virtuoso, broadcastListener]);
 
   const handleTabChange = async (tabObj: Service) => {
     props.dispatchAction({
@@ -53,7 +88,7 @@ function TabWindowServices(props: TabProps) {
       String(token),
     );
     setFetching(false);
-    let currentIndex = await getCurrIndex(currentMarker as number, res);
+    let currentIndex = await getCurrIndex(Number(currentMarker), res);
     props.dispatchAction({
       type: ActionTypesEnum.ON_LOGFILE_GET_REQ,
       payload: res,
@@ -72,12 +107,20 @@ function TabWindowServices(props: TabProps) {
         behavior: "auto",
       });
     }, 100);
+    bc.postMessage({
+      child: { ts: currentMarker },
+      other: { ts: currentMarker },
+    });
   };
 
   const handleLineClick = async (index: number, log: Content) => {
     props.dispatchAction({
       type: ActionTypesEnum.ON_SET_MARKER,
       payload: { index, log },
+    });
+    bc.postMessage({
+      child: { ts: log.timestamp },
+      other: { ts: log.timestamp },
     });
   };
 
