@@ -1,42 +1,44 @@
 import { MutableRefObject, useState } from "react";
 import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
-import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import {
-  clearMarker,
-  getLogFile,
-  setCurrIndex,
-  setMarker,
-  tabChangeSearch,
-} from "@/features/logparser/logparserSlice";
+import { useAppSelector } from "@/app/hooks";
 import { THEME_MODES } from "@/features/base/constants";
-import { darkThemeClass, getCurrIndex } from "@/utils/utils";
-import { NavTabItem, NavTabs, NavTabSpan } from "@/components/styled";
-import { LogHighlighter } from "../helpers";
 import {
   ActionTypesEnum,
   Content,
+  LogFile,
   Service,
 } from "@/features/logparser/logparserTypes";
+import logparserService, {
+  LOGFILES_URL,
+} from "@/features/logparser/logparserService";
+import { NavTabItem, NavTabs, NavTabSpan } from "@/components/styled";
+import { darkThemeClass, getCurrIndex } from "@/utils/utils";
+import { LogHighlighter } from "../helpers";
 
 interface TabProps {
   dispatchAction: any;
-  activeTab: string;
   virtuoso: MutableRefObject<VirtuosoHandle | null>;
-  videoRef?: any;
+  state: {
+    logfile: LogFile | null;
+    currentMarker: number | null;
+    currentIndex: number | null;
+    serviceActiveTab: string;
+    internal: { services: Array<Service> };
+  };
 }
 
-function TabbedServices(props: TabProps) {
+function TabWindowServices(props: TabProps) {
   const [fetching, setFetching] = useState(false);
   const {
     logfile,
     currentMarker,
     currentIndex,
-    logvideo,
+    serviceActiveTab,
     internal: { services },
-  } = useAppSelector((state) => state.logparser);
+  } = props.state;
+  const { token } = useAppSelector((state) => state.auth);
   const { theme } = useAppSelector((state) => state.home);
 
-  const dispatch = useAppDispatch();
   const content = logfile?.content || [];
 
   const handleTabChange = async (tabObj: Service) => {
@@ -45,11 +47,24 @@ function TabbedServices(props: TabProps) {
       payload: `${tabObj.service}.${tabObj.robot}`,
     });
     setFetching(true);
-    const res = await dispatch(getLogFile(tabObj.id));
+    const res = await logparserService.factoryGet(
+      LOGFILES_URL,
+      tabObj.id,
+      String(token),
+    );
     setFetching(false);
-    let currentIndex = await getCurrIndex(currentMarker as number, res.payload);
-    dispatch(setCurrIndex(currentIndex));
-    dispatch(tabChangeSearch());
+    let currentIndex = await getCurrIndex(currentMarker as number, res);
+    props.dispatchAction({
+      type: ActionTypesEnum.ON_LOGFILE_GET_REQ,
+      payload: res,
+    });
+    props.dispatchAction({
+      type: ActionTypesEnum.ON_SET_CURR_INDEX,
+      payload: currentIndex,
+    });
+    props.dispatchAction({
+      type: ActionTypesEnum.ON_TAB_CHANGE_SEARCH,
+    });
     setTimeout(() => {
       props.virtuoso?.current?.scrollToIndex({
         index: currentIndex,
@@ -59,26 +74,17 @@ function TabbedServices(props: TabProps) {
     }, 100);
   };
 
-  const seekToSeconds = (seconds: number) => {
-    return new Promise((resolve, _) => {
-      props.videoRef?.current?.seekTo(seconds, "seconds");
-      resolve(seconds);
+  const handleLineClick = async (index: number, log: Content) => {
+    props.dispatchAction({
+      type: ActionTypesEnum.ON_SET_MARKER,
+      payload: { index, log },
     });
   };
 
-  const handleLineClick = async (index: number, log: Content) => {
-    dispatch(setMarker({ index, log }));
-    if (logvideo?.meta?.length && logvideo.meta[0]) {
-      let wholeSeconds = Math.floor(log.timestamp - logvideo.meta[0].ts);
-      if (wholeSeconds < 0) {
-        wholeSeconds = 0;
-      }
-      await seekToSeconds(wholeSeconds);
-    }
-  };
-
   const clearSelection = () => {
-    dispatch(clearMarker());
+    props.dispatchAction({
+      type: ActionTypesEnum.ON_CLEAR_MARKER,
+    });
   };
 
   const markedBackground = (index: number) => {
@@ -106,7 +112,7 @@ function TabbedServices(props: TabProps) {
         {services.map((x, i) => (
           <NavTabItem key={i}>
             <NavTabSpan
-              activetab={props.activeTab}
+              activetab={serviceActiveTab}
               navto={`${x.display}`}
               onClick={() => handleTabChange(x)}
               theme={theme as string}
@@ -142,4 +148,4 @@ function TabbedServices(props: TabProps) {
   );
 }
 
-export default TabbedServices;
+export default TabWindowServices;

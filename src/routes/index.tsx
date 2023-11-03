@@ -62,6 +62,9 @@ const LogSessionDetailView = lazy(
 const LogFileListView = lazy(
   () => import("@/pages/logparser/logfile/listview"),
 );
+const LogWindowView = lazy(
+  () => import("@/pages/logparser/logfile/listview/logwindow"),
+);
 const DocumentationView = lazy(() => import("@/pages/docs"));
 const UserProfileView = lazy(() => import("@/pages/profile"));
 const JobTypeListView = lazy(() => import("@/pages/harvjob/jobtypes/listview"));
@@ -562,6 +565,22 @@ function BaseRoutes() {
               }
             >
               <LogFileListView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/logfiles/:sessionId/logs"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <LogWindowView />
             </Suspense>
           </RequireUser>
         }
