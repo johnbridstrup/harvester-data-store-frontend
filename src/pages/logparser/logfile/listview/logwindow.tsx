@@ -14,9 +14,10 @@ import logparserService, {
 } from "@/features/logparser/logparserService";
 import MainLayout from "@/components/layout/main";
 import TabWindowServices from "@/components/logparser/logfile/TabWindowServices";
+import LogSearchWindow from "@/components/logparser/logfile/LogSearchWindow";
 import { Loader } from "@/components/common";
 import { LoaderDiv } from "@/components/styled";
-import { logFilter, sortServices } from "@/utils/utils";
+import { findLogIndex, logFilter, sortServices } from "@/utils/utils";
 import "./styles.css";
 
 interface Search {
@@ -151,6 +152,119 @@ function reducer(state: ComponentState, action: ActionPayload) {
         ...state,
         currentMarker: null,
       };
+    case ActionTypesEnum.ON_CLEAR_SEARCH:
+      return {
+        ...state,
+        internal: {
+          ...state.internal,
+          search: {
+            ...state.internal.search,
+            searchText: null,
+            currentIndex: null,
+            countIndex: 0,
+            content: [],
+          },
+        },
+        logfile: {
+          ...state.oglogfile,
+        },
+      };
+    case ActionTypesEnum.ON_LOG_SEARCH:
+      if (action.payload) {
+        let filtered = logFilter(action.payload, state.oglogfile?.content);
+        if (state.oglogfile?.file_name.endsWith(".dump")) {
+          let logObj = JSON.parse(JSON.stringify(state.logfile));
+          logObj.content = filtered;
+          return {
+            ...state,
+            internal: {
+              ...state.internal,
+              search: {
+                ...state.internal.search,
+                searchText: action.payload,
+                currentIndex: 0,
+                countIndex: 0,
+                content: filtered,
+              },
+            },
+            currentIndex: 0,
+            logfile: logObj,
+          };
+        } else {
+          let objIndex = findLogIndex(state.oglogfile?.content, filtered[0]);
+          return {
+            ...state,
+            internal: {
+              ...state.internal,
+              search: {
+                ...state.internal.search,
+                searchText: action.payload,
+                currentIndex: objIndex,
+                countIndex: 0,
+                content: filtered,
+              },
+            },
+            currentIndex: objIndex,
+          };
+        }
+      } else {
+        return {
+          ...state,
+          internal: {
+            ...state.internal,
+            search: {
+              ...state.internal.search,
+              currentIndex: null,
+              countIndex: 0,
+              content: [],
+            },
+          },
+        };
+      }
+    case ActionTypesEnum.ON_SCROLL_INDEX:
+      let direction = action.payload;
+      let current: number = 0;
+      if (direction === "up") {
+        current = state.internal.search.countIndex - 1;
+      } else if (direction === "down") {
+        current = state.internal.search.countIndex + 1;
+      }
+      if (
+        state.internal.search.searchText &&
+        state.internal.search.content[current]
+      ) {
+        if (state.oglogfile?.file_name.endsWith(".dump")) {
+          return {
+            ...state,
+            internal: {
+              ...state.internal,
+              search: {
+                ...state.internal.search,
+                currentIndex: current,
+                countIndex: current,
+              },
+            },
+            currentIndex: current,
+          };
+        } else {
+          let obj = state.internal.search.content[current];
+          let objIndex = findLogIndex(state.oglogfile?.content, obj);
+          return {
+            ...state,
+            internal: {
+              ...state.internal,
+              search: {
+                ...state.internal.search,
+                currentIndex: objIndex,
+                countIndex: current,
+              },
+            },
+            currentIndex: objIndex,
+          };
+        }
+      } else {
+        return state;
+      }
     default:
       return state;
   }
@@ -191,11 +305,18 @@ function LogWindowView() {
             <Loader size={50} />
           </LoaderDiv>
         ) : (
-          <TabWindowServices
-            state={state}
-            dispatchAction={dispatchAction}
-            virtuoso={virtuoso}
-          />
+          <>
+            <LogSearchWindow
+              dispatchAction={dispatchAction}
+              virtuoso={virtuoso}
+              internal={state.internal}
+            />
+            <TabWindowServices
+              state={state}
+              dispatchAction={dispatchAction}
+              virtuoso={virtuoso}
+            />
+          </>
         )}
       </div>
     </MainLayout>
