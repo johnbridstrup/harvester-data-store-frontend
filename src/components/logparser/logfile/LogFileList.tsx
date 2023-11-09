@@ -7,7 +7,7 @@ import {
   queryLogVideo,
   setCurrIndex,
 } from "@/features/logparser/logparserSlice";
-import { LogFile } from "@/features/logparser/logparserTypes";
+import { ActionTypesEnum, LogFile } from "@/features/logparser/logparserTypes";
 import { LogComponent } from "@/features/base/constants";
 import { getCurrIndex, imagePath } from "@/utils/utils";
 import { NavTabItem, NavTabs, NavTabSpan } from "@/components/styled";
@@ -34,17 +34,17 @@ const componentState: ComponentState = {
 
 function reducer(state: ComponentState, action: ActionPayload) {
   switch (action.type) {
-    case "ON_VIDEO_TAB_CHANGE":
+    case ActionTypesEnum.ON_VIDEO_TAB_CHANGE:
       return {
         ...state,
         videoActiveTab: action.payload,
       };
-    case "ON_SERVICE_TAB_CHANGE":
+    case ActionTypesEnum.ON_SERVICE_TAB_CHANGE:
       return {
         ...state,
         serviceActiveTab: action.payload,
       };
-    case "ON_PLAY_BACK_RATE":
+    case ActionTypesEnum.ON_PLAY_BACK_RATE:
       return {
         ...state,
         playbackRate: action.payload,
@@ -68,7 +68,7 @@ function LogFileList() {
   const dispatch = useAppDispatch();
 
   const handleVideoTabChange = async (tab: string) => {
-    dispatchAction({ type: "ON_VIDEO_TAB_CHANGE", payload: tab });
+    dispatchAction({ type: ActionTypesEnum.ON_VIDEO_TAB_CHANGE, payload: tab });
     let queryObj = {
       category: tab,
       log_session_id: logsession?.id,

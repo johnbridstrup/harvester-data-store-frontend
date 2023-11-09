@@ -7,6 +7,7 @@ import {
   scrollUpIndex,
   scrollDownIndex,
 } from "@/features/logparser/logparserSlice";
+import { ActionTypesEnum } from "@/features/logparser/logparserTypes";
 import { LogComponent } from "@/features/base/constants";
 import { darkThemeClass } from "@/utils/utils";
 
@@ -51,7 +52,7 @@ function LogSearch(props: LogProps) {
 
   const handleRateChange = (e: ChangeEvent<HTMLInputElement>) => {
     props.dispatchAction({
-      type: "ON_PLAY_BACK_RATE",
+      type: ActionTypesEnum.ON_PLAY_BACK_RATE,
       payload: Number(e.target.value),
     });
   };
