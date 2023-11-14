@@ -1,5 +1,6 @@
 import {
   ChangeEvent,
+  FC,
   FormEvent,
   MutableRefObject,
   useRef,
@@ -7,6 +8,7 @@ import {
 } from "react";
 import Select from "react-select";
 import { Link } from "react-router-dom";
+import Slider from "react-slick";
 import useClickOutside from "@/hooks/useClickOutside";
 import {
   aggregateOptions,
@@ -17,7 +19,7 @@ import {
 } from "@/utils/utils";
 import errorreportService from "@/features/errorreport/errorreportService";
 import { LOGSESSION, THEME_MODES } from "@/features/base/constants";
-import { RelatedObj } from "@/features/base/types";
+import { RelatedObj, RelatedFile } from "@/features/base/types";
 import { InputFormControl, QueryAccordion } from "../styled";
 
 export interface ParamsString {
@@ -162,6 +164,10 @@ interface AdvancedQProps {
   fieldData: QueryObject;
   handleFieldChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleQueryToggle: () => void;
+}
+
+interface ImageProps {
+  related_images: RelatedFile[];
 }
 
 export const HoverTabular = (props: HoverProps) => {
@@ -1090,5 +1096,33 @@ export const ModalForm = (props: FormProps) => {
         </button>
       </div>
     </>
+  );
+};
+
+export const ImageViewer: FC<ImageProps> = ({ related_images }) => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+  return (
+    <div className="image-viewer">
+      {related_images.length ? (
+        <Slider {...settings}>
+          {related_images.map((image, index) => (
+            <div className="slide-box" key={index}>
+              <img src={image.url} alt="img" />
+            </div>
+          ))}
+        </Slider>
+      ) : (
+        <div className="slide-box-broken">
+          <img src={imagePath("noimage")} alt="img" />
+        </div>
+      )}
+    </div>
   );
 };

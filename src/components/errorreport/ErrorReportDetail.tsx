@@ -41,7 +41,12 @@ import {
 import ErrorReportTable from "../tables/ErrorReportTable";
 import ServiceTable from "../tables/ServiceTable";
 import TimeTable from "../tables/Timetable";
-import { ExceptTabular, QueryObject, RightButtonGroup } from "./ErrorHelpers";
+import {
+  ExceptTabular,
+  ImageViewer,
+  QueryObject,
+  RightButtonGroup,
+} from "./ErrorHelpers";
 import CreateNotifModal from "../modals/CreateNotifModal";
 import timezones from "@/utils/timezones";
 import {
@@ -68,6 +73,7 @@ interface ActiveTab {
   sysmon: string;
   subtabs: string;
   traceback: string;
+  extrainfo: string;
 }
 
 interface SysmonObj {
@@ -81,6 +87,7 @@ function ErrorReportDetail() {
     sysmon: "Master",
     subtabs: "NUC",
     traceback: "Traceback",
+    extrainfo: "ChronyPlot",
   });
   const [sysmonObj, setSysmonObj] = useState<SysmonObj>({
     sysmonKeys: [],
@@ -204,6 +211,10 @@ function ErrorReportDetail() {
     } else if (category === ErrorReportEnum.traceback) {
       setActiveTab((current) => {
         return { ...current, traceback: tab as string };
+      });
+    } else if (category === ErrorReportEnum.extrainfo) {
+      setActiveTab((current) => {
+        return { ...current, extrainfo: tab as string };
       });
     }
   };
@@ -459,19 +470,62 @@ function ErrorReportDetail() {
                   <Container>
                     <div className="row">
                       <div className="col-xl-12 col-md-12 col-sm-12">
-                        <Suspense
-                          fallback={
-                            <LoaderDiv>
-                              <Loader size={25} />
-                            </LoaderDiv>
-                          }
-                        >
-                          <ChronyInfoPlot
-                            robot={ErrorReportEnum.Master}
-                            chronyInfo={sysmonObj.sysmonObj?.chrony_info}
-                            theme={theme as string}
+                        <NavTabs>
+                          <NavTabItem>
+                            <NavTabSpan
+                              onClick={() =>
+                                handleTabChange(
+                                  ErrorReportEnum.ChronyPlot,
+                                  ErrorReportEnum.extrainfo,
+                                  undefined,
+                                )
+                              }
+                              activetab={activeTab.extrainfo}
+                              navto={ErrorReportEnum.ChronyPlot}
+                              robocolor=""
+                            >
+                              Chrony Plot
+                            </NavTabSpan>
+                          </NavTabItem>
+                          <NavTabItem>
+                            <NavTabSpan
+                              onClick={() =>
+                                handleTabChange(
+                                  ErrorReportEnum.Images,
+                                  ErrorReportEnum.extrainfo,
+                                  undefined,
+                                )
+                              }
+                              activetab={activeTab.extrainfo}
+                              navto={ErrorReportEnum.Images}
+                              robocolor=""
+                            >
+                              Images
+                            </NavTabSpan>
+                          </NavTabItem>
+                        </NavTabs>
+                        {activeTab.extrainfo === ErrorReportEnum.ChronyPlot && (
+                          <Suspense
+                            fallback={
+                              <LoaderDiv>
+                                <Loader size={25} />
+                              </LoaderDiv>
+                            }
+                          >
+                            <ChronyInfoPlot
+                              robot={ErrorReportEnum.Master}
+                              chronyInfo={sysmonObj.sysmonObj?.chrony_info}
+                              theme={theme as string}
+                            />
+                          </Suspense>
+                        )}
+                        {activeTab.extrainfo === ErrorReportEnum.Images && (
+                          <ImageViewer
+                            related_images={
+                              reportobj?.event.related_images || []
+                            }
                           />
-                        </Suspense>
+                        )}
                       </div>
                       <div className="col-xl-12 col-md-12 col-sm-12">
                         <TimeTable
@@ -491,19 +545,62 @@ function ErrorReportDetail() {
                   <Container>
                     <div className="row">
                       <div className="col-xl-12 col-md-12 col-sm-12">
-                        <Suspense
-                          fallback={
-                            <LoaderDiv>
-                              <Loader size={25} />
-                            </LoaderDiv>
-                          }
-                        >
-                          <ChronyInfoPlot
-                            robot={ErrorReportEnum.Robot}
-                            chronyInfo={subTabObj?.chrony_info}
-                            theme={theme as string}
+                        <NavTabs>
+                          <NavTabItem>
+                            <NavTabSpan
+                              onClick={() =>
+                                handleTabChange(
+                                  ErrorReportEnum.ChronyPlot,
+                                  ErrorReportEnum.extrainfo,
+                                  undefined,
+                                )
+                              }
+                              activetab={activeTab.extrainfo}
+                              navto={ErrorReportEnum.ChronyPlot}
+                              robocolor=""
+                            >
+                              Chrony Plot
+                            </NavTabSpan>
+                          </NavTabItem>
+                          <NavTabItem>
+                            <NavTabSpan
+                              onClick={() =>
+                                handleTabChange(
+                                  ErrorReportEnum.Images,
+                                  ErrorReportEnum.extrainfo,
+                                  undefined,
+                                )
+                              }
+                              activetab={activeTab.extrainfo}
+                              navto={ErrorReportEnum.Images}
+                              robocolor=""
+                            >
+                              Images
+                            </NavTabSpan>
+                          </NavTabItem>
+                        </NavTabs>
+                        {activeTab.extrainfo === ErrorReportEnum.ChronyPlot && (
+                          <Suspense
+                            fallback={
+                              <LoaderDiv>
+                                <Loader size={25} />
+                              </LoaderDiv>
+                            }
+                          >
+                            <ChronyInfoPlot
+                              robot={ErrorReportEnum.Robot}
+                              chronyInfo={subTabObj?.chrony_info}
+                              theme={theme as string}
+                            />
+                          </Suspense>
+                        )}
+                        {activeTab.extrainfo === ErrorReportEnum.Images && (
+                          <ImageViewer
+                            related_images={
+                              reportobj?.event.related_images || []
+                            }
                           />
-                        </Suspense>
+                        )}
                       </div>
                       <div className="col-xl-12 col-md-12 col-sm-12">
                         <TimeTable

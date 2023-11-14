@@ -21,6 +21,7 @@ export interface EventObj {
   secondary_events: Array<string>;
   related_objects: Array<RelatedObj>;
   related_files: Array<RelatedFile>;
+  related_images: Array<RelatedFile>;
 }
 
 export interface PickSession extends EventObj {}

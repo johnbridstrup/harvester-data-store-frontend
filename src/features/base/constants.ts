@@ -105,4 +105,7 @@ export enum ErrorReportEnum {
   sysmon = "sysmon",
   subtabs = "subtabs",
   Robot = "Robot",
+  extrainfo = "extrainfo",
+  ChronyPlot = "ChronyPlot",
+  Images = "Images",
 }

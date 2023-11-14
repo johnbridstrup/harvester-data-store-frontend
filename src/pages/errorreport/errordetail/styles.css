@@ -12,3 +12,25 @@
 .scrollbar::-webkit-scrollbar {
   width: 4px;
 }
+
+.image-viewer {
+  height: 400px;
+  margin-top: 1rem;
+}
+
+.slide-box img {
+  height: 300px;
+  width: 100%;
+}
+
+.slide-box-broken {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.slide-box-broken img {
+  height: 200px;
+  width: 200px;
+}
