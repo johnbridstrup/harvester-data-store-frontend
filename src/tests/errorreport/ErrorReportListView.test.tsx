@@ -5,9 +5,15 @@ import {
   getByText,
   getAllByText,
 } from "@/test-utils";
+import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import selectEvent from "react-select-event";
 import ErrorReportListView from "@/pages/errorreport/errorlist";
+
+vi.mock("react-slick", () => ({
+  __esModule: true,
+  default: vi.fn(() => <div>React Slick Component</div>),
+}));
 
 test("should render the error report list view", async () => {
   const user = userEvent.setup();

@@ -13,6 +13,11 @@ vi.mock("react-plotly.js", () => ({
   default: vi.fn(() => <div>React Plotly Component</div>),
 }));
 
+vi.mock("react-slick", () => ({
+  __esModule: true,
+  default: vi.fn(() => <div>React Slick Component</div>),
+}));
+
 test("should render the error report detail view", async () => {
   const routeObject = [
     {

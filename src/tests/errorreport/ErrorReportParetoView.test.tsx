@@ -15,6 +15,11 @@ vi.mock("react-plotly.js", () => ({
   default: vi.fn(() => <div>React Plotly Component</div>),
 }));
 
+vi.mock("react-slick", () => ({
+  __esModule: true,
+  default: vi.fn(() => <div>React Slick Component</div>),
+}));
+
 test("should render the error report pareto view", async () => {
   const user = userEvent.setup();
   const routeObject = [
