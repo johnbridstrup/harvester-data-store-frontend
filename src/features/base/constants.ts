@@ -93,3 +93,16 @@ export enum LogComponent {
   logwithvideo = "LOGWITHVIDEO",
   logwithoutvideo = "LOGWITHOUTVIDEO",
 }
+
+export enum ErrorReportEnum {
+  Master = "Master",
+  NUC = "NUC",
+  JETSON = "JETSON",
+  Traceback = "Traceback",
+  Info = "Info",
+  traceback = "traceback",
+  exception = "exception",
+  sysmon = "sysmon",
+  subtabs = "subtabs",
+  Robot = "Robot",
+}

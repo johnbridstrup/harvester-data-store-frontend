@@ -51,7 +51,12 @@ import {
 import { queryLocation } from "@/features/location/locationSlice";
 import { queryExceptionCode } from "@/features/exception/exceptionSlice";
 import { queryUsers } from "@/features/users/usersSlice";
-import { MAX_LIMIT, SUCCESS, THEME_MODES } from "@/features/base/constants";
+import {
+  ErrorReportEnum,
+  MAX_LIMIT,
+  SUCCESS,
+  THEME_MODES,
+} from "@/features/base/constants";
 import { createNotification } from "@/features/notification/notificationSlice";
 import { SysmonKey } from "@/features/errorreport/errorreportTypes";
 import { TransformException } from "@/features/exception/exceptionTypes";
@@ -151,7 +156,7 @@ function ErrorReportDetail() {
     category: string,
     obj?: Record<string, any>,
   ) => {
-    if (category === "exception") {
+    if (category === ErrorReportEnum.exception) {
       if (!(tab instanceof Object)) return;
       setActiveTab((current) => {
         return { ...current, exception: tab.exec_label };
@@ -171,32 +176,32 @@ function ErrorReportDetail() {
           setSubTabObj(sysmonReport[robot.robot][robot.arm]);
         }
       }, 500);
-    } else if (category === "sysmon") {
+    } else if (category === ErrorReportEnum.sysmon) {
       setActiveTab((current) => {
         return { ...current, sysmon: tab as string };
       });
       setSysmonObj((current) => {
         return { ...current, sysmonObj: sysmonReport[tab as string] };
       });
-      if (tab !== "Master") {
+      if (tab !== ErrorReportEnum.Master) {
         setActiveTab((current) => {
-          return { ...current, subtabs: "NUC" };
+          return { ...current, subtabs: ErrorReportEnum.NUC };
         });
-        setSubTabObj(sysmonReport[tab as string]["NUC"]);
+        setSubTabObj(sysmonReport[tab as string][ErrorReportEnum.NUC]);
         setRoboColor((current) => {
           return { ...current, arm: "" };
         });
       }
-    } else if (category === "subtabs") {
+    } else if (category === ErrorReportEnum.subtabs) {
       setActiveTab((current) => {
         return { ...current, subtabs: tab as string };
       });
-      if (tab === "NUC") {
+      if (tab === ErrorReportEnum.NUC) {
         setSubTabObj(obj?.NUC);
       } else {
         setSubTabObj(obj?.JETSON);
       }
-    } else if (category === "traceback") {
+    } else if (category === ErrorReportEnum.traceback) {
       setActiveTab((current) => {
         return { ...current, traceback: tab as string };
       });
@@ -306,7 +311,11 @@ function ErrorReportDetail() {
                 <NavTabItem key={exec.id}>
                   <NavTabSpan
                     onClick={() =>
-                      handleTabChange(exec, "exception", undefined)
+                      handleTabChange(
+                        exec,
+                        ErrorReportEnum.exception,
+                        undefined,
+                      )
                     }
                     activetab={activeTab.exception}
                     navto={exec.exec_label}
@@ -326,10 +335,14 @@ function ErrorReportDetail() {
                   <NavTabItem>
                     <NavTabSpan
                       onClick={() =>
-                        handleTabChange("Traceback", "traceback", undefined)
+                        handleTabChange(
+                          ErrorReportEnum.Traceback,
+                          ErrorReportEnum.traceback,
+                          undefined,
+                        )
                       }
                       activetab={activeTab.traceback}
-                      navto={"Traceback"}
+                      navto={ErrorReportEnum.Traceback}
                       robocolor=""
                       theme={theme as string}
                     >
@@ -339,10 +352,14 @@ function ErrorReportDetail() {
                   <NavTabItem>
                     <NavTabSpan
                       onClick={() =>
-                        handleTabChange("Info", "traceback", undefined)
+                        handleTabChange(
+                          ErrorReportEnum.Info,
+                          ErrorReportEnum.traceback,
+                          undefined,
+                        )
                       }
                       activetab={activeTab.traceback}
-                      navto={"Info"}
+                      navto={ErrorReportEnum.Info}
                       robocolor=""
                       theme={theme as string}
                     >
@@ -362,7 +379,7 @@ function ErrorReportDetail() {
                   height="90vh"
                   language="python"
                   value={
-                    activeTab.traceback === "Traceback"
+                    activeTab.traceback === ErrorReportEnum.Traceback
                       ? exceptObj.traceback
                       : exceptObj.info
                   }
@@ -380,7 +397,11 @@ function ErrorReportDetail() {
                 <NavTabItem key={index}>
                   <NavMainTabSpan
                     onClick={() =>
-                      handleTabChange(key.robot, "sysmon", sysmonObj.sysmonObj)
+                      handleTabChange(
+                        key.robot,
+                        ErrorReportEnum.sysmon,
+                        sysmonObj.sysmonObj,
+                      )
                     }
                     activetab={activeTab.sysmon}
                     robocolor={robocolor.main}
@@ -394,16 +415,20 @@ function ErrorReportDetail() {
               ))}
             </NavTabs>
 
-            {activeTab.sysmon !== "Master" && (
+            {activeTab.sysmon !== ErrorReportEnum.Master && (
               <NavTabs>
                 <NavTabItem>
                   <NavTabSpan
                     onClick={() =>
-                      handleTabChange("NUC", "subtabs", sysmonObj.sysmonObj)
+                      handleTabChange(
+                        ErrorReportEnum.NUC,
+                        ErrorReportEnum.subtabs,
+                        sysmonObj.sysmonObj,
+                      )
                     }
                     activetab={activeTab.subtabs}
                     robocolor={robocolor.arm}
-                    navto={`NUC`}
+                    navto={ErrorReportEnum.NUC}
                     theme={theme as string}
                   >
                     NUC
@@ -412,11 +437,15 @@ function ErrorReportDetail() {
                 <NavTabItem>
                   <NavTabSpan
                     onClick={() =>
-                      handleTabChange("JETSON", "subtabs", sysmonObj.sysmonObj)
+                      handleTabChange(
+                        ErrorReportEnum.JETSON,
+                        ErrorReportEnum.subtabs,
+                        sysmonObj.sysmonObj,
+                      )
                     }
                     activetab={activeTab.subtabs}
                     robocolor={robocolor.arm}
-                    navto={`JETSON`}
+                    navto={ErrorReportEnum.JETSON}
                     theme={theme as string}
                   >
                     JETSON
@@ -425,7 +454,7 @@ function ErrorReportDetail() {
               </NavTabs>
             )}
 
-            {activeTab.sysmon === "Master"
+            {activeTab.sysmon === ErrorReportEnum.Master
               ? sysmonObj.sysmonObj && (
                   <Container>
                     <div className="row">
@@ -438,7 +467,7 @@ function ErrorReportDetail() {
                           }
                         >
                           <ChronyInfoPlot
-                            robot="Master"
+                            robot={ErrorReportEnum.Master}
                             chronyInfo={sysmonObj.sysmonObj?.chrony_info}
                             theme={theme as string}
                           />
@@ -470,7 +499,7 @@ function ErrorReportDetail() {
                           }
                         >
                           <ChronyInfoPlot
-                            robot="Robot"
+                            robot={ErrorReportEnum.Robot}
                             chronyInfo={subTabObj?.chrony_info}
                             theme={theme as string}
                           />
