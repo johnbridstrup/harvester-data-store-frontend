@@ -55,6 +55,15 @@ export interface Harvester {
   version: HarvesterVersionReport;
 }
 
+export enum ActionTypesEnum {
+  RELEASE_TAB = "RELEASE_TAB",
+  VERSION_TAB = "VERSION_TAB",
+  AFTCONFIG_TAB = "AFTCONFIG_TAB",
+  AFTCONFIG_KEY_TAB = "AFTCONFIG_KEY_TAB",
+  AFTCONFIG_SUB_TAB = "AFTCONFIG_SUB_TAB",
+  AFTCONFIG_FETCH = "AFTCONFIG_FETCH",
+}
+
 type OmittedObjects = Omit<Harvester, "release" | "version">;
 
 export interface HarvesterArray extends OmittedObjects {

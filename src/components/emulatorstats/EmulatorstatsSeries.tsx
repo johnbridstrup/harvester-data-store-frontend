@@ -4,7 +4,10 @@ import { useAppSelector } from "@/app/hooks";
 import { NavTabItem, NavTabSpan, NavTabs } from "@/components/styled";
 import EmustatSceneScatter from "@/components/plotly/EmustatSceneScatter";
 import { darkThemeClass, selectDarkStyles } from "@/utils/utils";
-import { SeriesTrace } from "@/features/emulatorstat/emulatorstatTypes";
+import {
+  ActionTypesEnum,
+  SeriesTrace,
+} from "@/features/emulatorstat/emulatorstatTypes";
 
 interface SeriesProps {
   gripSuccessPercent: Array<SeriesTrace>;
@@ -37,7 +40,10 @@ function EmulatorstatsSeries(props: SeriesProps) {
 
   const handleDateSelect = (newValue: any) => {
     setSelectedDate(newValue);
-    dispatchAction({ type: "ON_DATE_PICKED", payload: newValue.value });
+    dispatchAction({
+      type: ActionTypesEnum.ON_DATE_PICKED,
+      payload: newValue.value,
+    });
   };
 
   const dark = darkThemeClass("dark-theme", theme);

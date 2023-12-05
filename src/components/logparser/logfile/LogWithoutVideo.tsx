@@ -1,6 +1,7 @@
 import { useReducer, useRef } from "react";
 import { VirtuosoHandle } from "react-virtuoso";
 import { LogComponent } from "@/features/base/constants";
+import { ActionTypesEnum } from "@/features/logparser/logparserTypes";
 import LogSearch from "./LogSearch";
 import TabbedServices from "./TabbedServices";
 
@@ -19,7 +20,7 @@ const componentState: ComponentState = {
 
 function reducer(state: ComponentState, action: ActionPayload) {
   switch (action.type) {
-    case "ON_SERVICE_TAB_CHANGE":
+    case ActionTypesEnum.ON_SERVICE_TAB_CHANGE:
       return {
         ...state,
         serviceActiveTab: action.payload,

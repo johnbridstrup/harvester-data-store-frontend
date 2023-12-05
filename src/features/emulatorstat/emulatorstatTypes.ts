@@ -95,6 +95,11 @@ export interface SeriesTrace {
   name: string;
 }
 
+export enum ActionTypesEnum {
+  ON_MOUNT = "ON_MOUNT",
+  ON_DATE_PICKED = "ON_DATE_PICKED",
+}
+
 export interface EmulatorstatState extends CommonState {
   emustats: Array<EmulatorStatReport>;
   emustatsObj: EmulatorStatReport | null;

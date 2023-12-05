@@ -4,7 +4,10 @@ import VSCodeEditor from "@monaco-editor/react";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { LoaderDiv, NavTabItem, NavTabs, NavTabSpan } from "../styled";
 import { FULLFILLED_PROMISE, THEME_MODES } from "@/features/base/constants";
-import { Harvester } from "@/features/harvester/harvesterTypes";
+import {
+  ActionTypesEnum,
+  Harvester,
+} from "@/features/harvester/harvesterTypes";
 import { fullConfigReport } from "@/features/aftconfig/aftconfigSlice";
 import {
   objectKeys,
@@ -46,13 +49,13 @@ interface TabsProps {
 
 function reducer(state: SchemaState, action: ActionPayload) {
   switch (action.type) {
-    case "RELEASE_TAB":
+    case ActionTypesEnum.RELEASE_TAB:
       return { ...state, activetab: "release", schema: action.payload };
-    case "VERSION_TAB":
+    case ActionTypesEnum.VERSION_TAB:
       return { ...state, activetab: "version", schema: action.payload };
-    case "AFTCONFIG_TAB":
+    case ActionTypesEnum.AFTCONFIG_TAB:
       return { ...state, activetab: "aftconfig" };
-    case "AFTCONFIG_KEY_TAB":
+    case ActionTypesEnum.AFTCONFIG_KEY_TAB:
       const { tab, subtab, obj, subtabkeys } = action.payload;
       return {
         ...state,
@@ -61,13 +64,13 @@ function reducer(state: SchemaState, action: ActionPayload) {
         configObj: obj ? obj : state.configObj,
         subtabkeys: subtabkeys,
       };
-    case "AFTCONFIG_SUB_TAB":
+    case ActionTypesEnum.AFTCONFIG_SUB_TAB:
       return {
         ...state,
         configsubtab: action.payload.tab,
         configObj: action.payload.obj,
       };
-    case "AFTCONFIG_FETCH":
+    case ActionTypesEnum.AFTCONFIG_FETCH:
       return {
         ...state,
         fetching: action.payload,
@@ -98,14 +101,14 @@ function SchemaTabsView({ harvester, theme }: TabsProps) {
   const handleTabChange = async (tab: string, category: string, obj: any) => {
     if (category === "maintabs") {
       const dispatchObj: { [key: string]: string } = {
-        release: "RELEASE_TAB",
-        version: "VERSION_TAB",
-        aftconfig: "AFTCONFIG_TAB",
+        release: ActionTypesEnum.RELEASE_TAB,
+        version: ActionTypesEnum.VERSION_TAB,
+        aftconfig: ActionTypesEnum.AFTCONFIG_TAB,
       };
       dispatchAction({ type: dispatchObj[tab], payload: obj });
       if (tab === "aftconfig") {
         dispatchAction({
-          type: "AFTCONFIG_FETCH",
+          type: ActionTypesEnum.AFTCONFIG_FETCH,
           payload: true,
         });
         const res = await dispatch(fullConfigReport(harvester?.id as number));
@@ -114,17 +117,17 @@ function SchemaTabsView({ harvester, theme }: TabsProps) {
           const keys = objectKeys(obj);
           if (errored) {
             dispatchAction({
-              type: "AFTCONFIG_KEY_TAB",
+              type: ActionTypesEnum.AFTCONFIG_KEY_TAB,
               payload: { tab: keys[0], obj: obj[keys[0]], subtabkeys: [] },
             });
           } else {
             const subkeys = objectKeys(obj[keys[0]]);
             dispatchAction({
-              type: "AFTCONFIG_KEY_TAB",
+              type: ActionTypesEnum.AFTCONFIG_KEY_TAB,
               payload: { tab: keys[0], obj: undefined, subtabkeys: subkeys },
             });
             dispatchAction({
-              type: "AFTCONFIG_SUB_TAB",
+              type: ActionTypesEnum.AFTCONFIG_SUB_TAB,
               payload: {
                 tab: subkeys[0],
                 obj: obj[keys[0]]?.[subkeys[0]],
@@ -133,14 +136,14 @@ function SchemaTabsView({ harvester, theme }: TabsProps) {
           }
         }
         dispatchAction({
-          type: "AFTCONFIG_FETCH",
+          type: ActionTypesEnum.AFTCONFIG_FETCH,
           payload: false,
         });
       }
     } else if (category === "keytabs") {
       if (errored) {
         dispatchAction({
-          type: "AFTCONFIG_KEY_TAB",
+          type: ActionTypesEnum.AFTCONFIG_KEY_TAB,
           payload: {
             tab,
             subtab: undefined,
@@ -151,7 +154,7 @@ function SchemaTabsView({ harvester, theme }: TabsProps) {
       } else {
         const keys = objectKeys(configs[tab]);
         dispatchAction({
-          type: "AFTCONFIG_KEY_TAB",
+          type: ActionTypesEnum.AFTCONFIG_KEY_TAB,
           payload: {
             tab,
             subtab: keys[0],
@@ -162,14 +165,17 @@ function SchemaTabsView({ harvester, theme }: TabsProps) {
       }
     } else if (category === "subtabs") {
       dispatchAction({
-        type: "AFTCONFIG_SUB_TAB",
+        type: ActionTypesEnum.AFTCONFIG_SUB_TAB,
         payload: { tab, obj: configs[configtab]?.[tab] },
       });
     }
   };
 
   useEffect(() => {
-    dispatchAction({ type: "RELEASE_TAB", payload: harvester?.release });
+    dispatchAction({
+      type: ActionTypesEnum.RELEASE_TAB,
+      payload: harvester?.release,
+    });
   }, [harvester?.release]);
 
   return (

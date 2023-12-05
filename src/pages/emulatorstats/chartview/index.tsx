@@ -6,6 +6,7 @@ import {
   queryEmulatorstat,
 } from "@/features/emulatorstat/emulatorstatSlice";
 import {
+  ActionTypesEnum,
   EmulatorStatReport,
   SeriesTrace,
   TraceObj,
@@ -62,7 +63,7 @@ const initialState: ComponentState = {
 
 function reducer(state: ComponentState, action: ActionPayload) {
   switch (action.type) {
-    case "ON_MOUNT":
+    case ActionTypesEnum.ON_MOUNT:
       const aggs = transformEmustatAggs(action.payload);
       const series = transformEmustatSeries(action.payload);
       return {
@@ -78,7 +79,7 @@ function reducer(state: ComponentState, action: ActionPayload) {
         thoroughnessSeries: series.thoroughnessPercent,
         dates: uniqueValues("date", action.payload),
       };
-    case "ON_DATE_PICKED":
+    case ActionTypesEnum.ON_DATE_PICKED:
       const date = action.payload;
       const filtered = state.emustats.filter((x) => x.date === date);
       const emuseries = transformEmustatSeries(filtered);
@@ -117,7 +118,7 @@ function EmulatorstatsChartView() {
   }, [dispatch, search]);
 
   useEffect(() => {
-    dispatchAction({ type: "ON_MOUNT", payload: emustats });
+    dispatchAction({ type: ActionTypesEnum.ON_MOUNT, payload: emustats });
   }, [emustats]);
 
   const handleChartSelect = handleSelectFactory(setSelectedChart);
