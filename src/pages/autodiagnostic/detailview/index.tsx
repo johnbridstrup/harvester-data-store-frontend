@@ -20,6 +20,7 @@ function AutodiagnosticDetailView() {
   const { loading, report } = useAppSelector((state) => state.autodiagnostic);
   const { timezone } = useAppSelector((state) => state.errorreport);
   const { theme } = useAppSelector((state) => state.home);
+  const { token } = useAppSelector((state) => state.auth);
   const { reportId } = useParams();
   const dispatch = useAppDispatch();
   const downloadRef = useRef<HTMLButtonElement | null>(null);
@@ -32,7 +33,8 @@ function AutodiagnosticDetailView() {
     downloadRef.current?.click();
   };
 
-  const download = (fileObj: { url: string }) => handleDownload(fileObj);
+  const download = (fileObj: { url: string }) =>
+    handleDownload(fileObj, token as string);
 
   return (
     <MainLayout>

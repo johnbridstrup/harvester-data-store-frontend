@@ -1,7 +1,8 @@
 import { MutableRefObject } from "react";
-import { Oval } from "react-loader-spinner";
-import { darkThemeClass } from "@/utils/utils";
 import { Link, useNavigate } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
+import { axiosService } from "@/features/base/services";
+import { darkThemeClass } from "@/utils/utils";
 
 interface LoaderProps {
   size: number;
@@ -45,13 +46,43 @@ export const Header = (props: HeaderProps) => {
   );
 };
 
-export const handleDownload = async (fileObj: { url: string }) => {
-  const link = document.createElement("a");
-  link.href = fileObj.url;
-  link.setAttribute("target", `_blank`);
-  link.setAttribute("rel", "noopener");
-  document.body.appendChild(link);
-  link.click();
+export const handleDownload = async (
+  fileObj: { url: string },
+  token: string,
+) => {
+  try {
+    const response = await axiosService.download(fileObj.url, token);
+
+    const contentDisposition = response.headers["content-disposition"];
+
+    const lastModified = response.headers["last-modified"];
+
+    const match =
+      contentDisposition && contentDisposition.match(/filename="(.+?)"/);
+    const timestamp = lastModified
+      ? new Date(lastModified).getTime()
+      : new Date().getTime();
+    const filename = match ? match[1] : timestamp;
+
+    const blob = new Blob([response.data], {
+      type: response.headers["content-type"],
+    });
+
+    const link = document.createElement("a");
+    const objectUrl = URL.createObjectURL(blob);
+
+    link.href = objectUrl;
+    link.download = filename;
+    link.setAttribute("target", `_blank`);
+    link.setAttribute("rel", "noopener");
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(objectUrl);
+  } catch (error) {
+    console.log("error downloading file", error);
+  }
 };
 
 export function BackButton(props: BackProps) {

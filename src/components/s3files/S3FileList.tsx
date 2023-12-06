@@ -16,12 +16,14 @@ function S3FileList() {
   const { s3files, loading, flagging } = useAppSelector(
     (state) => state.s3file,
   );
+  const { token } = useAppSelector((state) => state.auth);
   const { theme } = useAppSelector((state) => state.home);
   const [fileObj, setFileObj] = useState<S3File | null | undefined>(null);
   const confirmRef = useRef<HTMLButtonElement>(null);
   const dispatch = useAppDispatch();
   const tabledt = darkThemeClass("dt-table", theme);
-  const download = (obj: { file: string }) => handleDownload({ url: obj.file });
+  const download = (obj: { file: string }) =>
+    handleDownload({ url: obj.file }, token as string);
 
   const markDeleted = (obj?: S3File | null) => {
     confirmRef.current?.click();

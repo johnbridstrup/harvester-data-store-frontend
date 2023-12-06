@@ -6,9 +6,10 @@ import { GenericEvent } from "./EventHelpers";
 function PickSessionList() {
   const { picksessions, loading } = useAppSelector((state) => state.event);
   const { theme } = useAppSelector((state) => state.home);
+  const { token } = useAppSelector((state) => state.auth);
 
   const handleDownloadFiles = async (fileObj: { url: string }) => {
-    await handleDownload(fileObj);
+    await handleDownload(fileObj, token as string);
   };
 
   return (

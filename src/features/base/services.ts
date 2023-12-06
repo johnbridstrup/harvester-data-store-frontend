@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { CSRF_URL, OPENAPI_URL } from "./constants";
 import { enforceHttps } from "@/utils/utils";
 
-interface RequestConfig {
+interface RequestConfig extends AxiosRequestConfig {
   headers: {
     Accept?: string;
     "Content-Type": string;
@@ -79,6 +79,14 @@ class AxiosService {
     }
     const res = await axios.get(enforceHttps(url), this.config);
     return res.data;
+  }
+
+  public async download(url: string, token?: string) {
+    if (typeof token === "string" && token.length > 0) {
+      this.config["headers"]["Authorization"] = `Token ${token}`;
+      this.config["responseType"] = "blob";
+    }
+    return await axios.get(enforceHttps(url), this.config);
   }
 }
 

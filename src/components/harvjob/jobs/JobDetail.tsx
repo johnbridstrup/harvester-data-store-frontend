@@ -18,6 +18,7 @@ function JobDetail() {
   const { job, jobresults, jobstatuses } = useAppSelector(
     (state) => state.harvjob,
   );
+  const { token } = useAppSelector((state) => state.auth);
   const { theme } = useAppSelector((state) => state.home);
   const dispatch = useAppDispatch();
   const downloadRef = useRef<HTMLButtonElement | null>(null);
@@ -29,7 +30,7 @@ function JobDetail() {
   };
 
   const download = async (fileObj: { url: string }) => {
-    await handleDownload(fileObj);
+    await handleDownload(fileObj, token as string);
   };
 
   const confirmPopUp = () => {

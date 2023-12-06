@@ -7,7 +7,9 @@ import { darkThemeClass } from "@/utils/utils";
 function S3FileDetail() {
   const { s3file } = useAppSelector((state) => state.s3file);
   const { theme } = useAppSelector((state) => state.home);
-  const download = (fileUrl: string) => handleDownload({ url: fileUrl });
+  const { token } = useAppSelector((state) => state.auth);
+  const download = (fileUrl: string) =>
+    handleDownload({ url: fileUrl }, token as string);
   const cardtheme = darkThemeClass("dt-card-theme", theme);
 
   return (

@@ -97,6 +97,7 @@ function ErrorReportDetail() {
       exceptions,
     },
   } = useAppSelector((state) => state.errorreport);
+  const { token } = useAppSelector((state) => state.auth);
   const { theme } = useAppSelector((state) => state.home);
   const { locations } = useAppSelector((state) => state.location);
   const { fruits, harvesters } = useAppSelector((state) => state.harvester);
@@ -207,7 +208,7 @@ function ErrorReportDetail() {
   };
 
   const handleDownloadFiles = async (fileObj: { url: string }) => {
-    await handleDownload(fileObj);
+    await handleDownload(fileObj, token as string);
   };
 
   const createNotifPopUp = async () => {
