@@ -80,14 +80,6 @@ class AxiosService {
     const res = await axios.get(enforceHttps(url), this.config);
     return res.data;
   }
-
-  public async download(url: string, token?: string) {
-    if (typeof token === "string" && token.length > 0) {
-      this.config["headers"]["Authorization"] = `Token ${token}`;
-      this.config["responseType"] = "blob";
-    }
-    return await axios.get(enforceHttps(url), this.config);
-  }
 }
 
 export const axiosService = new AxiosService();

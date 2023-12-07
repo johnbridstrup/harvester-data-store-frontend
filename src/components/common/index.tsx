@@ -51,35 +51,13 @@ export const handleDownload = async (
   token: string,
 ) => {
   try {
-    const response = await axiosService.download(fileObj.url, token);
-
-    const contentDisposition = response.headers["content-disposition"];
-
-    const lastModified = response.headers["last-modified"];
-
-    const match =
-      contentDisposition && contentDisposition.match(/filename="(.+?)"/);
-    const timestamp = lastModified
-      ? new Date(lastModified).getTime()
-      : new Date().getTime();
-    const filename = match ? match[1] : timestamp;
-
-    const blob = new Blob([response.data], {
-      type: response.headers["content-type"],
-    });
-
+    const response = await axiosService.get(fileObj.url, token);
     const link = document.createElement("a");
-    const objectUrl = URL.createObjectURL(blob);
-
-    link.href = objectUrl;
-    link.download = filename;
+    link.href = response.url;
     link.setAttribute("target", `_blank`);
     link.setAttribute("rel", "noopener");
     document.body.appendChild(link);
     link.click();
-
-    document.body.removeChild(link);
-    URL.revokeObjectURL(objectUrl);
   } catch (error) {
     console.log("error downloading file", error);
   }
