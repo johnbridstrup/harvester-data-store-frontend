@@ -1,11 +1,17 @@
 import moment from "moment";
 import { useAppSelector } from "@/app/hooks";
+import { darkThemeClass } from "@/utils/utils";
 
 function MigrationDetail() {
   const { migration } = useAppSelector((state) => state.migration);
+  const { theme } = useAppSelector((state) => state.home);
+  const cardtheme = darkThemeClass("dt-card-theme", theme);
   return (
     <>
-      <div className="card card-body mb-2" data-testid="detailComponent">
+      <div
+        className={`card card-body mb-2 ${cardtheme}`}
+        data-testid="detailComponent"
+      >
         <div className="row">
           <div className="col-md-3 mb-2">
             <div className="f-w-600">ID</div>
@@ -37,7 +43,7 @@ function MigrationDetail() {
           </div>
         </div>
       </div>
-      <div className="card card-body mb-2">
+      <div className={`card card-body mb-2 ${cardtheme}`}>
         <div className="row">
           <div className="col-md">
             <div className="f-w-600">Output</div>

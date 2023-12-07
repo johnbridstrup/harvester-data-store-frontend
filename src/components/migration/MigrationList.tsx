@@ -8,6 +8,7 @@ import {
   queryMigrationLog,
 } from "@/features/migration/migrationSlice";
 import { FULLFILLED_PROMISE } from "@/features/base/constants";
+import { darkThemeClass } from "@/utils/utils";
 import { LoaderDiv } from "../styled";
 import { Loader } from "../common";
 import ConfirmModal from "../modals/ConfirmModal";
@@ -20,6 +21,7 @@ function MigrationList() {
   const { theme } = useAppSelector((state) => state.home);
   const dispatch = useAppDispatch();
   const confirmRef = useRef<HTMLButtonElement | null>(null);
+  const tabledt = darkThemeClass("dt-table", theme);
 
   const confirmPopUp = () => {
     if (!user?.is_superuser) {
@@ -62,7 +64,7 @@ function MigrationList() {
             <Loader size={50} />
           </LoaderDiv>
         ) : (
-          <table className="table">
+          <table className={`table ${tabledt}`}>
             <thead>
               <tr>
                 <th>ID</th>
