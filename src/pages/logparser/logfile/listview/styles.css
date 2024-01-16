@@ -66,6 +66,12 @@
   background: #d4d6da3a;
 }
 
+.current-marker .paste-ts {
+  outline: none;
+  border: none;
+  border-radius: 4px;
+}
+
 .p-top {
   padding-top: 1rem;
 }

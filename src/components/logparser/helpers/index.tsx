@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, FC, ChangeEvent } from "react";
 import { Content } from "@/features/logparser/logparserTypes";
 import { LOG_LEVEL } from "@/features/base/constants";
 import { darkThemeClass, logContent } from "@/utils/utils";
@@ -15,6 +15,15 @@ interface LogSwitchProps {
   logView: boolean;
   theme: string;
   id?: number;
+}
+
+interface MarkerProps {
+  timestamp: number | undefined;
+  handleTsChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleKeyDown: (event: any) => void;
+  currentIndex: number | null;
+  clearSelection: () => void;
+  theme: string;
 }
 
 export const LogHighlighter = (props: LogProps) => {
@@ -76,6 +85,34 @@ export const LogSwitch = ({
           ? "Switch To Log Entries Without Video"
           : "Switch To Log Entries With Video"}
       </span>
+    </div>
+  );
+};
+
+export const CurrentMarker: FC<MarkerProps> = ({
+  timestamp,
+  handleTsChange,
+  handleKeyDown,
+  currentIndex,
+  clearSelection,
+  theme,
+}) => {
+  const inputdark = darkThemeClass("dt-log-search", theme);
+  return (
+    <div className="current-marker">
+      <div>
+        current selection at time:{" "}
+        <input
+          className={`paste-ts ${inputdark}`}
+          value={timestamp}
+          onChange={handleTsChange}
+          onKeyDown={handleKeyDown}
+        />{" "}
+        index: {currentIndex}
+      </div>
+      <div className="cursor">
+        <i onClick={clearSelection} className="las la-times"></i>
+      </div>
     </div>
   );
 };

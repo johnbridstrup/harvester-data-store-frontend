@@ -1,4 +1,4 @@
-import { MutableRefObject, useState, useEffect } from "react";
+import { MutableRefObject, useState, useEffect, ChangeEvent } from "react";
 import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
 import { useAppSelector } from "@/app/hooks";
 import { LOGSCHANNEL, THEME_MODES } from "@/features/base/constants";
@@ -14,7 +14,7 @@ import logparserService, {
 } from "@/features/logparser/logparserService";
 import { NavTabItem, NavTabs, NavTabSpan } from "@/components/styled";
 import { darkThemeClass, getCurrIndex } from "@/utils/utils";
-import { LogHighlighter } from "../helpers";
+import { CurrentMarker, LogHighlighter } from "../helpers";
 
 interface TabProps {
   dispatchAction: any;
@@ -30,6 +30,7 @@ interface TabProps {
 
 function TabWindowServices(props: TabProps) {
   const [fetching, setFetching] = useState(false);
+  const [timestamp, setTimestamp] = useState<number>();
   const {
     logfile,
     currentMarker,
@@ -122,6 +123,7 @@ function TabWindowServices(props: TabProps) {
       child: { ts: log.timestamp },
       other: { ts: log.timestamp },
     });
+    setTimestamp(log.timestamp);
   };
 
   const clearSelection = () => {
@@ -137,19 +139,48 @@ function TabWindowServices(props: TabProps) {
       ? "marked-bg"
       : "";
   };
+
+  const handleTsChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setTimestamp(event.target.value as unknown as number);
+  };
+
+  const handleKeyDown = async (event: KeyboardEvent): Promise<void> => {
+    if (event.key === "Enter") {
+      let currentIndex = await getCurrIndex(
+        timestamp as number,
+        logfile as LogFile,
+      );
+      props.dispatchAction({
+        type: ActionTypesEnum.ON_SET_MARKER,
+        payload: { currentIndex, log: { timestamp: Number(timestamp) } },
+      });
+      props.dispatchAction({
+        type: ActionTypesEnum.ON_SET_CURR_INDEX,
+        payload: currentIndex,
+      });
+      setTimeout(() => {
+        props.virtuoso?.current?.scrollToIndex({
+          index: currentIndex,
+          align: "start",
+          behavior: "auto",
+        });
+      }, 100);
+    }
+  };
+
   const bg = darkThemeClass("bg-hover", theme);
 
   return (
     <div>
       {currentMarker && (
-        <div className="current-marker">
-          <span>
-            current selection at time: {currentMarker} index: {currentIndex}
-          </span>{" "}
-          <span className="cursor">
-            <i onClick={clearSelection} className="las la-times"></i>
-          </span>
-        </div>
+        <CurrentMarker
+          timestamp={timestamp}
+          currentIndex={currentIndex}
+          handleTsChange={handleTsChange}
+          handleKeyDown={handleKeyDown}
+          clearSelection={clearSelection}
+          theme={theme as string}
+        />
       )}
       <NavTabs>
         {services.map((x, i) => (
