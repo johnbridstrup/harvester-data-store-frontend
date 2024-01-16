@@ -37,6 +37,8 @@ const initialState: ErrorReportState = {
   internal: {
     hovered: null,
     searchObj: null,
+    service: null,
+    timestamp: null,
   },
 };
 
@@ -120,6 +122,10 @@ const errorreportSlice = createSlice({
     cacheParamsObj: (state, action) => {
       state.internal.searchObj = action.payload;
     },
+    cacheService: (state, action) => {
+      state.internal.service = action.payload.service;
+      state.internal.timestamp = action.payload.timestamp;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -191,6 +197,11 @@ const errorreportSlice = createSlice({
   },
 });
 
-export const { timezoneUpdate, copyQueryUrl, hoverEffect, cacheParamsObj } =
-  errorreportSlice.actions;
+export const {
+  timezoneUpdate,
+  copyQueryUrl,
+  hoverEffect,
+  cacheParamsObj,
+  cacheService,
+} = errorreportSlice.actions;
 export default errorreportSlice.reducer;

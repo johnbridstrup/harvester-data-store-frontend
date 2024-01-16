@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import Select from "react-select";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import useClickOutside from "@/hooks/useClickOutside";
 import {
@@ -129,6 +129,8 @@ interface GroupProps {
   createNotifPopUp: () => void;
   theme: string;
   eventObj?: { related_objects: RelatedObj[] };
+  service: string | null;
+  ts: number | null;
 }
 
 export interface ParetoProps extends FormProps {
@@ -842,6 +844,17 @@ export const RightButtonGroup = (props: GroupProps) => {
   const log = props.eventObj?.related_objects.find(
     (x) => x.object === LOGSESSION,
   );
+  const navigate = useNavigate();
+  const streamURL = (e: FormEvent): void => {
+    e.preventDefault();
+    let url = log?.url as string;
+    if (props.service) {
+      let arr = props.service.split(".");
+      url = `${url}?service=${arr[0]}&robot=${arr[1]}&ts=${props.ts}`;
+    }
+    navigate(url);
+  };
+
   return (
     <div className="flex-right mb-2">
       <span
@@ -859,6 +872,7 @@ export const RightButtonGroup = (props: GroupProps) => {
       >
         <Link
           to={`${log?.url}`}
+          onClick={streamURL}
           className={`${btn ? "text-white" : "text-dark"}`}
         >
           Stream Logs

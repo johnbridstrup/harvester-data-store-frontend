@@ -16,6 +16,8 @@ interface Hovered {
 interface Internal {
   hovered: Hovered | null;
   searchObj: Record<string, any> | null;
+  service: string | null;
+  timestamp: number | null;
 }
 
 type OmittedEvent = Omit<EventObject, "creator" | "modifiedBy">;

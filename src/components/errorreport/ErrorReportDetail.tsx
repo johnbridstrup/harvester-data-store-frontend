@@ -61,10 +61,12 @@ import {
   MAX_LIMIT,
   SUCCESS,
   THEME_MODES,
+  TZ,
 } from "@/features/base/constants";
 import { createNotification } from "@/features/notification/notificationSlice";
 import { SysmonKey } from "@/features/errorreport/errorreportTypes";
 import { TransformException } from "@/features/exception/exceptionTypes";
+import { cacheService } from "@/features/errorreport/errorreportSlice";
 const ChronyInfoPlot = lazy(() => import("../plotly/ChronyInfoPlot"));
 const ErrorReportJson = lazy(() => import("./ErrorReportJson"));
 
@@ -108,6 +110,7 @@ function ErrorReportDetail() {
       erroredservices,
       exceptions,
     },
+    internal: { service, timestamp },
   } = useAppSelector((state) => state.errorreport);
   const { token } = useAppSelector((state) => state.auth);
   const { theme } = useAppSelector((state) => state.home);
@@ -183,6 +186,16 @@ function ErrorReportDetail() {
           setSubTabObj(sysmonReport[robot.robot][robot.arm]);
         }
       }, 500);
+      dispatch(
+        cacheService({
+          service: `${tab.service}.${tab.robot}`,
+          timestamp: new Date(
+            new Date(tab.timestamp).toLocaleDateString("en-US", {
+              timeZone: timezone || TZ,
+            }),
+          ).getTime(),
+        }),
+      );
     } else if (category === ErrorReportEnum.sysmon) {
       setActiveTab((current) => {
         return { ...current, sysmon: tab as string };
@@ -308,6 +321,8 @@ function ErrorReportDetail() {
         popUp={downloadPopUp}
         theme={theme as string}
         eventObj={reportobj?.event}
+        service={service}
+        ts={timestamp}
       />
       <ErrorReportTable
         reportObj={reportobj}
