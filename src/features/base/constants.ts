@@ -44,6 +44,7 @@ export enum FULLFILLED_PROMISE {
   s3file = "s3file/deleteS3File/fulfilled",
   jobtypeschema = "jobscheduler/getJobTypeSchema/fulfilled",
   schedulejob = "jobscheduler/createScheduledJob/fulfilled",
+  logfile = "logparser/getLogFile/fulfilled",
 }
 
 export enum REJECTED_PROMISE {

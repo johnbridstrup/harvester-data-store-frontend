@@ -1,5 +1,12 @@
-import { MutableRefObject, useState, useEffect, ChangeEvent } from "react";
+import {
+  MutableRefObject,
+  useState,
+  useEffect,
+  ChangeEvent,
+  useCallback,
+} from "react";
 import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
+import { useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
   clearMarker,
@@ -8,7 +15,11 @@ import {
   setMarker,
   tabChangeSearch,
 } from "@/features/logparser/logparserSlice";
-import { LOGSCHANNEL, THEME_MODES } from "@/features/base/constants";
+import {
+  FULLFILLED_PROMISE,
+  LOGSCHANNEL,
+  THEME_MODES,
+} from "@/features/base/constants";
 import { darkThemeClass, getCurrIndex } from "@/utils/utils";
 import { NavTabItem, NavTabs, NavTabSpan } from "@/components/styled";
 import { CurrentMarker, LogHighlighter } from "../helpers";
@@ -40,6 +51,7 @@ function TabbedServices(props: TabProps) {
   const { theme } = useAppSelector((state) => state.home);
   const bc = new BroadcastChannel(LOGSCHANNEL);
   const dispatch = useAppDispatch();
+  const { search } = useLocation();
   const content = logfile?.content || [];
 
   const broadcastListener = async (ts: number): Promise<void> => {
@@ -74,6 +86,42 @@ function TabbedServices(props: TabProps) {
       bc.close();
     };
   }, [props.virtuoso, broadcastListener]);
+
+  const serviceCallback = useCallback(async () => {
+    if (search) {
+      const urlparams = new URLSearchParams(search);
+      let service = urlparams.get("service") as string;
+      let robot = Number(urlparams.get("robot"));
+      let ts = Number(urlparams.get("ts"));
+      const serviceObj = services.find(
+        (x) => x.service === service && x.robot === robot,
+      );
+      if (serviceObj) {
+        props.dispatchAction({
+          type: ActionTypesEnum.ON_SERVICE_TAB_CHANGE,
+          payload: `${serviceObj.service}.${serviceObj.robot}`,
+        });
+        const res = await dispatch(getLogFile(serviceObj.id));
+        if (res.type == FULLFILLED_PROMISE.logfile) {
+          let currentIndex = await getCurrIndex(ts, res.payload);
+          setTimestamp(ts);
+          dispatch(setMarker({ index: currentIndex, log: { timestamp: ts } }));
+          props.virtuoso?.current?.scrollToIndex({
+            index: currentIndex,
+            align: "start",
+            behavior: "auto",
+          });
+        }
+      }
+    }
+  }, [search]);
+
+  useEffect(() => {
+    // there is a race condition with the parent
+    // request in getting a logfile.
+    // we need to a delay of 1 second to make this call
+    setTimeout(() => serviceCallback(), 1000);
+  }, [serviceCallback]);
 
   const handleTabChange = async (tabObj: Service) => {
     props.dispatchAction({
