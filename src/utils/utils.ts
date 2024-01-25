@@ -1476,7 +1476,7 @@ export const uniqueVideoTabs = (categories: Array<Video>) => {
  * @returns Index
  */
 export const findLogIndex = (content: Array<Content> = [], obj: Content) => {
-  let objIndex = content.findIndex((item) => item.timestamp === obj.timestamp);
+  let objIndex = content.findIndex((item) => item.timestamp === obj?.timestamp);
   return objIndex > 0 ? objIndex : 0;
 };
 
