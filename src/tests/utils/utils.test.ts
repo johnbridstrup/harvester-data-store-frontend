@@ -223,6 +223,8 @@ test("should match and return log message into 4 parts", () => {
   let complexMsg =
     "[20230209T095331.171] [DEBUG] [robot.beh.fsm] -- temp bezier: P0: [ -25.938  197.527 -906.75 ]\tP1: [ -25.938  197.925 -906.75 ]\tP2: [ -25.938  197.064 -906.752]\tP3: [ -25.938  195.513 -906.752]\tvel_max: 20.742422324838202\taccel_max: 150.1727469427821\tjerk_max: 302.8897235392171";
   let dumpMsg = "[20230131T131313.522260]  rcan0  282  0B 00 00 00 3B F5 FF FF";
+  let tracebackMsg =
+    '[20240111T112425.119] [TRANSITION] [picker.fsm  ] -- Traceback (most recent call last):\n  File "/home/aft/_harv-aft-py-packages/aft-core/src/aft_core/twisted/twistutils.py", line 67, in unwindGenerator\n    return _cancellableInlineCallbacks(gen)\n  File "/home/aft/_harv-aft-py-packages/aft-core/src/aft_core/twisted/twistutils.py", line 78, in _cancellableInlineCallbacks\n    _inlineCallbacks(None, g, status)\n  File "/home/aft/master/venv/lib/python3.8/site-packages/twisted/internet/defer.py", line 1445, in _inlineCallbacks\n    result = current_context.run(g.send, result)\n  File "/home/aft/_harv-aft-py-packages/aft-core/src/aft_core/asm/AsyncStateMachine.py", line 987, in transition\n    d = defer.maybeDeferred(self.global_handler, evt)\n --- <exception caught here> ---\n File "/home/aft/master/venv/lib/python3.8/site-packages/twisted/internet/defer.py", line 167, in maybeDeferred\n    result = f(*args, **kw)\n  File "/home/aft/_harv-aft-py-packages/aft-core/src/aft_core/servmgr/FSMService.py", line 359, in global_handler\n    return self._handle_lockup_check()\n  File "/home/aft/_harv-aft-py-packages/aft-core/src/aft_core/servmgr/FSMService.py", line 780, in _handle_lockup_check\n    raise ServiceLockupException(msg)\naft_core.exceptions.service.ServiceLockupException.ServiceLockupException: Service lockup error. Last check occured 12.227619409561157 seconds ago.\n';
   let output1 = {
     timestamp: "20220208T105000.014",
     log_level: "DEBUG",
@@ -241,9 +243,16 @@ test("should match and return log message into 4 parts", () => {
     service: "robot.beh.fsm",
     log: "-- temp bezier: P0: [ -25.938  197.527 -906.75 ]\tP1: [ -25.938  197.925 -906.75 ]\tP2: [ -25.938  197.064 -906.752]\tP3: [ -25.938  195.513 -906.752]\tvel_max: 20.742422324838202\taccel_max: 150.1727469427821\tjerk_max: 302.8897235392171",
   };
+  let output4 = {
+    timestamp: "20240111T112425.119",
+    log_level: "TRANSITION",
+    service: "picker.fsm",
+    log: '-- Traceback (most recent call last):\n  File "/home/aft/_harv-aft-py-packages/aft-core/src/aft_core/twisted/twistutils.py", line 67, in unwindGenerator\n    return _cancellableInlineCallbacks(gen)\n  File "/home/aft/_harv-aft-py-packages/aft-core/src/aft_core/twisted/twistutils.py", line 78, in _cancellableInlineCallbacks\n    _inlineCallbacks(None, g, status)\n  File "/home/aft/master/venv/lib/python3.8/site-packages/twisted/internet/defer.py", line 1445, in _inlineCallbacks\n    result = current_context.run(g.send, result)\n  File "/home/aft/_harv-aft-py-packages/aft-core/src/aft_core/asm/AsyncStateMachine.py", line 987, in transition\n    d = defer.maybeDeferred(self.global_handler, evt)\n - <exception caught here> ---\n File "/home/aft/master/venv/lib/python3.8/site-packages/twisted/internet/defer.py", line 167, in maybeDeferred\n    result = f(*args, **kw)\n  File "/home/aft/_harv-aft-py-packages/aft-core/src/aft_core/servmgr/FSMService.py", line 359, in global_handler\n    return self._handle_lockup_check()\n  File "/home/aft/_harv-aft-py-packages/aft-core/src/aft_core/servmgr/FSMService.py", line 780, in _handle_lockup_check\n    raise ServiceLockupException(msg)\naft_core.exceptions.service.ServiceLockupException.ServiceLockupException: Service lockup error. Last check occured 12.227619409561157 seconds ago.\n',
+  };
   expect(logContent(logMsg, ".log")).toMatchObject(output1);
   expect(logContent(dumpMsg, ".dump")).toMatchObject(output2);
   expect(logContent(complexMsg, ".log")).toMatchObject(output3);
+  expect(logContent(tracebackMsg, ".log")).toMatchObject(output4);
 });
 
 describe("logFilter case scenarios", () => {
