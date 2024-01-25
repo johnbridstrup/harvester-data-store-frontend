@@ -1489,7 +1489,7 @@ export const findLogIndex = (content: Array<Content> = [], obj: Content) => {
  */
 export const logContent = (message: string = "", ext: string = ".log") => {
   let log: Record<string, any> = {};
-  let splittedArr;
+  let splittedArr: string[];
 
   if (ext === ".log") {
     let wholeMatch = message.match(LOG_STR_PATTERN);
@@ -1500,7 +1500,12 @@ export const logContent = (message: string = "", ext: string = ".log") => {
       log["service"] = splittedArr[2].replace("[", "").replace("]", "");
     }
     splittedArr = message.split("-- ");
-    log["log"] = `-- ${splittedArr[1]}`;
+    if (splittedArr.length > 2) {
+      splittedArr.shift();
+      log["log"] = `-- ${splittedArr.join(" ")}`;
+    } else {
+      log["log"] = `-- ${splittedArr[1]}`;
+    }
   } else if (ext === ".dump") {
     splittedArr = message.split("  ");
     log["timestamp"] = splittedArr[0].replace("[", "").replace("]", "");
