@@ -42,6 +42,8 @@ test("should do binary search for given timestamp", () => {
       robot: 0,
       logfile_type: ".log",
       service: "drivesys",
+      logger: "tracdrive",
+      harv_id: 1,
     },
     {
       timestamp: 4,
@@ -50,6 +52,8 @@ test("should do binary search for given timestamp", () => {
       robot: 0,
       logfile_type: ".log",
       service: "drivesys",
+      logger: "tracdrive",
+      harv_id: 1,
     },
     {
       timestamp: 6,
@@ -58,6 +62,8 @@ test("should do binary search for given timestamp", () => {
       robot: 0,
       logfile_type: ".log",
       service: "drivesys",
+      logger: "tracdrive",
+      harv_id: 1,
     },
     {
       timestamp: 8,
@@ -66,6 +72,8 @@ test("should do binary search for given timestamp", () => {
       robot: 0,
       logfile_type: ".log",
       service: "drivesys",
+      logger: "tracdrive",
+      harv_id: 1,
     },
   ];
 
@@ -188,6 +196,8 @@ test("should return the index of logs", () => {
       service: "drivesys",
       robot: 0,
       logfile_type: ".log",
+      logger: "tracdrive",
+      harv_id: 1,
     },
     {
       timestamp: 2,
@@ -197,6 +207,8 @@ test("should return the index of logs", () => {
       service: "drivesys",
       robot: 0,
       logfile_type: ".log",
+      logger: "tracdrive",
+      harv_id: 1,
     },
   ];
   let expectedObj = input[1];
@@ -243,6 +255,8 @@ describe("logFilter case scenarios", () => {
       timestamp: 1675199593.51823,
       log_message: "[20230131T131313.518230]  rcan0  384  37 97 51 FC FF FF",
       logfile_type: ".dump",
+      logger: "dump.fsh",
+      harv_id: 1,
     },
     {
       robot: 3,
@@ -252,6 +266,8 @@ describe("logFilter case scenarios", () => {
       log_message:
         "[20230131T131313.522260]  rcan0  282  0B 00 00 00 3B F5 FF FF",
       logfile_type: ".dump",
+      logger: "dump.fsh",
+      harv_id: 1,
     },
     {
       robot: 3,
@@ -261,6 +277,8 @@ describe("logFilter case scenarios", () => {
       log_message:
         "[20230131T131313.522261]  rcan0  281  F3 FE FF FF 2E 23 00 00",
       logfile_type: ".dump",
+      logger: "dump.fsh",
+      harv_id: 1,
     },
   ];
 
@@ -272,6 +290,8 @@ describe("logFilter case scenarios", () => {
       timestamp: 1675199593.51823,
       log_message: "[20230131T131313.518230]  rcan0  384  37 97 51 FC FF FF",
       logfile_type: ".dump",
+      logger: "dump.fsh",
+      harv_id: 1,
     },
     {
       robot: 3,
@@ -281,6 +301,8 @@ describe("logFilter case scenarios", () => {
       log_message:
         "[20230131T131313.522260]  rcan0  282  0B 00 00 00 3B F5 FF FF",
       logfile_type: ".dump",
+      logger: "dump.fsh",
+      harv_id: 1,
     },
   ];
 

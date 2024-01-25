@@ -78,6 +78,8 @@ export interface Content {
   timestamp: number;
   log_message: string;
   logfile_type: string;
+  harv_id: number;
+  logger: string;
 }
 
 export interface LogFile {
