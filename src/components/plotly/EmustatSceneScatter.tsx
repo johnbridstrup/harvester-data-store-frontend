@@ -14,6 +14,7 @@ function EmustatSceneScatter({ traces, ylabel, title, theme }: ChartProps) {
   const paper_bgcolor = theme === "dark" ? "#343434" : "#fff";
   const plot_bgcolor = theme === "dark" ? "#343434" : "#fff";
   const color = theme === "dark" ? "#fff" : "#444";
+  const gridcolor = theme === "dark" ? "#fff" : "";
   const lg = useMediaQuery({
     query: `(min-width: 1170px)`,
   });
@@ -35,9 +36,11 @@ function EmustatSceneScatter({ traces, ylabel, title, theme }: ChartProps) {
     height: 400,
     xaxis: {
       title: "report time",
+      gridcolor: gridcolor,
     },
     yaxis: {
       title: ylabel,
+      gridcolor: gridcolor,
     },
     paper_bgcolor: paper_bgcolor,
     plot_bgcolor: plot_bgcolor,
