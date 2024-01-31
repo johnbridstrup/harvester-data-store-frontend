@@ -79,7 +79,7 @@ export const CopyBuildConfig = (props: ConfigProps) => {
     props.paramsObj["configs"] = config;
     let params = new URLSearchParams(props.paramsObj);
     let public_url =
-      process.env.REACT_APP_HOSTED_URL || "http://localhost:3000";
+      import.meta.env.REACT_APP_HOSTED_URL || "http://localhost:3000";
     let configUrl = `/errorreports/view/pareto/?${params.toString()}`;
     await copy(public_url + configUrl);
   };
@@ -113,7 +113,7 @@ export const CopyGenericURL = (props: CopyProps) => {
   const buildURL = async () => {
     let params = new URLSearchParams(props.paramsObj);
     let public_url =
-      process.env.REACT_APP_HOSTED_URL || "http://localhost:3000";
+      import.meta.env.REACT_APP_HOSTED_URL || "http://localhost:3000";
     let url = `/${props.route}/?${params.toString()}`;
     await copy(public_url + url);
   };
