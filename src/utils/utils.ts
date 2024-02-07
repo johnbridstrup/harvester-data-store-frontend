@@ -702,7 +702,27 @@ export const buildQueryObj = (
   if (fieldData.end_hour) {
     queryObj["end_hour"] = fieldData.end_hour;
   }
+
   return queryObj;
+};
+
+/**
+ * Compute start time as one week earlier & end tme
+ * as now
+ *
+ * This allows for faster retrival of errorreports due to
+ * numerous records.
+ * @returns
+ */
+export const getDateRange = (days: number = 7) => {
+  let now = new Date();
+  let oneWeekEarlier = new Date(now);
+  oneWeekEarlier.setDate(now.getDate() - days);
+
+  return {
+    start_time: timeStampFormat(oneWeekEarlier),
+    end_time: timeStampFormat(now),
+  };
 };
 
 /**

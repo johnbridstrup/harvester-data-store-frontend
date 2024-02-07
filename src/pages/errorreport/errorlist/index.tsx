@@ -11,7 +11,7 @@ import {
   queryErrorReport,
 } from "@/features/errorreport/errorreportSlice";
 import { Pagination } from "@/components/pagination";
-import { copiedUrl, paramsToObject } from "@/utils/utils";
+import { copiedUrl, getDateRange, paramsToObject } from "@/utils/utils";
 import { CopyToClipboard } from "@/components/copytoclipboard";
 import { MAX_LIMIT } from "@/features/base/constants";
 import { queryFruit } from "@/features/harvester/harvesterSlice";
@@ -39,7 +39,8 @@ function ErrorReportListView() {
       dispatch(queryErrorReport(paramsObj));
       dispatch(copyQueryUrl(copiedUrl(paramsObj)));
     } else {
-      dispatch(queryErrorReport({ is_emulator: 0 }));
+      const { start_time, end_time } = getDateRange();
+      dispatch(queryErrorReport({ is_emulator: 0, start_time, end_time }));
     }
     return () => {};
   }, [dispatch, search]);

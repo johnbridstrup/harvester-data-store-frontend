@@ -5,6 +5,7 @@ import { Theme, toast } from "react-toastify";
 import {
   buildQueryObj,
   copiedUrl,
+  getDateRange,
   handleSelectFactory,
   mapParamsObject,
   paramsToObject,
@@ -39,9 +40,10 @@ function ErrorReportQuery() {
   const [selectedFruit, setSelectedFruit] = useState(null);
   const [selectedCode, setSelectedCode] = useState(null);
   const [selectedRecipient, setSelectedRecipient] = useState<any>(null);
+  const { start_time, end_time } = getDateRange();
   const [fieldData, setFieldData] = useState<QueryObject>({
-    start_time: "",
-    end_time: "",
+    start_time,
+    end_time,
     start_hour: "",
     end_hour: "",
     traceback: "",
