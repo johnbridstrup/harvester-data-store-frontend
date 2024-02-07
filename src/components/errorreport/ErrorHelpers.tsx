@@ -170,6 +170,7 @@ interface AdvancedQProps {
 
 interface ImageProps {
   related_images: RelatedFile[];
+  theme: string;
 }
 
 export const HoverTabular = (props: HoverProps) => {
@@ -1113,7 +1114,7 @@ export const ModalForm = (props: FormProps) => {
   );
 };
 
-export const ImageViewer: FC<ImageProps> = ({ related_images }) => {
+export const ImageViewer: FC<ImageProps> = ({ related_images, theme }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -1121,6 +1122,7 @@ export const ImageViewer: FC<ImageProps> = ({ related_images }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+  const darkone = darkThemeClass("slide-broken-dark", theme);
 
   return (
     <div className="image-viewer">
@@ -1133,7 +1135,7 @@ export const ImageViewer: FC<ImageProps> = ({ related_images }) => {
           ))}
         </Slider>
       ) : (
-        <div className="slide-box-broken">
+        <div className={`slide-box-broken ${darkone}`}>
           <img src={imagePath("noimage")} alt="img" />
         </div>
       )}

@@ -498,6 +498,7 @@ function ErrorReportDetail() {
                               activetab={activeTab.extrainfo}
                               navto={ErrorReportEnum.ChronyPlot}
                               robocolor=""
+                              theme={theme as string}
                             >
                               Chrony Plot
                             </NavTabSpan>
@@ -514,6 +515,7 @@ function ErrorReportDetail() {
                               activetab={activeTab.extrainfo}
                               navto={ErrorReportEnum.Images}
                               robocolor=""
+                              theme={theme as string}
                             >
                               Images
                             </NavTabSpan>
@@ -539,6 +541,7 @@ function ErrorReportDetail() {
                             related_images={
                               reportobj?.event.related_images || []
                             }
+                            theme={theme as string}
                           />
                         )}
                       </div>
@@ -573,6 +576,7 @@ function ErrorReportDetail() {
                               activetab={activeTab.extrainfo}
                               navto={ErrorReportEnum.ChronyPlot}
                               robocolor=""
+                              theme={theme as string}
                             >
                               Chrony Plot
                             </NavTabSpan>
@@ -589,6 +593,7 @@ function ErrorReportDetail() {
                               activetab={activeTab.extrainfo}
                               navto={ErrorReportEnum.Images}
                               robocolor=""
+                              theme={theme as string}
                             >
                               Images
                             </NavTabSpan>
@@ -614,6 +619,7 @@ function ErrorReportDetail() {
                             related_images={
                               reportobj?.event.related_images || []
                             }
+                            theme={theme as string}
                           />
                         )}
                       </div>
