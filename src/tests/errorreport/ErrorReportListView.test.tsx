@@ -44,8 +44,8 @@ test("should render the error report list view", async () => {
     traceback: "",
     generic: "",
     tz: "",
-    start_time: "",
-    end_time: "",
+    // start_time: start_time // not ideal due seconds change,
+    // end_time: end_time, // not ideal due to seconds change
     primary: false,
   });
 
@@ -77,6 +77,8 @@ test("should render the error report list view", async () => {
   await user.type(traceback, "traceback");
   await user.type(genericLook, "column__x=y");
   await selectEvent.select(tzSelect, []);
+  await user.clear(startTime);
+  await user.clear(endTime);
   await user.type(startTime, "20230322174630");
   await user.type(endTime, "20230322174631");
 
