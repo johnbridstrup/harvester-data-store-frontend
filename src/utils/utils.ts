@@ -12,6 +12,7 @@ import {
   THEME_MODES,
 } from "@/features/base/constants";
 import {
+  Breakdown,
   Exception,
   ExceptionCode,
   TransformException,
@@ -1915,21 +1916,13 @@ export const mapSeriesTraces = (
   return tracesArr;
 };
 
-export const buildServerSchema = (
-  paramsObj: Record<string, any>,
-  formbuilder: FormBuilder,
-) => {
-  let data: Record<string, Record<string, any>> = {};
-  data["jobtype"] = paramsObj?.jobtype;
-  data["schema_version"] = paramsObj?.schema_version;
-  for (const [key, value] of Object.entries(formbuilder.form.properties)) {
-    if (data[key]) {
-      continue;
-    } else if (Object.keys(value).includes("default")) {
-      data[key] = value.default;
-    } else {
-      data[key] = {};
-    }
+export const createBarData = (brkdwnDict: Breakdown): [string[], number[]] => {
+  const data: { key: string; count: number }[] = [];
+  for (const [key, value] of Object.entries(brkdwnDict || {})) {
+    data.push({ key, count: value.count });
   }
-  return data;
+  data.sort((a, b) => b.count - a.count);
+  const keys = data.map((entry) => entry.key);
+  const counts = data.map((entry) => entry.count);
+  return [keys, counts];
 };

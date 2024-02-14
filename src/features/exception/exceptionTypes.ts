@@ -38,7 +38,46 @@ export interface TransformException extends Exception {
   exec_label: string;
 }
 
+interface Params {
+  codes: string;
+  start_time: string;
+  end_time: string;
+}
+
+interface Instance {
+  hostname: null;
+  id: number;
+  ts: string;
+}
+
+export interface BreakdownItem {
+  count: number;
+  example: string;
+  instances: Instance[];
+}
+
+export interface Breakdown {
+  [key: string]: BreakdownItem;
+}
+
+export interface TracebackBreakdown {
+  breakdown: Breakdown;
+  num_clusters: number;
+  params: Params;
+}
+
+interface Internal {
+  xvalue: string;
+  exception: Exception | null;
+  breakdown: BreakdownItem | null;
+  keys: string[];
+  counts: number[];
+  tracebackIndex: number;
+}
+
 export interface ExceptionState extends CommonState {
   exceptioncodes: Array<ExceptionCode>;
   exceptioncode: ExceptionCode | null;
+  tracebackbreakdown: TracebackBreakdown | null;
+  internal: Internal;
 }
