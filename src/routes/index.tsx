@@ -115,6 +115,9 @@ const EmulatorstatsDetailView = lazy(
 const EmulatorstatsChartView = lazy(
   () => import("@/pages/emulatorstats/chartview"),
 );
+const TracebackBreakdownView = lazy(
+  () => import("@/pages/exceptions/tracebackview"),
+);
 
 function BaseRoutes() {
   return (
@@ -933,6 +936,22 @@ function BaseRoutes() {
               }
             >
               <EmulatorstatsChartView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/tracebackbreakdown"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <TracebackBreakdownView />
             </Suspense>
           </RequireUser>
         }
