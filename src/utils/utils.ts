@@ -52,7 +52,6 @@ import {
   SeriesTrace,
   TraceObj,
 } from "@/features/emulatorstat/emulatorstatTypes";
-import { FormBuilder } from "@/features/jobscheduler/jobschedulerTypes";
 
 /**
  * Evaluate for dark theme className
@@ -170,6 +169,10 @@ const buildNewURL = (queryObj: Record<string, any> = {}, pareto?: string) => {
     newurl = `${window.location.protocol}//${
       window.location.host
     }/emucharts/?${params.toString()}`;
+  } else if (pareto === PushStateEnum.TRACEBACKBREAKDOWN) {
+    newurl = `${window.location.protocol}//${
+      window.location.host
+    }/tracebackbreakdown/?${params.toString()}`;
   } else {
     newurl = `${window.location.protocol}//${
       window.location.host

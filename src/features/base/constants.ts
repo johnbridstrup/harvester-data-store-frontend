@@ -48,6 +48,7 @@ export enum FULLFILLED_PROMISE {
   jobtypeschema = "jobscheduler/getJobTypeSchema/fulfilled",
   schedulejob = "jobscheduler/createScheduledJob/fulfilled",
   logfile = "logparser/getLogFile/fulfilled",
+  exception = "exception/queryTBBreakdown/fulfilled",
 }
 
 export enum REJECTED_PROMISE {
@@ -60,6 +61,7 @@ export enum REJECTED_PROMISE {
   s3file = "s3file/deleteS3File/rejected",
   jobtypeschema = "jobscheduler/getJobTypeSchema/rejected",
   schedulejob = "jobscheduler/createScheduledJob/rejected",
+  exception = "exception/queryTBBreakdown/rejected",
 }
 
 export enum LOG_LEVEL {
@@ -87,6 +89,7 @@ export enum PushStateEnum {
   AUTODIAGNOSTICS = "autodiagnostics",
   EMULATORSTATS = "emulatorstats",
   EMULATORCHART = "emulatorcharts",
+  TRACEBACKBREAKDOWN = "tracebackbreakdown",
 }
 
 export enum EMULATORREPORT {

@@ -9,6 +9,7 @@ import {
 } from "@/features/harvester/harvesterSlice";
 import { queryLocation } from "@/features/location/locationSlice";
 import { MAX_LIMIT } from "@/features/base/constants";
+import ExceptionTBQuery from "@/components/exceptions/ExceptionTBQuery";
 import "./styles.css";
 
 function TracebackBreakdownView() {
@@ -28,6 +29,7 @@ function TracebackBreakdownView() {
     <MainLayout>
       <div className="container">
         <Header title="Traceback Breakdown" className={"display-6 mt-4 mb-4"} />
+        <ExceptionTBQuery />
       </div>
     </MainLayout>
   );
