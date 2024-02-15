@@ -5,10 +5,11 @@ interface TracebackProps {
   keys: string[];
   counts: number[];
   theme: string;
+  handleBarClick: (event: Plotly.PlotMouseEvent) => void;
 }
 
 function TracebackPlot(props: TracebackProps) {
-  const { theme, keys, counts } = props;
+  const { theme, keys, counts, handleBarClick } = props;
   const paper_bgcolor = theme === "dark" ? "#343434" : "#fff";
   const plot_bgcolor = theme === "dark" ? "#343434" : "#fff";
   const color = theme === "dark" ? "#fff" : "#444";
@@ -51,7 +52,7 @@ function TracebackPlot(props: TracebackProps) {
   return (
     <>
       {keys.length ? (
-        <Plotly data={data} layout={layout as any} />
+        <Plotly data={data} layout={layout as any} onClick={handleBarClick} />
       ) : (
         <div className="non-cluster">
           <span>Query the data to see available traceback cluster groups</span>
