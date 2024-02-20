@@ -89,6 +89,12 @@ export const menu = [
     description: "Jobs to be run or have been run by task runner",
     href: "/scheduledjobs",
   },
+  {
+    name: "Traceback Breakdown",
+    icon: "insights",
+    description: "Traceback breakdown insights",
+    href: "/tracebackbreakdown",
+  },
 ];
 
 export const adminMenu = [

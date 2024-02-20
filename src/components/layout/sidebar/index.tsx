@@ -198,6 +198,14 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
                             AFTvplus
                           </Link>
                         </li>
+                        <li className="list-group-item hover1">
+                          <Link
+                            to={"/tracebackbreakdown"}
+                            className="link-color"
+                          >
+                            Traceback Breakdown
+                          </Link>
+                        </li>
                       </ul>
                     </div>
                   </div>
