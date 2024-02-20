@@ -49,6 +49,7 @@ import {
   queryEmulatorstat,
   getEmulatorstat,
   queryEmulatorstatTag,
+  queryTBBreakdown,
 } from "./actions";
 
 const handlers = [
@@ -98,6 +99,7 @@ const handlers = [
   queryEmulatorstat,
   getEmulatorstat,
   queryEmulatorstatTag,
+  queryTBBreakdown,
 ];
 
 export default handlers;

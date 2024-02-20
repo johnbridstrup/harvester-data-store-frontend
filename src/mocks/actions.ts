@@ -13,7 +13,11 @@ import {
   ERROR_PARETO_URL,
   ERROR_REPORT_URL,
 } from "@/features/errorreport/errorreportService";
-import { EXCEPTION_CODE_URL } from "@/features/exception/exceptionService";
+import {
+  EXCEPTION_CODE_URL,
+  EXCEPTION_URL,
+  TB_ENDPOINT,
+} from "@/features/exception/exceptionService";
 import {
   FRUITS_URL,
   HARVESTERS_URL,
@@ -486,6 +490,22 @@ export const queryEmulatorstatTag = rest.get(
     genericGetResponse["message"] = "emulatorstats tags";
     genericGetResponse["data"] = {
       tags: ["Incomplete", "Invalid", "Unset"],
+    };
+    return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const queryTBBreakdown = rest.get(
+  `${EXCEPTION_URL}${TB_ENDPOINT}`,
+  (_, res, ctx) => {
+    genericGetResponse["message"] = "Traceback Breakdown";
+    genericGetResponse["data"] = {
+      "1": {
+        count: 1,
+        example:
+          "A very different traceback from the rest of them\n\n\t454545454545+42ABadException",
+        ids: [4],
+      },
     };
     return res(ctx.json(genericGetResponse));
   },
