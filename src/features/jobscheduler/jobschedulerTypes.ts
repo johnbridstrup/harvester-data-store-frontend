@@ -74,6 +74,62 @@ interface Form {
   properties: Record<string, Record<string, any>>;
 }
 
+export interface IntervalData {
+  every: number;
+  period: string;
+}
+
+export interface CrontabData {
+  timezone: string;
+  minute: string;
+  hour: string;
+  day_of_week: string;
+  day_of_month: string;
+  month_of_year: string;
+}
+
+export interface ClockedData {
+  clocked_time: string;
+}
+
+export interface ScheduleData {
+  jobtype: string;
+  schema_version: string;
+  max_runs: number;
+  schedule: {
+    interval?: IntervalData;
+    crontab?: CrontabData;
+    clocked?: ClockedData;
+  };
+  targets: {
+    ranches?: string[];
+    harvesters?: string[];
+    fruits?: string[];
+    all?: boolean;
+  };
+  payload: {
+    payload: Record<string, any>;
+  };
+}
+
+export enum ScheduleStepForm {
+  "StaticForm" = "StaticForm",
+  "DynamicForm" = "DynamicForm",
+}
+
+export enum ScheduleCase {
+  Interval = "Interval",
+  Crontab = "Crontab",
+  Clocked = "Clocked",
+}
+
+export enum TargetCase {
+  Ranch = "Ranch",
+  Harvester = "Harvester",
+  Fruit = "Fruit",
+  Fleet = "Fleet",
+}
+
 export interface FormBuilder {
   form: Form;
   submit: string;

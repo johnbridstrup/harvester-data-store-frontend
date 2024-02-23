@@ -3,3 +3,18 @@
   color: var(--color-secondary);
   border-radius: 5px;
 }
+
+.text-2x {
+  font-size: 2rem;
+}
+
+.edit-json {
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.form-dt-bg {
+  background: var(--dark-bg-third);
+  background-color: var(--dark-bg-third);
+  color: var(--color-white);
+}

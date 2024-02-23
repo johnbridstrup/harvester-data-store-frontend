@@ -51,6 +51,7 @@ import {
   SeriesTrace,
   TraceObj,
 } from "@/features/emulatorstat/emulatorstatTypes";
+import { FormBuilder } from "@/features/jobscheduler/jobschedulerTypes";
 
 /**
  * Evaluate for dark theme className
@@ -1912,4 +1913,23 @@ export const mapSeriesTraces = (
     }
   }
   return tracesArr;
+};
+
+export const buildServerSchema = (
+  paramsObj: Record<string, any>,
+  formbuilder: FormBuilder,
+) => {
+  let data: Record<string, Record<string, any>> = {};
+  data["jobtype"] = paramsObj?.jobtype;
+  data["schema_version"] = paramsObj?.schema_version;
+  for (const [key, value] of Object.entries(formbuilder.form.properties)) {
+    if (data[key]) {
+      continue;
+    } else if (Object.keys(value).includes("default")) {
+      data[key] = value.default;
+    } else {
+      data[key] = {};
+    }
+  }
+  return data;
 };

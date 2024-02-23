@@ -81,6 +81,12 @@ a {
   justify-content: flex-end;
 }
 
+.flex-vh {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .size-2x {
   font-size: 18px;
 }
