@@ -1131,6 +1131,7 @@ export const ImageViewer: FC<ImageProps> = ({ related_images, theme }) => {
           {related_images.map((image, index) => (
             <div className="slide-box" key={index}>
               <img src={image.url} alt="img" />
+              <div className="text-center">{image.filetype}</div>
             </div>
           ))}
         </Slider>

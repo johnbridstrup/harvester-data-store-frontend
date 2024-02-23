@@ -18,6 +18,7 @@ interface Internal {
   searchObj: Record<string, any> | null;
   service: string | null;
   timestamp: number | null;
+  extrainfo: string;
 }
 
 type OmittedEvent = Omit<EventObject, "creator" | "modifiedBy">;

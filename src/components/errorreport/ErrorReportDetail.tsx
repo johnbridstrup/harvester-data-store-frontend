@@ -110,7 +110,7 @@ function ErrorReportDetail() {
       erroredservices,
       exceptions,
     },
-    internal: { service, timestamp },
+    internal: { service, timestamp, extrainfo },
   } = useAppSelector((state) => state.errorreport);
   const { token } = useAppSelector((state) => state.auth);
   const { theme } = useAppSelector((state) => state.home);
@@ -160,6 +160,12 @@ function ErrorReportDetail() {
       };
     });
   }, [activeTab.sysmon, sysmonkeys, sysmonreport]);
+
+  useEffect(() => {
+    setActiveTab((current) => {
+      return { ...current, extrainfo };
+    });
+  }, [extrainfo]);
 
   const handleTabChange = (
     tab: string | TransformException,

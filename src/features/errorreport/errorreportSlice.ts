@@ -11,6 +11,7 @@ import { invalidateCache } from "../auth/authSlice";
 import errorreportService from "./errorreportService";
 import { paginateRequest } from "@/features/base/services";
 import { ErrorReportState } from "./errorreportTypes";
+import { ErrorReportEnum } from "../base/constants";
 
 const initialState: ErrorReportState = {
   loading: false,
@@ -39,6 +40,7 @@ const initialState: ErrorReportState = {
     searchObj: null,
     service: null,
     timestamp: null,
+    extrainfo: ErrorReportEnum.ChronyPlot,
   },
 };
 
@@ -178,6 +180,9 @@ const errorreportSlice = createSlice({
           sysreport,
         );
         state.transformed.exceptions = exceptions;
+        state.internal.extrainfo = report.event.related_images?.length
+          ? ErrorReportEnum.Images
+          : ErrorReportEnum.ChronyPlot;
       })
       .addCase(getErrorReport.rejected, (state, action) => {
         state.loading = false;
