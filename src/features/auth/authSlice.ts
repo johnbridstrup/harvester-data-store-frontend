@@ -57,6 +57,16 @@ export const logout = createAsyncThunk(
 export const invalidateCache = (error: any, dispatch: any) => {
   const message =
     (error.response && error.response.data && error.response.data.message) ||
+    (error.response &&
+      error.response.data &&
+      error.response.data.errors &&
+      error.response.data.errors.exception) ||
+    (error.response &&
+      error.response.data &&
+      error.response.data.errors &&
+      error.response.data.errors.detail &&
+      JSON.stringify(error.response.data.errors.detail)) ||
+    (error.response && error.response.data && error.response.data.errors) ||
     error.message ||
     error.toString();
   if (message === status.HTTP_401_UNAUTHORIZED) {
