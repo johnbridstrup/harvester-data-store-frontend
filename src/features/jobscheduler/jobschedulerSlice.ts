@@ -12,7 +12,12 @@ const initialState: JobSchedulerState = {
   scheduledjob: null,
   jobtypeschema: null,
   formbuilder: {
-    form: {},
+    form: {
+      title: "",
+      type: "",
+      required: [],
+      properties: {},
+    },
     submit: "",
   },
   errorMsg: null,

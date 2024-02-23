@@ -67,8 +67,15 @@ export interface ScheduledJob {
   targets: Array<HarvesterMinimal>;
 }
 
-interface FormBuilder {
-  form: Record<string, any>;
+interface Form {
+  type: string;
+  title: string;
+  required: string[];
+  properties: Record<string, Record<string, any>>;
+}
+
+export interface FormBuilder {
+  form: Form;
   submit: string;
 }
 
