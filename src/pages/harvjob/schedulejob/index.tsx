@@ -95,6 +95,78 @@ function ScheduleJobView() {
     })();
   }, [dispatch]);
 
+  useEffect(() => {
+    if (scheduledjob) {
+      let schedule: Record<string, any> = scheduledjob.job_def.schedule;
+      let targets: Record<string, any> = scheduledjob.job_def.targets;
+
+      if (schedule?.interval) {
+        setScheduleCase(ScheduleCase.Interval);
+        setIntervalData((current) => {
+          return {
+            ...current,
+            every: schedule.interval?.every,
+            period: schedule.interval?.period,
+          };
+        });
+        let period = {
+          label: schedule.interval?.period,
+          value: schedule.interval?.period,
+        };
+        setSelectedPeriod(period);
+      }
+      if (schedule?.crontab) {
+        setScheduleCase(ScheduleCase.Crontab);
+        setCrontabData((current) => {
+          return {
+            ...current,
+            timezone: schedule.crontab?.timezone,
+            minute: schedule.crontab?.minute,
+            hour: schedule.crontab?.hour,
+            day_of_week: schedule.crontab?.day_of_week,
+            day_of_month: schedule.crontab?.day_of_month,
+            month_of_year: schedule.crontab?.month_of_year,
+          };
+        });
+      }
+      if (schedule?.clocked) {
+        setScheduleCase(ScheduleCase.Clocked);
+        setClockedData((current) => {
+          return { ...current, clocked_time: schedule.clocked?.clocked_time };
+        });
+      }
+
+      if (targets?.ranches) {
+        setTargetCase(TargetCase.Ranch);
+        let ranches = targets.ranches?.map((x: string) => ({
+          label: x,
+          value: x,
+        }));
+        setSelectedRanch(ranches);
+      }
+      if (targets?.fruits) {
+        setTargetCase(TargetCase.Fruit);
+        let fruits = targets.fruits?.map((x: string) => ({
+          label: x,
+          value: x,
+        }));
+        setSelectedFruit(fruits);
+      }
+      if (targets?.harvesters) {
+        setTargetCase(TargetCase.Harvester);
+        let harvs = targets.harvesters?.map((x: string) => ({
+          label: x,
+          value: x,
+        }));
+        setSelectedHarv(harvs);
+      }
+      if (targets?.all) {
+        setTargetCase(TargetCase.Fleet);
+        setFleet(Boolean(targets.all));
+      }
+    }
+  }, [scheduledjob]);
+
   const periodOptions = [
     { label: "seconds", value: "seconds" },
     { label: "minutes", value: "minutes" },

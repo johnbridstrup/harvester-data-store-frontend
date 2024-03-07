@@ -520,7 +520,7 @@ export const DynamicFormStep: FC<DynamicFormProps> = ({
             <Form
               schema={schema}
               validator={validator}
-              formData={scheduledjob?.job_def}
+              formData={scheduledjob?.job_def?.payload}
               onSubmit={(data) => handleScheduleJob(data)}
               onError={(errors) => console.log(errors)}
               className={formTheme}
