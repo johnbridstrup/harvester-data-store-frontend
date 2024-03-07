@@ -38,3 +38,17 @@
 .slide-broken-dark {
   background: #343434;
 }
+
+.carousel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+}
+
+.center-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}

@@ -67,6 +67,8 @@ import { createNotification } from "@/features/notification/notificationSlice";
 import { SysmonKey } from "@/features/errorreport/errorreportTypes";
 import { TransformException } from "@/features/exception/exceptionTypes";
 import { cacheService } from "@/features/errorreport/errorreportSlice";
+import { RelatedFile } from "@/features/base/types";
+import ExpandableModal from "../modals/ExpandableModal";
 const ChronyInfoPlot = lazy(() => import("../plotly/ChronyInfoPlot"));
 const ErrorReportJson = lazy(() => import("./ErrorReportJson"));
 
@@ -100,6 +102,10 @@ function ErrorReportDetail() {
   const [robocolor, setRoboColor] = useState<{ main: string; arm: string }>({
     main: "",
     arm: "",
+  });
+  const [image, setImage] = useState<RelatedFile>({
+    url: "",
+    filetype: "",
   });
   const {
     timezone,
@@ -244,6 +250,10 @@ function ErrorReportDetail() {
 
   const handleDownloadFiles = async (fileObj: { url: string }) => {
     await handleDownload(fileObj, token as string);
+  };
+
+  const handleImageClick = (image: RelatedFile) => {
+    setImage(image);
   };
 
   const createNotifPopUp = async () => {
@@ -548,6 +558,7 @@ function ErrorReportDetail() {
                               reportobj?.event.related_images || []
                             }
                             theme={theme as string}
+                            handleZoomIn={handleImageClick}
                           />
                         )}
                       </div>
@@ -626,6 +637,7 @@ function ErrorReportDetail() {
                               reportobj?.event.related_images || []
                             }
                             theme={theme as string}
+                            handleZoomIn={handleImageClick}
                           />
                         )}
                       </div>
@@ -685,6 +697,11 @@ function ErrorReportDetail() {
         theme={theme as string}
         timezoneOptions={timezoneOptions}
         usersOptions={usersOptions}
+      />
+      <ExpandableModal
+        theme={theme as string}
+        image={image}
+        images={reportobj?.event.related_images || []}
       />
     </>
   );

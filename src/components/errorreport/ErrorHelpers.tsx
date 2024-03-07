@@ -171,6 +171,7 @@ interface AdvancedQProps {
 interface ImageProps {
   related_images: RelatedFile[];
   theme: string;
+  handleZoomIn: (args0: { url: string; filetype: string }) => void;
 }
 
 export const HoverTabular = (props: HoverProps) => {
@@ -1114,7 +1115,11 @@ export const ModalForm = (props: FormProps) => {
   );
 };
 
-export const ImageViewer: FC<ImageProps> = ({ related_images, theme }) => {
+export const ImageViewer: FC<ImageProps> = ({
+  related_images,
+  theme,
+  handleZoomIn,
+}) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -1123,6 +1128,12 @@ export const ImageViewer: FC<ImageProps> = ({ related_images, theme }) => {
     slidesToScroll: 1,
   };
   const darkone = darkThemeClass("slide-broken-dark", theme);
+  const btn = darkThemeClass("btn-dark", theme);
+  const modalRef = useRef<HTMLButtonElement>(null);
+  const onZoomIn = (image: { url: string; filetype: string }) => {
+    handleZoomIn(image);
+    modalRef.current?.click();
+  };
 
   return (
     <div className="image-viewer">
@@ -1131,7 +1142,23 @@ export const ImageViewer: FC<ImageProps> = ({ related_images, theme }) => {
           {related_images.map((image, index) => (
             <div className="slide-box" key={index}>
               <img src={image.url} alt="img" />
-              <div className="text-center">{image.filetype}</div>
+              <div className="text-center mb-2">{image.filetype}</div>
+              <div className="text-center">
+                <button
+                  ref={modalRef}
+                  data-bs-toggle="modal"
+                  data-bs-target="#expandableModal"
+                  style={{ display: "none" }}
+                >
+                  Zoom In
+                </button>
+                <button
+                  className={`btn btn-sm btn-default ${btn}`}
+                  onClick={() => onZoomIn(image)}
+                >
+                  Zoom In
+                </button>
+              </div>
             </div>
           ))}
         </Slider>
