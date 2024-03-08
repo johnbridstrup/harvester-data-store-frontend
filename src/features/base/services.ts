@@ -188,4 +188,26 @@ export class BaseService {
   public upload = async (data: object, token: string) => {
     return await axiosService.upload(this.url, token, data);
   };
+
+  /**
+   * Get all data from the given query next url exhaustively
+   */
+  public getAll = async (queryObj: Record<string, any>, token: string) => {
+    const payloadResult: any[] = [];
+    const resp = await this.factoryQuery(this.url, queryObj, token);
+    payloadResult.push(...resp.results);
+    let next: string | null = resp.next;
+
+    while (next) {
+      const res = await this.genericGet(next, token);
+      payloadResult.push(...res.results);
+      next = res.next;
+    }
+    return {
+      results: payloadResult,
+      next: null,
+      previous: null,
+      count: payloadResult.length,
+    };
+  };
 }
