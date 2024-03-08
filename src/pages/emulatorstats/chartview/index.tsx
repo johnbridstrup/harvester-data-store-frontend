@@ -2,8 +2,8 @@ import { useEffect, useState, useReducer } from "react";
 import { useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
+  getAllPaginatedEmustat,
   getEmulatorstatTags,
-  queryEmulatorstat,
 } from "@/features/emulatorstat/emulatorstatSlice";
 import {
   ActionTypesEnum,
@@ -11,6 +11,7 @@ import {
   SeriesTrace,
   TraceObj,
 } from "@/features/emulatorstat/emulatorstatTypes";
+import { EMUSTAT_LIMIT } from "@/features/base/constants";
 import {
   SelectChart,
   transformEmustatAggs,
@@ -111,9 +112,12 @@ function EmulatorstatsChartView() {
   ];
 
   useEffect(() => {
-    // default to limit stats by 1000 entries
-    // this can change for dynamic implementation
-    dispatch(queryEmulatorstat({ ...paramsToObject(search), limit: 1000 }));
+    dispatch(
+      getAllPaginatedEmustat({
+        ...paramsToObject(search),
+        limit: EMUSTAT_LIMIT,
+      }),
+    );
     dispatch(getEmulatorstatTags());
   }, [dispatch, search]);
 

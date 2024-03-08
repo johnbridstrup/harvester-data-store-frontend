@@ -25,6 +25,7 @@ export const LOGSESSION = "LogSession";
 export const LOGSCHANNEL = "logs_channel";
 export const TZ = "US/Pacific";
 export const MSG_INVALID_TOKEN = "Invalid token.";
+export const EMUSTAT_LIMIT = 1000;
 
 export enum status {
   HTTP_401_UNAUTHORIZED = "Request failed with status code 401",

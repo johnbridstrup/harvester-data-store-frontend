@@ -12,9 +12,13 @@ import {
   timeStampFormat,
   transformTagsOptions,
 } from "@/utils/utils";
-import { queryEmulatorstat } from "@/features/emulatorstat/emulatorstatSlice";
+import {
+  getAllPaginatedEmustat,
+  queryEmulatorstat,
+} from "@/features/emulatorstat/emulatorstatSlice";
 import {
   EMULATORREPORT,
+  EMUSTAT_LIMIT,
   PushStateEnum,
   THEME_MODES,
 } from "@/features/base/constants";
@@ -111,7 +115,7 @@ function EmulatorstatsQuery(props: EmuProps) {
     if (fieldData.limit && props.view === EMULATORREPORT.listview) {
       queryObj["limit"] = fieldData.limit;
     } else if (fieldData.limit && props.view === EMULATORREPORT.chartview) {
-      queryObj["limit"] = 1000;
+      queryObj["limit"] = EMUSTAT_LIMIT;
     }
     if (selectedTag && selectedTag.length > 0) {
       queryObj["tags"] = selectedTag.map((x: { value: string }) => x.value);
@@ -132,10 +136,11 @@ function EmulatorstatsQuery(props: EmuProps) {
   const handleQuerySubmit = async (e: FormEvent) => {
     e.preventDefault();
     const queryObj = buildQueryObj();
-    dispatch(queryEmulatorstat(queryObj));
     if (props.view === EMULATORREPORT.listview) {
+      dispatch(queryEmulatorstat(queryObj));
       replaceState(queryObj, PushStateEnum.EMULATORSTATS);
     } else if (props.view === EMULATORREPORT.chartview) {
+      dispatch(getAllPaginatedEmustat(queryObj));
       replaceState(queryObj, PushStateEnum.EMULATORCHART);
     }
   };
