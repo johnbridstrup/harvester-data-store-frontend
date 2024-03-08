@@ -87,6 +87,22 @@ export const getEmulatorstatTags = createAsyncThunk(
   },
 );
 
+export const getAllPaginatedEmustat = createAsyncThunk(
+  "emulatorstats/getAllPaginatedEmustat",
+  async (queryObj: Record<string, any>, thunkAPI) => {
+    try {
+      const {
+        auth: { token },
+      } = thunkAPI.getState() as { auth: { token: string } };
+      return await emulatorstatsService.getAll(queryObj, token);
+    } catch (error) {
+      console.log(error);
+      const message = invalidateCache(error, thunkAPI.dispatch);
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
+
 const emulatorstatsSlice = createSlice({
   name: "emulatorstats",
   initialState,
@@ -140,6 +156,20 @@ const emulatorstatsSlice = createSlice({
         state.tags = action.payload.tags;
       })
       .addCase(getEmulatorstatTags.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMsg = action.payload;
+      })
+      .addCase(getAllPaginatedEmustat.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllPaginatedEmustat.fulfilled, (state, action) => {
+        state.loading = false;
+        state.emustats = action.payload.results;
+        state.pagination.count = action.payload.count;
+        state.pagination.next = action.payload.next;
+        state.pagination.previous = action.payload.previous;
+      })
+      .addCase(getAllPaginatedEmustat.rejected, (state, action) => {
         state.loading = false;
         state.errorMsg = action.payload;
       });
