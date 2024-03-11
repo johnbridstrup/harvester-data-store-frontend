@@ -29,6 +29,7 @@ const initialState: HarvJobState = {
   internal: {
     schema: selectOptions?.schema,
     jtype: selectOptions?.jtype,
+    cacheSchemaOptions: selectOptions?.schemaOptions,
   },
   errorMsg: null,
   pagination: {
@@ -387,6 +388,7 @@ const harvjobSlice = createSlice({
     cacheSelectOptions: (state, action) => {
       state.internal.schema = action.payload.schema;
       state.internal.jtype = action.payload.jtype;
+      state.internal.cacheSchemaOptions = action.payload.schemaOptions;
       localStorage.setItem("selectOptions", JSON.stringify(action.payload));
     },
   },

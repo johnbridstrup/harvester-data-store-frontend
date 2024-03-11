@@ -95,6 +95,7 @@ export interface JobStatus {
 interface Internal {
   schema?: { label: string; value: string };
   jtype?: { label: string; value: string };
+  cacheSchemaOptions?: { label: string; value: string }[];
 }
 
 export interface HarvJobState extends CommonState {

@@ -24,7 +24,7 @@ function JobSchedulerView() {
   const [selectedJobSchema, setSelectedJobSchema] = useState<any>(null);
   const [schemaOptions, setSchemaOptions] = useState<any>([]);
   const {
-    internal: { jtype, schema },
+    internal: { jtype, schema, cacheSchemaOptions },
   } = useAppSelector((state) => state.harvjob);
   const { jobtypeschema, formbuilder, scheduledjobs } = useAppSelector(
     (state) => state.jobscheduler,
@@ -45,6 +45,7 @@ function JobSchedulerView() {
       if (jtype && schema) {
         setSelectedJobType(jtype);
         setSelectedJobSchema(schema);
+        setSchemaOptions(cacheSchemaOptions);
         const url =
           jobtypeschema?.jobs?.[jtype?.value]?.[schema?.value]?.["url"];
         if (url) dispatch(getScheduledJobForm(url));
@@ -56,7 +57,7 @@ function JobSchedulerView() {
         );
       }
     })();
-  }, [dispatch, jobtypeschema, jtype, schema]);
+  }, [dispatch, jobtypeschema, jtype, schema, cacheSchemaOptions]);
 
   const handleJobTypeSelect = async (newValue: any) => {
     setSelectedJobType(newValue);
@@ -71,7 +72,13 @@ function JobSchedulerView() {
       const url =
         jobtypeschema?.jobs?.[newValue.value]?.[options[0]?.value]?.["url"];
       dispatch(getScheduledJobForm(url));
-      dispatch(cacheSelectOptions({ jtype: newValue, schema: options[0] }));
+      dispatch(
+        cacheSelectOptions({
+          jtype: newValue,
+          schema: options[0],
+          schemaOptions: options,
+        }),
+      );
       dispatch(
         queryScheduledJob({
           jobtype: newValue.value,
@@ -100,7 +107,11 @@ function JobSchedulerView() {
         }),
       );
       dispatch(
-        cacheSelectOptions({ jtype: selectedJobType, schema: newValue }),
+        cacheSelectOptions({
+          jtype: selectedJobType,
+          schema: newValue,
+          schemaOptions,
+        }),
       );
     }
   };
