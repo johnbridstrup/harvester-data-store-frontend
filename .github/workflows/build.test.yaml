@@ -16,10 +16,10 @@ jobs:
     steps:
       - name: pulling git repo
         uses: actions/checkout@v2
-      - name: install node version 16
+      - name: install node version 20
         uses: actions/setup-node@v2
         with:
-          node-version: "16"
+          node-version: "20"
       - name: increase javascript heap memory
         run: export NODE_OPTIONS=--max-old-space-size=32768
       - name: install dependencies
