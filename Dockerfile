@@ -1,11 +1,11 @@
-FROM node:18.18.1-slim as buildStage
+FROM node:20.11.1-slim as buildStage
 
 # copy and package installation
 WORKDIR /react/app
 
 COPY . .
 
-RUN npm install --ignore-scripts
+RUN npm install -g npm@10.5.0 && npm install --ignore-scripts
 
 # # Args and build
 ARG HDS_PORT=8085
@@ -23,7 +23,7 @@ RUN echo "API URL: ${REACT_APP_HDS_API_URL}" && \
     npm run build
 
 # production build
-FROM node:18.18.1-slim as prodStage
+FROM node:20.11.1-slim as prodStage
 
 WORKDIR /opt/app/
 
@@ -31,7 +31,7 @@ COPY server.cjs entrypoint.sh index.html ./
 
 COPY --from=buildStage /react/app/dist/ /opt/app/dist/
 
-RUN npm install express dotenv && \
+RUN npm install -g npm@10.5.0 && npm install express dotenv && \
     npm pkg set type="module"
 
 RUN chmod +x /opt/app/entrypoint.sh
