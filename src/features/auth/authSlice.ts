@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { status } from "../base/constants";
+import { MSG_INVALID_TOKEN, status } from "../base/constants";
 import authService from "./authService";
 import {
   ChangePassword,
@@ -55,7 +55,7 @@ export const logout = createAsyncThunk(
 );
 
 export const invalidateCache = (error: any, dispatch: any) => {
-  const message =
+  const message: string =
     (error.response && error.response.data && error.response.data.message) ||
     (error.response &&
       error.response.data &&
@@ -69,7 +69,13 @@ export const invalidateCache = (error: any, dispatch: any) => {
     (error.response && error.response.data && error.response.data.errors) ||
     error.message ||
     error.toString();
-  if (message === status.HTTP_401_UNAUTHORIZED) {
+  const statusCode: number = error.response && error.response.status;
+
+  if (
+    message === status.HTTP_401_UNAUTHORIZED ||
+    statusCode === status.HTTP_401_STATUSCODE ||
+    message == MSG_INVALID_TOKEN
+  ) {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("isAuthenticated");

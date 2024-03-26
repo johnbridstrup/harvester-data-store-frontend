@@ -24,10 +24,12 @@ export const LOG_MSG_PATTERN =
 export const LOGSESSION = "LogSession";
 export const LOGSCHANNEL = "logs_channel";
 export const TZ = "US/Pacific";
+export const MSG_INVALID_TOKEN = "Invalid token.";
 
 export enum status {
   HTTP_401_UNAUTHORIZED = "Request failed with status code 401",
   HTTP_403_FORBIDDEN = "Request failed with status code 403",
+  HTTP_401_STATUSCODE = 401,
 }
 
 export enum NOTIFY_CATEGORY {
