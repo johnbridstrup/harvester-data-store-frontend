@@ -30,6 +30,7 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
   const accordion = darkThemeClass("accordion-d", theme);
   const accitemd = darkThemeClass("accordion-item-d", theme);
   const listgd = darkThemeClass("list-group-d", theme);
+  const linkcolor = darkThemeClass("link-color-d", theme);
 
   return (
     <>
@@ -69,28 +70,43 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
                   >
                     <div className="accordion-body">
                       <ul className={`list-group ${listgd}`}>
-                        <li className="list-group-item hover1">
-                          <Link to={"/harvesters"} className="link-color">
+                        <li className="list-group-item">
+                          <Link
+                            to={"/harvesters"}
+                            className={`link-color ${linkcolor}`}
+                          >
                             Harvester
                           </Link>
                         </li>
-                        <li className="list-group-item hover1">
-                          <Link to={"/locations"} className="link-color">
+                        <li className="list-group-item">
+                          <Link
+                            to={"/locations"}
+                            className={`link-color ${linkcolor}`}
+                          >
                             Location
                           </Link>
                         </li>
-                        <li className="list-group-item hover1">
-                          <Link to={"/distributors"} className="link-color">
+                        <li className="list-group-item">
+                          <Link
+                            to={"/distributors"}
+                            className={`link-color ${linkcolor}`}
+                          >
                             Distributors
                           </Link>
                         </li>
-                        <li className="list-group-item hover1">
-                          <Link to={"/harvesterhistory"} className="link-color">
+                        <li className="list-group-item">
+                          <Link
+                            to={"/harvesterhistory"}
+                            className={`link-color ${linkcolor}`}
+                          >
                             Harvester History
                           </Link>
                         </li>
-                        <li className="list-group-item hover1">
-                          <Link to={"/release"} className="link-color">
+                        <li className="list-group-item">
+                          <Link
+                            to={"/release"}
+                            className={`link-color ${linkcolor}`}
+                          >
                             AFT Releases
                           </Link>
                         </li>
@@ -118,18 +134,27 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
                   >
                     <div className="accordion-body">
                       <ul className={`list-group ${listgd}`}>
-                        <li className="list-group-item hover1">
-                          <Link to={"/events"} className="link-color">
+                        <li className="list-group-item">
+                          <Link
+                            to={"/events"}
+                            className={`link-color ${linkcolor}`}
+                          >
                             Events
                           </Link>
                         </li>
-                        <li className="list-group-item hover1">
-                          <Link to={"/picksessions"} className="link-color">
+                        <li className="list-group-item">
+                          <Link
+                            to={"/picksessions"}
+                            className={`link-color ${linkcolor}`}
+                          >
                             Pick Session
                           </Link>
                         </li>
-                        <li className="list-group-item hover1">
-                          <Link to={"/notifications"} className="link-color">
+                        <li className="list-group-item">
+                          <Link
+                            to={"/notifications"}
+                            className={`link-color ${linkcolor}`}
+                          >
                             Notification
                           </Link>
                         </li>
@@ -157,13 +182,19 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
                   >
                     <div className="accordion-body">
                       <ul className={`list-group ${listgd}`}>
-                        <li className="list-group-item hover1">
-                          <Link to={"/s3files"} className="link-color">
+                        <li className="list-group-item">
+                          <Link
+                            to={"/s3files"}
+                            className={`link-color ${linkcolor}`}
+                          >
                             S3Files
                           </Link>
                         </li>
-                        <li className="list-group-item hover1">
-                          <Link to={"/logsession"} className="link-color">
+                        <li className="list-group-item">
+                          <Link
+                            to={"/logsession"}
+                            className={`link-color ${linkcolor}`}
+                          >
                             AFTvplus
                           </Link>
                         </li>
@@ -192,22 +223,28 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
                     >
                       <div className="accordion-body">
                         <ul className={`list-group ${listgd}`}>
-                          <li className="list-group-item hover1">
-                            <Link to={"/migrations"} className="link-color">
+                          <li className="list-group-item">
+                            <Link
+                              to={"/migrations"}
+                              className={`link-color ${linkcolor}`}
+                            >
                               HDS Migration
                             </Link>
                           </li>
-                          <li className="list-group-item hover1">
-                            <Link to={"/users"} className="link-color">
+                          <li className="list-group-item">
+                            <Link
+                              to={"/users"}
+                              className={`link-color ${linkcolor}`}
+                            >
                               Users
                             </Link>
                           </li>
-                          <li className="list-group-item hover1">
+                          <li className="list-group-item">
                             <a
                               href={adminUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="link-color"
+                              className={`link-color ${linkcolor}`}
                             >
                               Administator
                             </a>

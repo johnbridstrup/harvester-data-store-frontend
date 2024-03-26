@@ -62,6 +62,18 @@
   color: var(--color-secondary);
 }
 
+.link-color-d {
+  color: #c3c3c3;
+}
+
+.accordion {
+  --bs-accordion-btn-color: none;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: inherit;
+}
+
 .sidebar-footer {
   position: absolute;
   bottom: 0;
