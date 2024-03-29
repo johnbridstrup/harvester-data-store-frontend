@@ -228,7 +228,7 @@ export const replaceState = (
  * @returns Function
  */
 export function handleSelectFactory(setSelectedFunc: Function) {
-  const handleSelect = (newValue: MultiValue<undefined>) => {
+  const handleSelect = (newValue: MultiValue<any>) => {
     setSelectedFunc(newValue);
   };
   return handleSelect;
