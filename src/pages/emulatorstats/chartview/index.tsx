@@ -25,6 +25,7 @@ import { Header, Loader, CustomBackButton } from "@/components/common";
 import { LoaderDiv } from "@/components/styled";
 import { CopyGenericURL } from "@/components/copytoclipboard";
 import {
+  getDateRange,
   handleSelectFactory,
   paramsToObject,
   uniqueValues,
@@ -112,12 +113,20 @@ function EmulatorstatsChartView() {
   ];
 
   useEffect(() => {
-    dispatch(
-      getAllPaginatedEmustat({
-        ...paramsToObject(search),
-        limit: EMUSTAT_LIMIT,
-      }),
-    );
+    const { start_time, end_time } = getDateRange(30);
+    const paramsObj = paramsToObject(search);
+    paramsObj["limit"] = EMUSTAT_LIMIT;
+    if (paramsObj.start_time) {
+      dispatch(getAllPaginatedEmustat(paramsObj));
+    } else {
+      dispatch(
+        getAllPaginatedEmustat({
+          ...paramsObj,
+          start_time: start_time,
+          end_time: end_time,
+        }),
+      );
+    }
     dispatch(getEmulatorstatTags());
   }, [dispatch, search]);
 
