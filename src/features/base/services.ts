@@ -97,7 +97,7 @@ export const openapiSchema = async (token: string) => {
 };
 
 export const paginateRequest = async (url: string, token: string) => {
-  const response = await axiosService.get(url, token);
+  const response = await axiosService.get(enforceHttps(url), token);
   return response;
 };
 
