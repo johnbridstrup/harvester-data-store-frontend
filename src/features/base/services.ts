@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { CSRF_URL, OPENAPI_URL } from "./constants";
 import { enforceHttps } from "@/utils/utils";
+import { GenericGetResponse, OpenAPISchema } from "./types";
 
 interface RequestConfig extends AxiosRequestConfig {
   headers: {
@@ -92,7 +93,7 @@ export const persistCSRFToken = async (): Promise<void> => {
   }
 };
 
-export const openapiSchema = async (token: string) => {
+export const openapiSchema = async (token: string): Promise<OpenAPISchema> => {
   return await axiosService.openapi(OPENAPI_URL, token);
 };
 
@@ -194,12 +195,16 @@ export class BaseService {
    */
   public getAll = async (queryObj: Record<string, any>, token: string) => {
     const payloadResult: any[] = [];
-    const resp = await this.factoryQuery(this.url, queryObj, token);
+    const resp: GenericGetResponse = await this.factoryQuery(
+      this.url,
+      queryObj,
+      token,
+    );
     payloadResult.push(...resp.results);
     let next: string | null = resp.next;
 
     while (next) {
-      const res = await this.genericGet(next, token);
+      const res: GenericGetResponse = await this.genericGet(next, token);
       payloadResult.push(...res.results);
       next = res.next;
     }

@@ -54,3 +54,23 @@ export interface HarvesterMinimal {
   fruit: FruitMinimal;
   is_emulator: boolean;
 }
+
+interface Info {
+  title: string;
+  version: string;
+  description: string;
+}
+
+export interface OpenAPISchema {
+  openapi: string;
+  info: Info;
+  paths: Record<string, Record<string, any>>;
+  components: { schemas: Record<string, any> };
+}
+
+export interface GenericGetResponse {
+  results: any[];
+  count: number;
+  next: string | null;
+  previous: string | null;
+}
