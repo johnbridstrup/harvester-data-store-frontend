@@ -131,20 +131,23 @@ export const confirmPassword = createAsyncThunk(
   },
 );
 
-export const authListener = createAsyncThunk("auth", async (_, thunkAPI) => {
-  try {
-    const {
-      auth: { token, user },
-    } = thunkAPI.getState() as {
-      auth: { token: string; user: { id: string } };
-    };
-    return await authService.authListener(user?.id, token);
-  } catch (error) {
-    console.log(error);
-    const message = invalidateCache(error, thunkAPI.dispatch);
-    return thunkAPI.rejectWithValue(message);
-  }
-});
+export const authListener = createAsyncThunk(
+  "auth/authListener",
+  async (_, thunkAPI) => {
+    try {
+      const {
+        auth: { token, user },
+      } = thunkAPI.getState() as {
+        auth: { token: string; user: { id: string } };
+      };
+      return await authService.authListener(user?.id, token);
+    } catch (error) {
+      console.log(error);
+      const message = invalidateCache(error, thunkAPI.dispatch);
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
 
 export const authSlice = createSlice({
   name: "auth",
