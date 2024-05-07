@@ -1,0 +1,29 @@
+pipeline {
+    agent { label 'aft-nuc || aft-cloud-nuc' }
+    stages {
+        stage('Initialization') {
+            steps {
+                script { env.totalExitCode = 0 }
+            }
+        }
+        stage('Check build') {
+            when { branch 'PR-*' }
+            steps {
+                catchError(stageResult: 'FAILURE') {
+                    script {
+                        env.totalExitCode = sh script:'./jenkins/ci.sh', returnStatus:true
+                        sh "exit ${env.totalExitCode}"
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                currentBuild.result = ((env.totalExitCode).toInteger() == 0) ? 'SUCCESS' : 'FAILURE'
+                sh 'sudo docker compose -f docker-compose.base.yaml down --remove-orphans'
+            }
+        }
+    }
+}
