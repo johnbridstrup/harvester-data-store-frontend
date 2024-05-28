@@ -1,20 +1,20 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
-INSTALL_NODE_VER=18.18.1
-INSTALL_NVM_VER=0.39.2
-
-if [ "$1" = '--version' ]; then
-	echo "==> Using specified node version - $2"
-	INSTALL_NODE_VER=$2
-fi
+INSTALL_NODE_VER=20.11.1
+INSTALL_NVM_VER=0.39.7
 
 echo "==> Ensuring .bashrc exists and is writable"
 touch ~/.bashrc
 
-echo "==> Installing node version manager (NVM). Version $INSTALL_NVM_VER"
+echo "==> Installing Node Version Manager (NVM). Version $INSTALL_NVM_VER"
 rm -rf ~/.nvm
+
+if ! command -v curl &> /dev/null; then
+	echo "Curl is not installed. Please install curl"
+	exit 1
+fi
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v$INSTALL_NVM_VER/install.sh | bash
 
@@ -23,13 +23,13 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v$INSTALL_NVM_VER/install.
 
 # Make nvm command available to terminal
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh"] && \. "$NVM_DIR/nvm.sh" #This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+source "$NVM_DIR/nvm.sh"
+source "$NVM_DIR/bash_completion"
 
-echo "==> Installing node js version $INSTALL_NODE_VER"
+echo "==> Installing Node.js version $INSTALL_NODE_VER"
 nvm install $INSTALL_NODE_VER
 
-echo "==> Make this version system default"
+echo "==> Setting Node.js version $NVM_DIR as default"
 nvm use $INSTALL_NODE_VER
 
 echo "==> Checking for versions"
@@ -41,7 +41,7 @@ echo "==> Print binary paths"
 which npm
 which node
 
-echo "==> List installed node versions"
+echo "==> List installed Node.js versions"
 nvm ls
 
 echo "==> Now you're all setup and ready for development."
