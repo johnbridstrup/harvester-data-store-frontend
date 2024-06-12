@@ -1,36 +1,52 @@
 #!/bin/bash
 
-set -euo pipefail
+# set -euo pipefail
 
-INSTALL_NODE_VER=20.11.1
 INSTALL_NVM_VER=0.39.7
 
-echo "==> Ensuring .bashrc exists and is writable"
-touch ~/.bashrc
 
-echo "==> Installing Node Version Manager (NVM). Version $INSTALL_NVM_VER"
-rm -rf ~/.nvm
+# Function to install NVM
+install_nvm() {
+  echo "==> Installing Node Version Manager (NVM). Version $INSTALL_NVM_VER"
 
-if ! command -v curl &> /dev/null; then
-	echo "Curl is not installed. Please install curl"
-	exit 1
-fi
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v$INSTALL_NVM_VER/install.sh | bash
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v$INSTALL_NVM_VER/install.sh | bash
+  # Make nvm command available to terminal
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# To use it, you must first source your .bashrc file
-. ~/.bashrc
+  check_and_install_node
+}
 
-# Make nvm command available to terminal
-export NVM_DIR="$HOME/.nvm"
-source "$NVM_DIR/nvm.sh"
-source "$NVM_DIR/bash_completion"
+# Function to check and install Node.js based on .nvmrc or default version
+check_and_install_node() {
+  nvmrc_node_ver=$(<.nvmrc)
+  echo "==> Installing Node.js version $nvmrc_node_ver"
+  nvm install
+  echo "==> Setting Node.js version $nvmrc_node_ver as default"
+  nvm use
+}
 
-echo "==> Installing Node.js version $INSTALL_NODE_VER"
-nvm install $INSTALL_NODE_VER
+# Function to check if nvm is installed
+check_nvm() {
+  # Try and load nvm for this script otherwise we don't always
+  # get nvm even though it is installed
+  NVM_DIR=${NVM_DIR:-~/.nvm}
+  echo "$NVM_DIR/nvm.sh"
+  echo "$NVM_DIR/bash_completion"
+  source $NVM_DIR/nvm.sh || { echo "This file cannot be source, it doesn't exist"; }
+  if command -v nvm &> /dev/null; then
+    echo "==> NVM is already installed. Checking for .nvmrc file."
+    check_and_install_node
+  else
+    echo "==> NVM is not installed. Installing NVM and Node.js."
+    install_nvm
+  fi
+}
 
-echo "==> Setting Node.js version $NVM_DIR as default"
-nvm use $INSTALL_NODE_VER
+# Check if nvm is installed and proceed accordingly
+check_nvm
 
 echo "==> Checking for versions"
 nvm --version
