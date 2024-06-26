@@ -95,6 +95,12 @@ export const menu = [
     description: "Traceback breakdown insights",
     href: "/tracebackbreakdown",
   },
+  {
+    name: "Software Version Tracker",
+    icon: "version",
+    description: "Software Deployed Version Tracking",
+    href: "/harvesterswinfo",
+  },
 ];
 
 export const adminMenu = [

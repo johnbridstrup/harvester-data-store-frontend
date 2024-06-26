@@ -118,6 +118,9 @@ const EmulatorstatsChartView = lazy(
 const TracebackBreakdownView = lazy(
   () => import("@/pages/exceptions/tracebackview"),
 );
+const HarvesterSwInfoListView = lazy(
+  () => import("@/pages/harvesterswinfo/listview"),
+);
 
 function BaseRoutes() {
   return (
@@ -952,6 +955,22 @@ function BaseRoutes() {
               }
             >
               <TracebackBreakdownView />
+            </Suspense>
+          </RequireUser>
+        }
+      />
+      <Route
+        path="/harvesterswinfo"
+        element={
+          <RequireUser>
+            <Suspense
+              fallback={
+                <RouteLoader>
+                  <Loader size={50} />
+                </RouteLoader>
+              }
+            >
+              <HarvesterSwInfoListView />
             </Suspense>
           </RequireUser>
         }

@@ -110,6 +110,14 @@ function SideBar({ openSideBar, closeSideBar }: SideBarProps) {
                             AFT Releases
                           </Link>
                         </li>
+                        <li className="list-group-item">
+                          <Link
+                            to={"/harvesterswinfo"}
+                            className={`link-color ${linkcolor}`}
+                          >
+                            SDV Tracking
+                          </Link>
+                        </li>
                       </ul>
                     </div>
                   </div>

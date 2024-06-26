@@ -173,6 +173,10 @@ const buildNewURL = (queryObj: Record<string, any> = {}, pareto?: string) => {
     newurl = `${window.location.protocol}//${
       window.location.host
     }/tracebackbreakdown/?${params.toString()}`;
+  } else if (pareto === PushStateEnum.HARVESTERSWINFO) {
+    newurl = `${window.location.protocol}//${
+      window.location.host
+    }/harvesterswinfo/?${params.toString()}`;
   } else {
     newurl = `${window.location.protocol}//${
       window.location.host

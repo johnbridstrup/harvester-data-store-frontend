@@ -90,6 +90,7 @@ export enum PushStateEnum {
   EMULATORSTATS = "emulatorstats",
   EMULATORCHART = "emulatorcharts",
   TRACEBACKBREAKDOWN = "tracebackbreakdown",
+  HARVESTERSWINFO = "harvesterswinfo",
 }
 
 export enum EMULATORREPORT {
