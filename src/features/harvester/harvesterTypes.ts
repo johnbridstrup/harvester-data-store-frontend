@@ -1,4 +1,4 @@
-import { CommonState, Creator } from "../base/types";
+import { CommonState, Creator, HarvesterMinimal } from "../base/types";
 import {
   HarvesterCodeRelease,
   HarvesterCodeReleaseArray,
@@ -33,6 +33,20 @@ export interface HarvesterHistory {
   creator: number;
   modifiedBy: number | null;
   history_user: number;
+}
+
+export interface HarvesterSwInfo {
+  id: number;
+  harvester: HarvesterMinimal;
+  created: string;
+  lastModified: string | null;
+  githash: string;
+  dirty: boolean;
+  branchname: string;
+  deployer: string;
+  deployed_ts: string;
+  creator: number;
+  modifiedBy: number | null;
 }
 
 export interface Harvester {
@@ -80,4 +94,5 @@ export interface HarvesterState extends CommonState {
   harvversion: Array<HarvesterVersionReport>;
   historys: Array<HarvesterHistory>;
   historyObj: HarvesterHistory | null;
+  harvesterswinfos: Array<HarvesterSwInfo>;
 }

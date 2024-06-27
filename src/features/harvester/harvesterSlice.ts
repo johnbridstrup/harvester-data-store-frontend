@@ -4,6 +4,7 @@ import harvesterService, {
   FRUITS_URL,
   HARVESTER_HISTORY_URL,
   harvester_version_report_url,
+  HARVESTERSWINFO_URL,
 } from "./harvesterService";
 import { HarvesterState } from "./harvesterTypes";
 import { paginateRequest } from "../base/services";
@@ -19,6 +20,7 @@ const initialState: HarvesterState = {
   harvversion: [],
   historyObj: null,
   historys: [],
+  harvesterswinfos: [],
   errorMsg: null,
   pagination: {
     next: null,
@@ -233,6 +235,42 @@ export const paginateHarvesterHistory = createAsyncThunk(
   },
 );
 
+export const queryHarvesterSwInfo = createAsyncThunk(
+  "harvester/queryHarvesterSwInfo",
+  async (queryObj: Record<string, any>, thunkAPI) => {
+    try {
+      const {
+        auth: { token },
+      } = thunkAPI.getState() as { auth: { token: string } };
+      return await harvesterService.factoryQuery(
+        HARVESTERSWINFO_URL,
+        queryObj,
+        token,
+      );
+    } catch (error) {
+      console.log(error);
+      const message = invalidateCache(error, thunkAPI.dispatch);
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
+
+export const paginateHarvesterSwInfo = createAsyncThunk(
+  "harvester/paginateHarvesterSwInfo",
+  async (url: string, thunkAPI) => {
+    try {
+      const {
+        auth: { token },
+      } = thunkAPI.getState() as { auth: { token: string } };
+      return await paginateRequest(url, token);
+    } catch (error) {
+      console.log(error);
+      const message = invalidateCache(error, thunkAPI.dispatch);
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
+
 const codeslice = createSlice({
   name: "harvester",
   initialState,
@@ -387,6 +425,34 @@ const codeslice = createSlice({
         state.pagination.previous = action.payload.previous;
       })
       .addCase(paginateHarvesterHistory.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMsg = action.payload;
+      })
+      .addCase(queryHarvesterSwInfo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(queryHarvesterSwInfo.fulfilled, (state, action) => {
+        state.loading = false;
+        state.harvesterswinfos = action.payload.results;
+        state.pagination.count = action.payload.count;
+        state.pagination.next = action.payload.next;
+        state.pagination.previous = action.payload.previous;
+      })
+      .addCase(queryHarvesterSwInfo.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMsg = action.payload;
+      })
+      .addCase(paginateHarvesterSwInfo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(paginateHarvesterSwInfo.fulfilled, (state, action) => {
+        state.loading = false;
+        state.harvesterswinfos = action.payload.results;
+        state.pagination.count = action.payload.count;
+        state.pagination.next = action.payload.next;
+        state.pagination.previous = action.payload.previous;
+      })
+      .addCase(paginateHarvesterSwInfo.rejected, (state, action) => {
         state.loading = false;
         state.errorMsg = action.payload;
       });
