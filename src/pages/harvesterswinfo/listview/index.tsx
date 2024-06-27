@@ -10,6 +10,7 @@ import {
 } from "@/features/harvester/harvesterSlice";
 import { MAX_LIMIT } from "@/features/base/constants";
 import { getDateRange } from "@/utils/utils";
+import { SWInfoPagination } from "@/components/pagination";
 import "./styles.css";
 
 function HarvesterSwInfoListView() {
@@ -30,6 +31,7 @@ function HarvesterSwInfoListView() {
         />
         <HarvesterSwInfoQuery />
         <HarvesterSwInfoList />
+        <SWInfoPagination />
       </div>
     </MainLayout>
   );

@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, FC } from "react";
 import { useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { paginateDistributor } from "@/features/distributor/distributorSlice";
@@ -17,6 +17,7 @@ import { ERROR_REPORT_URL } from "@/features/errorreport/errorreportService";
 import {
   paginateHarvester,
   paginateHarvesterHistory,
+  paginateHarvesterSwInfo,
   paginateHarvesterVersion,
 } from "@/features/harvester/harvesterSlice";
 import { darkThemeClass, mapCurrentOffset } from "@/utils/utils";
@@ -37,6 +38,7 @@ import {
   paginateVersion,
 } from "@/features/harvdeploy/harvdeploySlice";
 import { paginateEmulatorstats } from "@/features/emulatorstat/emulatorstatSlice";
+import { HARVESTERSWINFO_URL } from "@/features/harvester/harvesterService";
 
 interface RendererProps {
   handlePagination: (navigation: string) => void;
@@ -381,6 +383,8 @@ export const HarvesterPagination = ({ attr }: { attr?: string }) => {
       await dispatch(paginateHarvesterVersion(url.href));
     } else if (attr === "harvesterhistory") {
       await dispatch(paginateHarvesterHistory(url.href));
+    } else if (attr === "harvesterswinfo") {
+      dispatch(paginateHarvesterSwInfo(url.href));
     } else {
       await dispatch(paginateHarvester(url.href));
     }
@@ -622,5 +626,85 @@ export const EmulatorStatPagination = () => {
       next={next}
       previous={previous}
     />
+  );
+};
+
+export const SWInfoPagination: FC = () => {
+  const [pageLimit, setPageLimit] = useState(10);
+  const {
+    pagination: { next, previous },
+  } = useAppSelector((state) => state.harvester);
+  const { theme } = useAppSelector((state) => state.home);
+  const dispatch = useAppDispatch();
+  const { search } = useLocation();
+
+  const handleOnLimitChange = (limit: number) => {
+    setPageLimit(limit);
+  };
+
+  const handleOnLimitSubmit = async () => {
+    let urlStr: string = `${HARVESTERSWINFO_URL}${search.toString()}`;
+    let url: URL = new URL(urlStr);
+    url.searchParams.set("limit", String(pageLimit));
+    await dispatch(paginateHarvesterSwInfo(url.href));
+  };
+
+  const handlePagination = async (navigation: string) => {
+    const urlMap: { [key: string]: string | null } = {
+      next: next,
+      previous: previous,
+    };
+    const url = new URL(String(urlMap[navigation]));
+    if (import.meta.env.PROD) {
+      url.protocol = "https:";
+    }
+    url.searchParams.set("limit", String(pageLimit));
+    await dispatch(paginateHarvesterSwInfo(url.href));
+  };
+
+  const btn = darkThemeClass("btn-dark", theme);
+  return (
+    <div>
+      <section className="d-flex justify-content-center align-items-center mb-5">
+        <nav aria-label="Page navigation example">
+          <ul className="pagination mb-0">
+            <li className="page-item cursor">
+              <span
+                onClick={() => handlePagination("previous")}
+                className={`page-link ${!previous && "disabled"}`}
+                aria-label="Previous"
+              >
+                <span aria-hidden="true">Previous</span>
+              </span>
+            </li>
+            <li className="page-item cursor">
+              <span
+                onClick={() => handlePagination("next")}
+                className={`page-link ${!next && "disabled"}`}
+                aria-label="Next"
+              >
+                <span aria-hidden="true">Next</span>
+              </span>
+            </li>
+            <PageItem>
+              <SpanLimit>Limit</SpanLimit>
+              <InputLimit
+                type="number"
+                value={pageLimit}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleOnLimitChange(Number(e.target.value))
+                }
+              />
+              <SpanLimit
+                className={`btn btn-sm ${btn}`}
+                onClick={handleOnLimitSubmit}
+              >
+                Go
+              </SpanLimit>
+            </PageItem>
+          </ul>
+        </nav>
+      </section>
+    </div>
   );
 };
