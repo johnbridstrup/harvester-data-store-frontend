@@ -1,0 +1,33 @@
+{
+  "id": 3,
+  "harvester": {
+    "id": 3,
+    "url": "http://localhost:8085/api/v1/harvesters/3/",
+    "harv_id": 11,
+    "location": {
+      "id": 2,
+      "url": "http://localhost:8085/api/v1/locations/2/",
+      "ranch": "Ranch B",
+      "distributor": {
+        "id": 1,
+        "url": "http://localhost:8085/api/v1/distributors/1/",
+        "name": "Distributor 1"
+      }
+    },
+    "fruit": {
+      "id": 2,
+      "url": "http://localhost:8085/api/v1/fruits/2/",
+      "name": "apple"
+    },
+    "is_emulator": false
+  },
+  "created": "2024-06-27T14:31:12.701469Z",
+  "lastModified": "2024-06-27T14:31:12.701496Z",
+  "githash": "09878676637388",
+  "dirty": false,
+  "branchname": "software_deployed_tracking",
+  "deployer": "aft",
+  "deployed_ts": "2024-06-26T15:46:14.933632Z",
+  "creator": 1,
+  "modifiedBy": null
+}

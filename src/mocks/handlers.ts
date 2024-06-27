@@ -50,6 +50,7 @@ import {
   getEmulatorstat,
   queryEmulatorstatTag,
   queryTBBreakdown,
+  queryHarvesterSwInfo,
 } from "./actions";
 
 const handlers = [
@@ -100,6 +101,7 @@ const handlers = [
   getEmulatorstat,
   queryEmulatorstatTag,
   queryTBBreakdown,
+  queryHarvesterSwInfo,
 ];
 
 export default handlers;

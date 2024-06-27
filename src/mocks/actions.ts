@@ -20,6 +20,7 @@ import {
 } from "@/features/exception/exceptionService";
 import {
   FRUITS_URL,
+  HARVESTERSWINFO_URL,
   HARVESTERS_URL,
   HARVESTER_HISTORY_URL,
 } from "@/features/harvester/harvesterService";
@@ -69,6 +70,7 @@ import {
 import releasecode from "@/test-utils/test-data/releasecode.json";
 import { EMULATORSTATS_URL } from "@/features/emulatorstat/emulatorstatService";
 import emustats from "@/test-utils/test-data/emustats.json";
+import harvesterswinfo from "@/test-utils/test-data/harvesterswinfo.json";
 
 interface Data {
   count: number;
@@ -508,5 +510,14 @@ export const queryTBBreakdown = rest.get(
       },
     };
     return res(ctx.json(genericGetResponse));
+  },
+);
+
+export const queryHarvesterSwInfo = rest.get(
+  HARVESTERSWINFO_URL,
+  (_, res, ctx) => {
+    genericListResponse["message"] = "harvesterswinfo retrieved successfully";
+    genericListResponse["data"]["results"] = [harvesterswinfo];
+    return res(ctx.json(genericListResponse));
   },
 );
