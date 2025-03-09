@@ -1,6 +1,6 @@
 # Getting Started with HDS Frontend
 
-This project is the react web interface for all AFT Harvester data.<br/>
+This project is the react web interface for the Harvester Data Store.<br/>
 The project is boostrapped by `vite` that leverages new advancements in the ecosystem: the availability of `native ES modules` in the browser, and the rise of JavaScript tools written in compile-to-native languages. <br/>
 
 ## Project Architecture
